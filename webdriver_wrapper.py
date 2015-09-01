@@ -27,8 +27,8 @@ class WebDriver():
         #new_eles = map(self.highlight,new_eles)
         return new_eles
 
-    def highlight(self, element):
-        element.highlight()
+    def highlight(self, element, time=.1):
+        element.highlight(time)
         return element
 
     def wrap_element(self,element):

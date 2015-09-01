@@ -8,7 +8,7 @@ class PageParser(object):
         self.driver = driver
         self.url = url
         self.driver.get(url)
-        html = self.driver
+        html = self.driver.page_source
 
     def get_all_elements(self):
         BrowserManager.get_driver().get(self.url)

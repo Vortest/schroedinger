@@ -95,7 +95,7 @@ class WebElement(WebElement):
 
     @property
     def text(self):
-        return self.element.text()
+        return self.element.text
 
     def is_selected(self):
         return self.element.is_selected()
@@ -147,11 +147,11 @@ class WebElement(WebElement):
     def find_elements_by_css_selector(self, css_selector):
         return self.element.find_elements_by_css_selector(css_selector)
 
-    def highlight(self):
+    def highlight(self,length=.1):
         print "Highlighting"
         background = self.driver.execute_script("return arguments[0].style.background", self.element)
         self.driver.execute_script("arguments[0].style.background='yellow'; return;",self.element)
-        time.sleep(.1)
+        time.sleep(length)
         self.driver.execute_script("arguments[0].style.background='%s'; return;" % background,self.element)
 
     @property
