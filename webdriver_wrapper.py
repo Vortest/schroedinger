@@ -200,8 +200,9 @@ class WebDriver():
     def forward(self):
         self.driver.forward()
 
+    @property
     def current_window_handle(self):
-        return self.driver.current_window_handle()
+        return self.driver.current_window_handle
 
     def find_element_by_link_text(self, link_text):
         return self.driver.find_element_by_link_text(link_text)
@@ -218,8 +219,9 @@ class WebDriver():
     def find_element_by_class_name(self, name):
         return self.driver.find_element_by_class_name(name)
 
+    @property
     def page_source(self):
-        return self.driver.page_source()
+        return self.driver.page_source
 
     def add_cookie(self, cookie_dict):
         self.driver.add_cookie(cookie_dict)
