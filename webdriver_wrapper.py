@@ -16,13 +16,20 @@ class WebDriver():
     
     def find_element(self, by=By.ID, value=None):
         logging.debug("Finding Element %s %s" % (by, value))
-        return WebElement(self.driver.find_element(by, value))
+        ele = WebElement(self.driver.find_element(by, value))
+        #ele.highlight()
+        return ele
 
     def find_elements(self, by=By.ID, value=None):
         logging.debug("Finding Elements %s %s" % (by, value))
         eles = self.driver.find_elements(by, value)
         new_eles = map(self.wrap_element,eles)
+        #new_eles = map(self.highlight,new_eles)
         return new_eles
+
+    def highlight(self, element):
+        element.highlight()
+        return element
 
     def wrap_element(self,element):
         return WebElement(element)

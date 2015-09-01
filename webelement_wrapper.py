@@ -1,6 +1,7 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
 import logging
+import time
 
 class WebElement(WebElement):
     @property
@@ -123,8 +124,8 @@ class WebElement(WebElement):
     def find_element_by_class_name(self, name):
         return self.element.find_element_by_class_name(name)
 
-    # def _upload(self, filename):
-    #     return self.element._upload(filename)
+    def _upload(self, filename):
+        return self.element._upload(filename)
 
     def click(self):
         logging.debug("Clicking")
@@ -147,4 +148,13 @@ class WebElement(WebElement):
         return self.element.find_elements_by_css_selector(css_selector)
 
     def highlight(self):
-        background = self.driver.execute_script("return arguments[0].style.border", self.element)
+        print "Highlighting"
+        background = self.driver.execute_script("return arguments[0].style.background", self.element)
+        self.driver.execute_script("arguments[0].style.background='yellow'; return;",self.element)
+        time.sleep(.1)
+        self.driver.execute_script("arguments[0].style.background='%s'; return;" % background,self.element)
+
+    @property
+    def html(self):
+        html =  self.element.get_attribute('outerHTML')
+        return html

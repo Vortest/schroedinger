@@ -4,8 +4,11 @@ import element_filter
 
 class PageParser(object):
 
-    def __init__(self,url):
+    def __init__(self,driver,url):
+        self.driver = driver
         self.url = url
+        self.driver.get(url)
+        html = self.driver
 
     def get_all_elements(self):
         BrowserManager.get_driver().get(self.url)

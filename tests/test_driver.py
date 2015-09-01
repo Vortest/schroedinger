@@ -17,5 +17,5 @@ class DriverTest(TestBase):
 
     def test_find_elemnets(self):
         self.driver.get("https://www.google.com/")
-        elements = self.driver.find_elements(By.NAME,"q")
-        assert len(elements) == 1
+        elements = self.driver.find_elements(By.CLASS_NAME,"gb_R")
+        assert len(elements) != 1

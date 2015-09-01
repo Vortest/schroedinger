@@ -10,4 +10,5 @@ def filter_by(elements, attribute, value):
 
 def login_fields(elements):
     for element in elements:
-        if element.tag_name in login_fields
+        if element.tag_name in login_fields:
+            pass

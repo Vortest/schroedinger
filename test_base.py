@@ -1,16 +1,21 @@
 import unittest
 import logging
 from browser_manager import BrowserManager
+import thread
+import threading
 
 class TestBase(unittest.TestCase):
+    test_names = []
+    test_name = None
 
     @property
     def driver(self):
-        return BrowserManager.get_driver(self._testMethodName)
+        return BrowserManager.get_driver(TestBase.test_name)
 
     def setUp(self):
-        self.test_name = self._testMethodName
+        TestBase.test_name = self._testMethodName
         logging.debug("set up test %s" % self._testMethodName)
+        logging.debug("THREAD :%s" % threading.currentThread().ident)
 
     def tearDown(self):
         logging.debug("tear down test %s" % self._testMethodName)

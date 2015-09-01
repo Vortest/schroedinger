@@ -1,18 +1,22 @@
 from browser_manager import BrowserManager
+from webdriver_wrapper import WebDriver
 from webelement_wrapper import WebElement
 from selenium.common import exceptions
+from test_base import TestBase
 
 class Element(WebElement):
 
-    def __init__(self, locators):
+    def __init__(self, driver, locators):
         assert isinstance(locators,list)
         assert isinstance(locators[0],tuple)
+        assert isinstance(driver, WebDriver)
         self._element = None
         self.locators = locators
+        self._driver = driver
 
     @property
     def driver(self):
-       return BrowserManager.get_driver()
+       return self._driver
 
     @property
     def element(self):
