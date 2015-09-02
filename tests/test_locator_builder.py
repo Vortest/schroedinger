@@ -9,7 +9,7 @@ class TestLocatorBuilder(TestBase):
     def test_unique(self):
         self.driver.get("http://www.google.com/")
         element = self.driver.find_element(By.NAME,"q")
-        locators = LocatorBuilder(element).get_locators()
+        locators = LocatorBuilder(self.driver, element).get_locators()
         for locator in locators:
             elements = self.driver.find_elements(locator[0],locator[1])
             assert len(elements) == 1
@@ -18,7 +18,7 @@ class TestLocatorBuilder(TestBase):
         elements = PageParser(self.driver,"http://www.google.com/").get_all_elements()
         for element in elements:
             element.highlight()
-            locators = LocatorBuilder(element).get_locators()
+            locators = LocatorBuilder(self.driver, element).get_locators()
             for locator in locators:
                 try:
                     elements = self.driver.find_elements(locator[0],locator[1])
@@ -33,6 +33,6 @@ class TestLocatorBuilder(TestBase):
         for element in elements:
             #print "looking at element {}".format(element.html)
             element.highlight()
-            locators = LocatorBuilder(element).get_locators()
+            locators = LocatorBuilder(self.driver, element).get_locators()
             #print "Found {} locators".format(len(locators))
             print locators

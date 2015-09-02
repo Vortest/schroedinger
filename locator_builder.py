@@ -6,7 +6,8 @@ import logging
 
 class LocatorBuilder(object):
 
-    def __init__(self, element):
+    def __init__(self, driver, element):
+        self.driver = driver
         self.element = element
         self.builder = AttributeBuilder(element)
         self.attributes = self.builder.get_unique_attributes()
@@ -21,25 +22,34 @@ class LocatorBuilder(object):
             elif type == "id":
                 locator = (By.ID,value)
             elif type == "text":
-                locator = (By.LINK_TEXT,str(value))
+                if self.element.tag_name == "a" and self.element.text != "":
+                    locator = (By.LINK_TEXT,self.element.text)
+                else:
+                    locator = (By.XPATH,"//{}[contains(text(),'{}')]".format(self.element.tag_name,str(value)))
             elif type == "href":
                 value = attribute[1].split('/')[-1]
                 locator = (By.CSS_SELECTOR,"{}[{}*=\"{}\"]".format(self.element.tag_name, attribute[0], value))
-            elif self.element.tag_name == "a" and self.element.text != "":
-                self.locators.append((By.LINK_TEXT,self.element.text))
             else:
                 locator = (By.CSS_SELECTOR,"{}[{}*=\"{}\"]".format(self.element.tag_name, attribute[0], attribute[1]))
             if self.is_locator_valid(locator):
                 self.locators.append(locator)
 
         if len(self.locators) == 0:
-            logging.error("Could not get locators for element : {} found {} duplicate locators".format(self.element.html,len(self.builder.duplicate_attributes)))
-            # self.get_complex_locators()
+            try:
+                logging.error("Could not get locators for element : {} found {} duplicate locators".format(self.element.html,len(self.builder.duplicate_attributes)))
+            except:
+                pass
+                # self.get_complex_locators()
         return self.locators
 
     def is_locator_valid(self,locator):
         try:
-            return len(self.element.driver.find_elements(locator[0],locator[1])) == 1
+            elements = self.driver.find_elements(locator[0],locator[1])
+            if len(elements) == 1:
+                return True
+            else:
+                logging.debug("Found %s elements with locator" % len(elements))
+                return False
         except Exception as e:
             print "Unexpected error:", str(e)
             return False

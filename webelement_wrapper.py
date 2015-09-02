@@ -156,7 +156,10 @@ class WebElement(WebElement):
 
     @property
     def html(self):
-        html =  self.outer_html.replace(self.inner_html,"")
+        if "<" in self.inner_html:
+            html =  self.outer_html.replace(self.inner_html,"")
+        else:
+            html = self.outer_html
         return html
 
     @property
