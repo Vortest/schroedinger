@@ -28,7 +28,8 @@ class TestLocatorBuilder(TestBase):
 
 
     def test_elements(self):
-        elements = PageParser(self.driver,"http://www.google.com/").get_all_elements()
+        self.driver.get("http://www.google.com")
+        elements = PageParser(self.driver).get_all_elements()
         for element in elements:
             #print "looking at element {}".format(element.html)
             element.highlight()

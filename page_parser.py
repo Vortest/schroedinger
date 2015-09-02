@@ -1,17 +1,17 @@
 from selenium.webdriver.common.by import By
 from browser_manager import BrowserManager
+from decorators import timeit
 import element_filter
 
 class PageParser(object):
 
-    def __init__(self,driver,url):
+    def __init__(self,driver):
         self.driver = driver
-        self.url = url
-        self.driver.get(url)
         html = self.driver.page_source
 
+
     def get_all_elements(self):
-        BrowserManager.get_driver().get(self.url)
-        eles = BrowserManager.get_driver().find_elements(By.CSS_SELECTOR,"*")
+        eles = self.driver.find_elements(By.CSS_SELECTOR,"*")
         visible_eles = element_filter.filter_visible_elements(eles)
-        return visible_eles
+        final_elements = element_filter.filter_no_children(visible_eles)
+        return final_elements

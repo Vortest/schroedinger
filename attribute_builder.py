@@ -44,10 +44,12 @@ class AttributeBuilder(HTMLParser):
         return self.unique_attributes
 
     def is_attribute_unique(self, att, html):
-        if att[0] == "text":
-            matches = re.findall("\>{}\<\/".format(att[1]),html)
-            return len(matches) == 1
-        else:
-            counter = AttributeCounter(html,att)
-            return counter.count == 1
-
+        try:
+            if att[0] == "text":
+                matches = re.findall("\>{}\<\/".format(att[1]),html)
+                return len(matches) == 1
+            else:
+                counter = AttributeCounter(html,att)
+                return counter.count == 1
+        except:
+            return False

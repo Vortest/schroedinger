@@ -14,6 +14,12 @@ class Element(WebElement):
         self.locators = locators
         self._driver = driver
 
+    def __repr__(self):
+        repr = "ELEMENT: "
+        for locator in self.locators:
+            repr += "{}:{}, ".format(locator[0],locator[1])
+        return repr
+
     @property
     def driver(self):
        return self._driver
@@ -31,3 +37,13 @@ class Element(WebElement):
            raise exceptions.NoSuchElementException("Could not find an element matching any of the following locators: {}".format(self.locators))
        else:
            return self._element
+
+
+    def __eq__(self, other):
+        for locator in self.locators:
+            if locator in other.locators:
+                return True
+        return False
+
+    def __ne__(self, other):
+        return not self.__eq__(other)

@@ -148,6 +148,7 @@ class WebElement(WebElement):
         return self.element.find_elements_by_css_selector(css_selector)
 
     def highlight(self,length=.1):
+        element = self.element
         background = self.driver.execute_script("return arguments[0].style.background", self.element)
         self.driver.execute_script("arguments[0].style.background='yellow'; return;",self.element)
         time.sleep(length)
@@ -155,5 +156,15 @@ class WebElement(WebElement):
 
     @property
     def html(self):
-        html =  self.element.get_attribute('outerHTML')
+        html =  self.outer_html.replace(self.inner_html,"")
+        return html
+
+    @property
+    def inner_html(self):
+        html = self.element.get_attribute(('innerHTML'))
+        return html
+
+    @property
+    def outer_html(self):
+        html = self.element.get_attribute('outerHTML')
         return html

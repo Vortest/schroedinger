@@ -25,3 +25,8 @@ class FilterTest(TestBase):
         self.driver.get("http://www.google.com")
         with self.assertRaises(exceptions.NoSuchElementException):
             Element(self.driver, [(By.CLASS_NAME,"q")]).click()
+
+    def test_element_highlight(self):
+        self.driver.get("http://www.google.com")
+        locators = [(By.NAME,"q"),(By.NAME,"btnK")]
+        Element(self.driver, locators).highlight()
