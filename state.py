@@ -14,5 +14,12 @@ class State(object):
         logging.debug("State must be the same!")
         return True
 
+    def __sub__(self, other):
+        new_elements = []
+        for element in other.elements:
+            if element not in self.elements:
+                new_elements.append(element)
+        return State(new_elements, self.url)
+
     def __repr__(self):
-        return "State(url=%s) %s Elements" % (self.url, len(self.elements))
+        return "State(url=%s) %s Elements %s" % (self.url, len(self.elements),self.elements)

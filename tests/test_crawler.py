@@ -13,7 +13,7 @@ from testfixtures import Comparison as C
 
 class CrawlerTest(TestBase):
     def test_crawl(self):
-        url = "http://www.percolate.com/login"
+        url = "http://www.google.com/"
         self.driver.get(url)
         state_builder = StateBuilder(self.driver)
         initial_state = state_builder.get_current_state()
@@ -34,35 +34,27 @@ class CrawlerTest(TestBase):
         print "%s states" % len(new_states)
         for state in new_states:
             print state
-    #
-    # def test_crawl(self):
-    #     url = "http://www.google.co.uk"
-    #     self.driver.get(url)
-    #     self.elements = []
-    #     self.parser = PageParser(self.driver)
-    #     self.elements1 = self.get_elements()
-    #     print "there are {} elemnets1 founds".format(len(self.elements1))
-    #     for element in self.elements1:
-    #         print element
-    #
-    #     url = "http://www.google.com"
-    #     self.driver.get(url)
-    #     self.parser = PageParser(self.driver)
-    #     self.elements2 = self.get_elements()
-    #     print "there are {} elemnets founds".format(len(self.elements2))
-    #     for element in self.elements2:
-    #         assert element in self.elements1, "ELement not found" + element.html
-    #
 
-    @timeit
-    def get_elements(self):
-        elements = []
-        webelements = self.parser.get_all_elements()
-        for webelement in webelements:
-            webelement.highlight()
-            builder = LocatorBuilder(self.driver, webelement)
-            locators = builder.get_locators()
-            if len(locators)>0:
-                element = Element(self.driver,locators)
-                elements.append(element)
-        return elements
+    def test_generate(self):
+        url = "http://www.google.com/"
+        self.driver.get(url)
+        state_builder = StateBuilder(self.driver)
+        initial_state = state_builder.get_current_state()
+        print "there are {} elemnets1 founds".format(len(initial_state.elements))
+
+        import element_filter
+        text_fields = element_filter.filter_elements(initial_state.elements,"input",("type","text"))
+        submit_fields = element_filter.filter_elements(initial_state.elements,"input",("type","submit"))
+
+        print "Found %s text field" % len(text_fields)
+        for field in text_fields:
+            field.highlight(1)
+            field.send_keys("SOMETHING")
+        new_state = state_builder.get_current_state()
+
+        if new_state != initial_state:
+            print "new state detected"
+        else:
+            for field in submit_fields:
+                field.highlight()
+                field.click()

@@ -38,8 +38,7 @@ class LocatorBuilder(object):
             try:
                 logging.error("Could not get locators for element : {} found {} duplicate locators".format(self.element.html,len(self.builder.duplicate_attributes)))
             except:
-                pass
-                # self.get_complex_locators()
+                self.get_complex_locators()
         return self.locators
 
     def is_locator_valid(self,locator):

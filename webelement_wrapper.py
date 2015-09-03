@@ -16,6 +16,7 @@ class WebElement(WebElement):
         self._element = element
         self._driver = element.parent
 
+
     def is_stale(self):
         try:
             self.element.enabled

@@ -39,6 +39,9 @@ class Element(WebElement):
            return self._element
 
 
+    def highlight(self, length=.1):
+        self.element.highlight(length)
+
     def __eq__(self, other):
         for locator in self.locators:
             if locator in other.locators:
