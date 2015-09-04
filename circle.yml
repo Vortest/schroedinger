@@ -4,7 +4,7 @@ dependencies:
     - pip install -r requirements.txt
 test:
   override:
-    - py.test tests:
+    - py.test:
         environment:
           PYTHONPATH: $HOME/$CIRCLE_PROJECT_REPONAME
         parallel: true
