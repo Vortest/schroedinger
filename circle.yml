@@ -5,11 +5,11 @@ dependencies:
 test:
   override:
     - py.test tests:
-      environment:
-        PYTHONPATH: $HOME/$CIRCLE_PROJECT_REPONAME
-      parallel: true
-      files:
-        - app/tests/**/*.py
+        environment:
+          PYTHONPATH: $HOME/$CIRCLE_PROJECT_REPONAME
+        parallel: true
+        files:
+          - app/tests/**/*.py
 
 ### Customize the test machine
 #machine:
