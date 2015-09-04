@@ -17,7 +17,8 @@ class TestLocatorBuilder(TestBase):
             assert len(elements) == 1
 
     def test_many(self):
-        elements = PageParser(self.driver,"http://www.google.com/").get_all_elements()
+        self.driver.get("http://www.google.com/")
+        elements = PageParser(self.driver).get_all_elements()
         for element in elements:
             element.highlight()
             locators = LocatorBuilder(self.driver, element).get_locators()
