@@ -4,10 +4,9 @@ dependencies:
     - pip install -r requirements.txt
 test:
   override:
-    - py.test --junitxml=$CIRCLE_TEST_REPORTS/test_results.xml:
+    - py.test -v -l --junitxml=$CIRCLE_TEST_REPORTS/test_results.xml:
         environment:
           PYTHONPATH: $HOME/$CIRCLE_PROJECT_REPONAME
-        parallel: true
         files:
           - app/tests/**/*.py
 
