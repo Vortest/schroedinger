@@ -1,7 +1,7 @@
 from selenium.webdriver.common.by import By
-from browser_manager import BrowserManager
-from decorators import timeit
+
 import element_filter
+
 
 class PageParser(object):
 
