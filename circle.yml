@@ -4,8 +4,12 @@ dependencies:
     - pip install -r requirements.txt
 test:
   override:
-    - py.test app/tests # use py.test for testing
-
+    - py.test tests # use py.test for testing
+      environment:
+        PYTHONPATH: $HOME/$CIRCLE_PROJECT_REPONAME
+      parallel: true
+      files:
+        - app/tests/**/*.py
 
 ### Customize the test machine
 #machine:
