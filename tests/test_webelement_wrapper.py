@@ -1,7 +1,6 @@
-import unittest
 from selenium.webdriver.common.by import By
-from selenium import webdriver
-from test_base import TestBase
+
+from app.test_base import TestBase
 
 
 class FilterTest(TestBase):

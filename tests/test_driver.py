@@ -1,9 +1,9 @@
-import unittest
-from selenium.webdriver.common.by import By
-from selenium import webdriver
-from element import Element
-from test_base import TestBase
 import logging
+
+from selenium.webdriver.common.by import By
+
+from app.test_base import TestBase
+
 
 class DriverTest(TestBase):
     def test_get(self):

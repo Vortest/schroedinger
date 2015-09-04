@@ -1,8 +1,6 @@
-import unittest
-from selenium.webdriver.common.by import By
-from page_parser import PageParser
-from test_base import TestBase
-import element_filter
+from app.page_parser import PageParser
+from app.test_base import TestBase
+
 
 class FilterTest(TestBase):
     def test_children(self):

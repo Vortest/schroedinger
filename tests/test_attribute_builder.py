@@ -1,8 +1,9 @@
-from selenium.webdriver.common.by import By
-from test_base import TestBase
-from page_parser import PageParser
-from attribute_builder import AttributeBuilder
 import time
+
+from selenium.webdriver.common.by import By
+
+from app.test_base import TestBase
+from app.attribute_builder import AttributeBuilder
 
 
 class TestAttributeBuilder(TestBase):

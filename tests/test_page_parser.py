@@ -1,7 +1,6 @@
-from unittest import TestSuite
-from test_base import TestBase
-from page_parser import PageParser
-from attribute_builder import AttributeBuilder
+from app.test_base import TestBase
+from app.page_parser import PageParser
+
 
 class TestPageParser(TestBase):
 

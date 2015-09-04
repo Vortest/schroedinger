@@ -1,9 +1,9 @@
-import unittest
 from selenium.webdriver.common.by import By
-from selenium import webdriver
-from element import Element
-from test_base import TestBase
 from selenium.common import exceptions
+
+from app.element import Element
+from app.test_base import TestBase
+
 
 class FilterTest(TestBase):
     def test_one_locator(self):

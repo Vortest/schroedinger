@@ -1,8 +1,6 @@
-from selenium.webdriver.common.by import By
-from attribute_counter import AttributeCounter
-from test_base import TestBase
-from locator_builder import LocatorBuilder
-from attribute_builder import AttributeBuilder
+from app.attribute_counter import AttributeCounter
+from app.test_base import TestBase
+
 
 class TestAttributeCounter(TestBase):
     def test_unique(self):

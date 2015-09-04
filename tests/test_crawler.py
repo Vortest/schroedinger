@@ -1,15 +1,6 @@
-import unittest
-from selenium.webdriver.common.by import By
-from selenium import webdriver
-from decorators import timeit
-from element import Element
-from locator_builder import LocatorBuilder
-from page_parser import PageParser
-from state_builder import StateBuilder
-from test_base import TestBase
-from selenium.common import exceptions
-from testfixtures import compare
-from testfixtures import Comparison as C
+from app.state_builder import StateBuilder
+from app.test_base import TestBase
+
 
 class CrawlerTest(TestBase):
     def test_crawl(self):
@@ -42,7 +33,7 @@ class CrawlerTest(TestBase):
         initial_state = state_builder.get_current_state()
         print "there are {} elemnets1 founds".format(len(initial_state.elements))
 
-        import element_filter
+        from app import element_filter
         text_fields = element_filter.filter_elements(initial_state.elements,"input",("type","text"))
         submit_fields = element_filter.filter_elements(initial_state.elements,"input",("type","submit"))
 

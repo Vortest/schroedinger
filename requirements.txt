@@ -1,0 +1,13 @@
+Flask==0.9
+-e git://github.com/closeio/flask-mongoengine.git@0c2cc30ec98154bb2eb4499efada65239050025d#egg=flask_mongoengine-master
+Flask-PyMongo==0.3.1
+Flask-Views==0.2.1
+Flask-WTF==0.8.4
+-e git://github.com/closeio/mongoengine.git@60990fb86444b21928777134612dec148e6059e5#egg=mongoengine-master
+py==1.4.30
+pymongo==2.7
+pytest==2.7.2
+requests==2.7.0
+selenium==2.47.1
+testfixtures==4.2.0
+web.py==0.37

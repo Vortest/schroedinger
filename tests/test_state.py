@@ -1,10 +1,6 @@
-import unittest
-from selenium.webdriver.common.by import By
-from page_parser import PageParser
-from state_builder import StateBuilder
-from test_base import TestBase
-import element_filter
-from state import State
+from app.state_builder import StateBuilder
+from app.test_base import TestBase
+
 
 class StateTest(TestBase):
     def test_state_builder(self):

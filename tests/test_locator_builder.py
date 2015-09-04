@@ -1,9 +1,11 @@
 import logging
+
 from selenium.webdriver.common.by import By
-from element import Element
-from test_base import TestBase
-from locator_builder import LocatorBuilder
-from page_parser import PageParser
+
+from app.test_base import TestBase
+from app.locator_builder import LocatorBuilder
+from app.page_parser import PageParser
+
 
 class TestLocatorBuilder(TestBase):
     def test_unique(self):
