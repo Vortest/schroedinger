@@ -4,7 +4,7 @@ dependencies:
     - pip install -r requirements.txt
 test:
   override:
-    - py.test test/unit-tests # use py.test for testing
+    - py.test app/tests # use py.test for testing
 
 
 ### Customize the test machine
