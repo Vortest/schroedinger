@@ -172,3 +172,8 @@ class WebElement(WebElement):
     def outer_html(self):
         html = self.element.get_attribute('outerHTML')
         return html
+
+    @property
+    def value(self):
+        value = self.element.get_attribute("value")
+        return value

@@ -31,8 +31,6 @@ class Element(WebElement):
                eles = self.driver.find_elements(locator[0],locator[1])
                if len(eles) > 0:
                    self._element = eles[0]
-                   self.by = locator[0]
-                   self.value = locator[1]
                    return self._element
            raise exceptions.NoSuchElementException("Could not find an element matching any of the following locators: {}".format(self.locators))
        else:
