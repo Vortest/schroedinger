@@ -1,3 +1,4 @@
+import pytest
 from app.suite import Suite
 from app.test import Test
 from app.test_base import TestBase
@@ -5,6 +6,7 @@ from app.selenium_command import SeleniumCommand
 from app.action import Action
 from app.step import Step
 
+@pytest.mark.skipif(True,"")
 class TestExecutableChain(TestBase):
     def test_exe(self):
         navigate_command = SeleniumCommand("Navigate", "Some URl")
