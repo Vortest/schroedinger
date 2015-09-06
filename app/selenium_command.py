@@ -38,4 +38,4 @@ class SeleniumCommand(Executable):
             return result
 
     def __str__(self):
-        return "Command(%s %s)" % (self.command, self.params)
+        return "Command(%s %s %s)" % (self.command, self.locator, self.params)

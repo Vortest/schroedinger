@@ -5,7 +5,7 @@ from app.element import Element
 from app.test_base import TestBase
 
 
-class FilterTest(TestBase):
+class ElementTest(TestBase):
     def test_one_locator(self):
         self.driver.get("http://www.google.com")
         locators = [(By.NAME,"q")]

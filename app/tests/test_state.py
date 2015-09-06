@@ -31,9 +31,7 @@ class StateTest(TestBase):
         self.driver.get(self.url2)
         builder = StateBuilder(self.driver)
         state2 = builder.get_current_state()
-
-        with self.assertRaises(AssertionError):
-            assert state == state2
+        assert state != state2
 
     def test_compare_similar_pages(self):
         self.url = "http://www.google.com/"
@@ -79,7 +77,7 @@ class StateTest(TestBase):
 
         for element in state2.elements:
             if element in state.elements:
-                print "Found %s " %  element.html
+                print "Found %s %s" % (element.locators, element.html)
                 element.highlight
 
 

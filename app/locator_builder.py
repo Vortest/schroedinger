@@ -3,6 +3,7 @@ from selenium.webdriver.common.by import By
 import sys
 from attribute_builder import AttributeBuilder
 import logging
+logger = logging.getLogger()
 
 class LocatorBuilder(object):
 
