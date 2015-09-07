@@ -61,21 +61,22 @@ class StateTest(TestBase):
         uk_diff = state2 - state
         assert len(uk_diff.elements) > 0
 
-    def test_find_similar(self):
-        self.url = "http://www.percolate.com/platform"
+    def test_divide_state(self):
+        self.url = "http://www.google.com"
         self.driver.get(self.url)
         builder = StateBuilder(self.driver)
         state = builder.get_current_state()
 
-        self.url2 = "http://www.percolate.com/services"
+        self.url2 = "http://www.google.co.uk"
         self.driver.get(self.url2)
         builder = StateBuilder(self.driver)
         state2 = builder.get_current_state()
 
-        for element in state2.elements:
-            if element in state.elements:
-                print "Found %s %s" % (element.locators, element.html)
-                element.highlight
+        shared_state = state2 / state
+        shared_state.verify_state()
+
+        self.driver.get("http://www.google.com/")
+        shared_state.verify_state()
 
 
 

@@ -50,4 +50,4 @@ class State(object):
 
     def verify_state(self):
         for element in self.elements:
-            assert element.is_present(), "Element not present"
+            element.highlight()
