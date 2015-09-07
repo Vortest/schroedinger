@@ -35,6 +35,7 @@ class SeleniumCommand(Executable):
         except Exception as e:
             result = ExecutableResult(self.step_results, False, "Command raised an exception %s" % str(e))
         finally:
+            logging.debug("Command %s" % result.passed)
             self.step_results.append(result)
             return result
 

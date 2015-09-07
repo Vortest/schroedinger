@@ -9,9 +9,9 @@ from app.step import Step
 
 class TestExecutableChain(TestBase):
     def test_exe_commands(self):
-        navigate_command = SeleniumCommand(driver=TestBase.driver,command="Navigate",params="http://www.google.com/")
-        command_2= SeleniumCommand(driver=TestBase.driver, command="Click", locator=[(By.NAME,"q")])
-        command_1= SeleniumCommand(driver=TestBase.driver, command="SendKeys",locator=[(By.NAME,"btnG")])
+        navigate_command = SeleniumCommand(driver=self.driver,command="Navigate",params="http://www.google.com/")
+        command_1= SeleniumCommand(driver=self.driver, command=SeleniumCommand.SENDKEYS, locator=[(By.NAME,"q")], params="Something")
+        command_2= SeleniumCommand(driver=self.driver, command=SeleniumCommand.CLICK,locator=[(By.NAME,"btnG")])
 
         step1 = Step(navigate_command)
         step2 = Step(command_1)
@@ -22,6 +22,6 @@ class TestExecutableChain(TestBase):
         suite1 = Suite([test1])
 
         results = suite1.execute()
-        assert not results.passed
+        assert results.passed, results.message
 
 

@@ -18,5 +18,5 @@ class Executable(object):
                 self.execution_results.append(step_results)
         for result in self.execution_results:
             if not result.passed:
-               return ExecutableResult(self.execution_results,False,"Child failed %s" % result.message)
+               return ExecutableResult(self.execution_results,False,result.message)
         return ExecutableResult(self.execution_results,True,"Passed")
