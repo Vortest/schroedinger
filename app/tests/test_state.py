@@ -59,10 +59,7 @@ class StateTest(TestBase):
         state2 = builder.get_current_state()
 
         uk_diff = state2 - state
-        us_diff = state - state2
-        print uk_diff
-        for element in uk_diff.elements:
-            element.highlight(2)
+        assert len(uk_diff.elements) > 0
 
     def test_find_similar(self):
         self.url = "http://www.percolate.com/platform"

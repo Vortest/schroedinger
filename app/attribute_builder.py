@@ -9,6 +9,7 @@ class AttributeBuilder(HTMLParser):
     def __init__(self,element):
         self.reset()
         self.element = element
+        self.html = self.element.html
         self.total_attributes = []
         self.unique_attributes = []
         self.duplicate_attributes = []

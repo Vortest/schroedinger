@@ -40,7 +40,7 @@ class LocatorBuilder(object):
 
         if len(self.locators) == 0:
             try:
-                logging.error("Could not get locators for element : {} found {} duplicate attributes".format(self.element.html,len(self.builder.duplicate_attributes)))
+                logging.error("Could not get locators for element : {} found {} duplicate attributes".format(self.builder.html,len(self.builder.duplicate_attributes)))
             finally:
                 self.get_complex_locators()
         return self.locators

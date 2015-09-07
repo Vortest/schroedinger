@@ -166,7 +166,7 @@ class WebElement(WebElement):
             html =  self.outer_html.replace(self.inner_html,"")
         else:
             html = self.outer_html
-        return html
+        return html.encode('utf-8')
 
     @property
     def inner_html(self):
