@@ -1,3 +1,5 @@
+from selenium.webdriver.common.by import By
+from app.element import Element
 from app.state_builder import StateBuilder
 from app.test_base import TestBase
 
@@ -77,6 +79,25 @@ class StateTest(TestBase):
 
         self.driver.get("http://www.google.com/")
         shared_state.verify_state()
+
+    def test_verify_state(self):
+        self.url = "http://www.google.com"
+        self.driver.get(self.url)
+        builder = StateBuilder(self.driver)
+        state = builder.get_current_state()
+        self.driver.get(self.url)
+        state.verify_state()
+
+    def test_get_missing_elements(self):
+        self.url = "http://www.google.com"
+        self.driver.get(self.url)
+        builder = StateBuilder(self.driver)
+        state = builder.get_current_state()
+        state.elements.append(Element(self.driver, [(By.CSS_SELECTOR, "INVALID")]))
+        missing_elements = state.get_missing_elements()
+        assert len(missing_elements) == 1
+
+
 
 
 

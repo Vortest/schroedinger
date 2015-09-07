@@ -49,5 +49,18 @@ class State(object):
         return "State(url=%s) %s Elements %s" % (self.url, len(self.elements),self.elements)
 
     def verify_state(self):
+        missing_elements = []
         for element in self.elements:
             element.highlight()
+
+    def get_missing_elements(self):
+        missing_elements = []
+        for element in self.elements:
+            if not element.is_present():
+                missing_elements.append(element)
+        return missing_elements
+
+    def update_missing_elements(self):
+        missing_elements = self.get_missing_elements()
+        if len(missing_elements) > 0 :
+

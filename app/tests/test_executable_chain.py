@@ -11,7 +11,7 @@ class TestExecutableChain(TestBase):
     def test_exe_commands(self):
         navigate_command = SeleniumCommand(driver=self.driver,command="Navigate",params="http://www.google.com/")
         command_1= SeleniumCommand(driver=self.driver, command=SeleniumCommand.SENDKEYS, locator=[(By.NAME,"q")], params="Something")
-        command_2= SeleniumCommand(driver=self.driver, command=SeleniumCommand.CLICK,locator=[(By.NAME,"btnGz")])
+        command_2= SeleniumCommand(driver=self.driver, command=SeleniumCommand.CLICK,locator=[(By.NAME,"btnG")])
 
         step1 = Step(navigate_command)
         step2 = Step(command_1)

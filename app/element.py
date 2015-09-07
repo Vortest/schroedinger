@@ -47,9 +47,9 @@ class Element(WebElement):
     def highlight(self, length=.1):
         self.element.highlight(length)
 
-    def is_present(self, time=1):
+    def is_present(self, timeout=1):
         start_time = time.time()
-        end_time = start_time + time
+        end_time = start_time + timeout
         while time.time() < end_time:
             if self._element is None or self._element.is_stale():
                 for locator in self.locators:
