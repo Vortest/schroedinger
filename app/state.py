@@ -59,8 +59,3 @@ class State(object):
             if not element.is_present():
                 missing_elements.append(element)
         return missing_elements
-
-    def update_missing_elements(self):
-        missing_elements = self.get_missing_elements()
-        if len(missing_elements) > 0 :
-
