@@ -60,6 +60,7 @@ class LocatorBuilder(object):
             return False
 
     def get_ancestor_locators(self):
+        return
         parent = self.element.find_parent()
         # parent_builder = LocatorBuilder(self.driver, parent)
         # parent_locators = parent_builder.get_locators()
@@ -72,12 +73,13 @@ class LocatorBuilder(object):
 
 
     def get_complex_locators(self):
-        logging.info("Creating complex locators")
-        css = self.element.tag_name
-        for attribute in self.builder.get_attributes():
-            if attribute[0] != "text":
-                css += ("[{}*={}]".format(attribute[0],attribute[1]))
-        locator = (By.CSS_SELECTOR,css)
-        logging.info("Trying locator %s" % css)
-        if self.is_locator_valid(locator):
-            self.locators.append(locator)
+        return
+        # logging.info("Creating complex locators")
+        # css = self.element.tag_name
+        # for attribute in self.builder.get_attributes():
+        #     if attribute[0] != "text":
+        #         css += ("[{}*={}]".format(attribute[0],attribute[1]))
+        # locator = (By.CSS_SELECTOR,css)
+        # logging.info("Trying locator %s" % css)
+        # if self.is_locator_valid(locator):
+        #     self.locators.append(locator)
