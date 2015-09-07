@@ -1,3 +1,4 @@
+from selenium.common.exceptions import StaleElementReferenceException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
 import logging
@@ -19,9 +20,9 @@ class WebElement(WebElement):
 
     def is_stale(self):
         try:
-            self.element.enabled
+            self.element.is_enabled()
             return False
-        except:
+        except Exception as e:
             return True
 
     def find_element(self, by=By.ID, value=None):
@@ -187,3 +188,4 @@ class WebElement(WebElement):
 
     def find_child(self):
         return self.find_element(By.CSS_SELECTOR,">")
+
