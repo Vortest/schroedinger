@@ -24,7 +24,7 @@ class SeleniumCommand(Executable):
 
     def execute(self):
         try:
-            result = ExecutableResult(self.step_results, True, "Execute %s %s (%s)" % (self.command, self.locator, self.params))
+            result = ExecutableResult([], True, "Execute %s %s (%s)" % (self.command, self.locator, self.params))
             logging.info("Execute : %s" % self)
             if self.command == self.NAVIGATE:
                 self.driver.get(self.params)
@@ -33,7 +33,7 @@ class SeleniumCommand(Executable):
             if self.command == self.SENDKEYS:
                 Element(self.driver, self.locator).send_keys(self.params)
         except Exception as e:
-            result = ExecutableResult(self.step_results, False, "Command raised an exception %s" % str(e))
+            result = ExecutableResult([], False, "Command raised an exception %s" % str(e))
         finally:
             logging.debug("Command %s" % result.passed)
             self.step_results.append(result)

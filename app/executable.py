@@ -13,10 +13,10 @@ class Executable(object):
             try:
                 step_results = step.execute()
             except Exception as e:
-                step_results = ExecutableResult(self.execution_results,False,"Threw an Exception" + str(e))
+                step_results = ExecutableResult(self.execution_results,False,"Could not execute",e)
             finally:
                 self.execution_results.append(step_results)
         for result in self.execution_results:
             if not result.passed:
                return ExecutableResult(self.execution_results,False,result.message)
-        return ExecutableResult(self.execution_results,True,"Passed")
+        return ExecutableResult(self.execution_results,True,"%s" % self.__class__)
