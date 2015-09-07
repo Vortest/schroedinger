@@ -6,7 +6,7 @@ class TestImages(TestBase):
         self.driver.get("http://stackoverflow.com/")
         element = self.driver.find_element_by_id('hlogo')
         image = images.get_element_image(self.driver, element)
-        assert image.size == (300, 50)
+        assert image.size != (0,0) and image.size is not None
         text = images.get_image_string(image)
         print text
 

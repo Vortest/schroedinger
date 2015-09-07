@@ -26,7 +26,10 @@ class LocatorBuilder(object):
                 if self.element.tag_name == "a" and self.element.text != "":
                     locator = (By.LINK_TEXT,self.element.text)
                 else:
-                    locator = (By.XPATH,"//{}[contains(text(),'{}')]".format(self.element.tag_name,str(value)))
+                    if "'" in str(value):
+                        locator = (By.XPATH,"//{}[contains(text(),\"{}\")]".format(self.element.tag_name,str(value)))
+                    else:
+                        locator = (By.XPATH,"//{}[contains(text(),'{}')]".format(self.element.tag_name,str(value)))
             elif type == "href":
                 value = attribute[1].split('/')[-1]
                 locator = (By.CSS_SELECTOR,"{}[{}*=\"{}\"]".format(self.element.tag_name, attribute[0], value))
@@ -37,8 +40,8 @@ class LocatorBuilder(object):
 
         if len(self.locators) == 0:
             try:
-                logging.error("Could not get locators for element : {} found {} duplicate locators".format(self.element.html,len(self.builder.duplicate_attributes)))
-            except:
+                logging.error("Could not get locators for element : {} found {} duplicate attributes".format(self.element.html,len(self.builder.duplicate_attributes)))
+            finally:
                 self.get_complex_locators()
         return self.locators
 
@@ -48,17 +51,33 @@ class LocatorBuilder(object):
             if len(elements) == 1:
                 return True
             else:
-                logging.debug("Found %s elements with locator" % len(elements))
+                logging.info("Found %s elements with locator" % len(elements))
+                for element in elements:
+                    logging.debug(element.html)
                 return False
         except Exception as e:
-            print "Unexpected error:", str(e)
+            logging.error("is_locator_valid failed : %s " % str(e))
             return False
 
+    def get_ancestor_locators(self):
+        parent = self.element.find_parent()
+        # parent_builder = LocatorBuilder(self.driver, parent)
+        # parent_locators = parent_builder.get_locators()
+        # for parent_locator in parent_locators:
+        #     for locator in self.builder:
+        #     "%s>%s" % (parent_locator[1],)
+        # new_locator = (By.CSS_SELECTOR,"")
+
+
+
+
     def get_complex_locators(self):
+        logging.info("Creating complex locators")
         css = self.element.tag_name
-        for attribute in self.builder.duplicate_attributes:
+        for attribute in self.builder.get_attributes():
             if attribute[0] != "text":
                 css += ("[{}*={}]".format(attribute[0],attribute[1]))
         locator = (By.CSS_SELECTOR,css)
+        logging.info("Trying locator %s" % css)
         if self.is_locator_valid(locator):
             self.locators.append(locator)

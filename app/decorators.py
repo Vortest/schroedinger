@@ -1,4 +1,5 @@
-import time                                                
+import logging
+import time
 
 def timeit(method):
 
@@ -7,8 +8,7 @@ def timeit(method):
         result = method(*args, **kw)
         te = time.time()
 
-        print '%r (%r, %r) %2.2f sec' % \
-              (method.__name__, args, kw, te-ts)
+        logging.info('%r (%r, %r) %2.2f sec' % (method.__name__, args, kw, te-ts))
         return result
 
     return timed

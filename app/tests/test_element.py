@@ -30,3 +30,9 @@ class ElementTest(TestBase):
         self.driver.get("http://www.google.com")
         locators = [(By.NAME,"q"),(By.NAME,"btnK")]
         Element(self.driver, locators).highlight()
+
+    def test_find_parent(self):
+        self.driver.get("http://www.google.com")
+        elment = Element(self.driver, [(By.NAME,"q")])
+        parent = elment.find_parent()
+        assert parent.get_attribute("id") == "gs_lc0"

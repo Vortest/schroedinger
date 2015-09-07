@@ -20,11 +20,16 @@ class WebElement(WebElement):
     def is_stale(self):
         try:
             self.element.enabled
+            return False
         except:
             return True
 
     def find_element(self, by=By.ID, value=None):
-        return self.element.find_element(by, value)
+        ele = self.element.find_element(by, value)
+        if isinstance(ele,WebElement):
+            return ele
+        else:
+            return WebElement(ele)
 
     def find_element_by_xpath(self, xpath):
         return self.element.find_element_by_xpath(xpath)
@@ -149,7 +154,6 @@ class WebElement(WebElement):
         return self.element.find_elements_by_css_selector(css_selector)
 
     def highlight(self,length=.1):
-        element = self.element
         background = self.driver.execute_script("return arguments[0].style.background", self.element)
         self.driver.execute_script("arguments[0].style.background='yellow'; return;",self.element)
         time.sleep(length)
@@ -177,3 +181,9 @@ class WebElement(WebElement):
     def value(self):
         value = self.element.get_attribute("value")
         return value
+
+    def find_parent(self):
+        return self.find_element(By.XPATH,"..")
+
+    def find_child(self):
+        return self.find_element(By.CSS_SELECTOR,">")

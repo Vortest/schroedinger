@@ -1,3 +1,4 @@
+import logging
 from app.element import Element
 from executable import Executable
 from executable_result import ExecutableResult
@@ -24,7 +25,7 @@ class SeleniumCommand(Executable):
     def execute(self):
         try:
             result = ExecutableResult(self.step_results, True, "Execute %s %s (%s)" % (self.command, self.locator, self.params))
-            print "Execute : %s" % self
+            logging.info("Execute : %s" % self)
             if self.command == self.NAVIGATE:
                 self.driver.get(self.params)
             if self.command == self.CLICK:
