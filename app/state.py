@@ -19,8 +19,8 @@ class State(object):
         :return:
         """
         new_elements = []
-        for element in other.elements:
-            if element not in self.elements:
+        for element in self.elements:
+            if element not in other.elements:
                 new_elements.append(element)
         return State(new_elements, self.url)
 
@@ -59,3 +59,14 @@ class State(object):
             if not element.is_present():
                 missing_elements.append(element)
         return missing_elements
+
+    def update_element(self, old_element, new_element):
+        self.elements.remove(old_element)
+        self.elements.append(new_element)
+
+    def remove_element(self, element):
+        self.elements.remove(element)
+
+    def add_element(self, element):
+        self.elements.append(element)
+
