@@ -1,14 +1,17 @@
 from selenium.common.exceptions import StaleElementReferenceException
 from selenium.webdriver.common.by import By
-from selenium.webdriver.remote.webelement import WebElement
+from selenium.webdriver.remote.webelement import WebElement as webdriverElement
 import logging
 import time
 import images
 
-class WebElement(WebElement):
+class WebElement(webdriverElement):
     @property
     def element(self):
-        return self._element
+        if isinstance(self._element, webdriverElement):
+            return self._element
+        else:
+            return self._element.element
 
     @property
     def driver(self):
@@ -167,6 +170,8 @@ class WebElement(WebElement):
 
     @property
     def html(self):
+        if not isinstance(self.element, webdriverElement):
+            print "nope"
         if "<" in self.inner_html:
             html =  self.outer_html.replace(self.inner_html,"")
         else:
@@ -175,6 +180,8 @@ class WebElement(WebElement):
 
     @property
     def inner_html(self):
+        if not isinstance(self.element, webdriverElement):
+            print "nope"
         html = self.element.get_attribute(('innerHTML'))
         return html
 

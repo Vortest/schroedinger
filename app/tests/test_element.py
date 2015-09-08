@@ -1,5 +1,7 @@
+import os
 from selenium.webdriver.common.by import By
 from selenium.common import exceptions
+from app import config
 
 from app.element import Element
 from app.test_base import TestBase
@@ -40,7 +42,7 @@ class ElementTest(TestBase):
     def test_element_screenshot(self):
         self.driver.get("http://www.google.com")
         elment = Element(self.driver, [(By.NAME,"q")])
-        elment.screenshot("/Users/Brian/schroedinger/something.png")
+        elment.screenshot(os.path.join(config.ROOT_DIR, "element.png"))
 
     def test_element_screenshot_string(self):
         self.driver.get("http://www.google.com")
