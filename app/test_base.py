@@ -19,7 +19,10 @@ class TestBase(unittest.TestCase):
 
     def tearDown(self):
         logging.debug("tear down test %s" % self._testMethodName)
-        self.driver.quit()
+        try:
+            self.driver.quit()
+        except Exception as e:
+            logging.exception("Exception caught quitting browser : %s" % str(e))
 
     @classmethod
     def setUpClass(cls):
