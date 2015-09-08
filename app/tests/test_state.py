@@ -61,7 +61,7 @@ class StateTest(TestBase):
         state2 = builder.get_current_state()
 
         uk_diff = state2 - state
-        assert len(uk_diff.elements) > 0
+        uk_diff.verify_state()
 
     def test_divide_state(self):
         self.url = "http://www.google.com"
@@ -96,6 +96,38 @@ class StateTest(TestBase):
         state.elements.append(Element(self.driver, [(By.CSS_SELECTOR, "INVALID")]))
         missing_elements = state.get_missing_elements()
         assert len(missing_elements) == 1
+
+    def test_remove_missing_elements(self):
+        self.url = "http://www.google.com"
+        self.driver.get(self.url)
+        builder = StateBuilder(self.driver)
+        state = builder.get_current_state()
+        state.elements.append(Element(self.driver, [(By.CSS_SELECTOR, "INVALID")]))
+        missing_elements = state.get_missing_elements()
+        for element in missing_elements:
+            print "removing %s" % element
+            state.remove_element(element)
+            assert element not in state.elements
+
+    def test_add_new_element(self):
+        self.url = "http://www.google.com"
+        self.driver.get(self.url)
+        builder = StateBuilder(self.driver)
+        state = builder.get_current_state()
+        num_elements = len(state.elements)
+        state.remove_element(state.elements[1])
+        new_state = builder.get_current_state()
+        diff_state = new_state - state
+        assert len(diff_state.elements) == 1
+        for element in diff_state.elements:
+            state.add_element(element)
+
+        state.verify_state()
+
+        assert len(state.elements) == num_elements
+
+
+
 
 
 

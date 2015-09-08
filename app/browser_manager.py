@@ -1,4 +1,5 @@
 import browser_launcher
+import logging
 
 class BrowserManager(object):
     _drivers = {}

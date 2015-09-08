@@ -6,14 +6,14 @@ import threading
 
 class TestBase(unittest.TestCase):
     test_names = []
-    test_name = None
+    test_name = ""
 
     @property
     def driver(self):
         return BrowserManager.get_driver(TestBase.test_name)
 
     def setUp(self):
-        TestBase.test_name = self._testMethodName
+        TestBase.test_name = self.id()
         logging.debug("set up test %s" % self._testMethodName)
         logging.debug("THREAD :%s" % threading.currentThread().ident)
 

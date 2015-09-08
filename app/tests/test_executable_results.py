@@ -8,7 +8,7 @@ from app.action import Action
 from app.step import Step
 
 class TestExecutableResults(TestBase):
-    def test_exe_commands(self):
+    def test_exe_result(self):
         navigate_command = SeleniumCommand(driver=self.driver,command="Navigate",params="http://www.google.com/")
         command_1= SeleniumCommand(driver=self.driver, command=SeleniumCommand.SENDKEYS, locator=[(By.NAME,"q")], params="Something")
         command_2= SeleniumCommand(driver=self.driver, command=SeleniumCommand.CLICK,locator=[(By.NAME,"btnG")])
