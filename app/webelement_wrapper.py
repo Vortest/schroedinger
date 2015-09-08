@@ -3,6 +3,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
 import logging
 import time
+import images
 
 class WebElement(WebElement):
     @property
@@ -46,7 +47,9 @@ class WebElement(WebElement):
 
     @property
     def screenshot_as_base64(self):
-        return self.element.screenshot_as_base64()
+        new_image = images.get_element_image(self.driver, self.element)
+        base_64_image = images.get_base64_from_image(new_image)
+        return base_64_image
 
     def is_enabled(self):
         return self.element.is_enabled()
@@ -98,7 +101,8 @@ class WebElement(WebElement):
         return self.element.is_displayed()
 
     def screenshot(self, filename):
-        return self.element.screenshot(filename)
+        image = images.get_element_image(self.driver, self.element)
+        image.save(filename)
 
     @property
     def text(self):
@@ -112,7 +116,8 @@ class WebElement(WebElement):
 
     @property
     def screenshot_as_png(self):
-        return self.element.screenshot_as_png
+        new_image = images.get_element_image(self.driver, self.element)
+        return new_image
 
     def send_keys(self, *value):
         logging.debug("SendKeys %s" % value)

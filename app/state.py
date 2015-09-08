@@ -49,7 +49,6 @@ class State(object):
         return "State(url=%s) %s Elements %s" % (self.url, len(self.elements),self.elements)
 
     def verify_state(self):
-        missing_elements = []
         for element in self.elements:
             element.highlight()
 

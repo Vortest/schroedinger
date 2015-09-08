@@ -1,3 +1,4 @@
+from app.state_builder import StateBuilder
 from app.test_base import TestBase
 import app.images as images
 
@@ -7,8 +8,6 @@ class TestImages(TestBase):
         element = self.driver.find_element_by_id('hlogo')
         image = images.get_element_image(self.driver, element)
         assert image.size != (0,0) and image.size is not None
-        text = images.get_image_string(image)
-        print text
 
     def test_get_image_string(self):
         self.driver.get("http://stackoverflow.com/")
@@ -30,6 +29,8 @@ class TestImages(TestBase):
         new_image = images.get_image_from_base64(value)
 
         assert new_image.size == image.size
+
+
 
 
 

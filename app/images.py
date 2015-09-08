@@ -1,4 +1,5 @@
 import base64
+from io import BytesIO
 import os
 from PIL import Image
 import StringIO
@@ -29,8 +30,15 @@ def get_base64_from_image(image):
     return value
 
 def get_image_string(image):
-        output = StringIO.StringIO()
-        image.save(output,format="png")
-        text_value= output.getvalue()
-        output.close()
-        return text_value
+    output = StringIO.StringIO()
+    image.save(output,format="png")
+    text_value= output.getvalue()
+    output.close()
+    return text_value
+
+def get_png_from_image(image):
+    output = BytesIO()
+    image.save(output,format="png")
+    png = output.getvalue()
+    output.close()
+    return png

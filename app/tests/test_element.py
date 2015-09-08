@@ -36,3 +36,16 @@ class ElementTest(TestBase):
         elment = Element(self.driver, [(By.NAME,"q")])
         parent = elment.find_parent()
         assert parent.get_attribute("id") == "gs_lc0"
+
+    def test_element_screenshot(self):
+        self.driver.get("http://www.google.com")
+        elment = Element(self.driver, [(By.NAME,"q")])
+        elment.screenshot("/Users/Brian/schroedinger/something.png")
+
+    def test_element_screenshot_string(self):
+        self.driver.get("http://www.google.com")
+        elment = Element(self.driver, [(By.NAME,"q")])
+        screenshot = elment.screenshot_as_base64
+        assert screenshot is not "" and not None
+
+
