@@ -4,7 +4,7 @@ dependencies:
     - pip install -r requirements.txt
 test:
   pre:
-    - python api/manage runserver
+    - python api/run.py
   override:
     - py.test -v -l --junitxml=$CIRCLE_TEST_REPORTS/test_results.xml:
         environment:
