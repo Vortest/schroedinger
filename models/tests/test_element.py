@@ -6,13 +6,21 @@ from models.post import Post, Comment
 
 
 class TestElement(unittest.TestCase):
-    def test_save_element(self):
+    @classmethod
+    def setUpClass(cls):
         element = Element()
         element.locators.append(Locator(by=By.NAME,value="q"))
         element.save()
-        print element.id
+        cls.element_id = element.id
 
-    def test_load_element(self):
+    def test_save(self):
+        assert self.element_id is not None
+
+    def test_get_elements(self):
         elements = Element.objects.all()
+        assert len(elements) > 0
+
+    def test_get_element(self):
+        elements = Element.objects(id=self.element_id)
         for element in elements:
-            print element.locators
+            print element.id

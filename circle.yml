@@ -10,6 +10,11 @@ test:
         environment:
           PYTHONPATH: $HOME/$CIRCLE_PROJECT_REPONAME
         files:
+          - models/tests/**/*.py
+    - py.test -v -l --junitxml=$CIRCLE_TEST_REPORTS/test_results.xml:
+        environment:
+          PYTHONPATH: $HOME/$CIRCLE_PROJECT_REPONAME
+        files:
           - app/tests/**/*.py
     - py.test -v -l --junitxml=$CIRCLE_TEST_REPORTS/test_results.xml:
         environment:

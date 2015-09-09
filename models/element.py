@@ -15,7 +15,6 @@ class Element(db.Document):
     created_at = db.DateTimeField(default=datetime.datetime.now, required=True)
     html = db.StringField(max_length=255, required=False)
     locators = db.ListField(db.EmbeddedDocumentField('Locator'))
-    slug = db.StringField(max_length=255, required=False)
 
     def get_absolute_url(self):
         return url_for('post', kwargs={"slug": self.slug})
@@ -25,7 +24,7 @@ class Element(db.Document):
 
     meta = {
         'allow_inheritance': True,
-        'indexes': ['-created_at', 'slug'],
+        'indexes': ['-created_at'],
         'ordering': ['-created_at']
     }
 
