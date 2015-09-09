@@ -1,8 +1,7 @@
 import datetime
 
 from flask import url_for
-
-from app import db
+from api import db
 
 class Comment(db.EmbeddedDocument):
     created_at = db.DateTimeField(default=datetime.datetime.now, required=True)

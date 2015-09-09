@@ -69,3 +69,7 @@ class State(object):
     def add_element(self, element):
         self.elements.append(element)
 
+    def get_html_info(self):
+        self.element_html = {}
+        for element in self.elements:
+            self.element_html[element] = element.html

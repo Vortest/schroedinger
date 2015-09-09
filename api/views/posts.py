@@ -1,9 +1,11 @@
-from app import app
-from app.models.post import Post
 import json
+from flask import request
 from flask_restful import reqparse, abort, Api, Resource
-from app import api
-from flask import Flask, request
+import sys
+from api import api
+
+print sys.path
+from models.post import Post
 
 @api.resource("/posts")
 class AllPosts(Resource):

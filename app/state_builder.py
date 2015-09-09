@@ -19,4 +19,5 @@ class StateBuilder(object):
                 new_element = Element(self.driver,locators)
                 locator_elements.append(new_element)
         state = State(locator_elements,self.driver.current_url)
+        state.get_html_info()
         return state

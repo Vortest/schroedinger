@@ -1,6 +1,7 @@
 import logging
 
 from selenium.webdriver.common.by import By
+from app.element import Element
 
 from app.test_base import TestBase
 from app.locator_builder import LocatorBuilder
@@ -39,3 +40,4 @@ class TestLocatorBuilder(TestBase):
             locators = LocatorBuilder(self.driver, element).get_locators()
             #print "Found {} locators".format(len(locators))
             print locators
+

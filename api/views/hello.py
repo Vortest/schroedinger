@@ -1,7 +1,7 @@
 from flask_restful import Resource
-from app import api
+from api import api
 
-@api.resource("/hello")
+@api.resource("/")
 class HelloWorld(Resource):
     def get(self):
         return {'hello': 'world'}

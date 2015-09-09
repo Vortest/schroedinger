@@ -9,3 +9,7 @@ class Test(Executable):
         self.actions = actions
         for action in actions:
             assert isinstance(action, Action)
+
+    def execute(self):
+        results = super(Test, self).execute()
+        return results
