@@ -3,22 +3,15 @@ dependencies:
   override:
     - pip install -r requirements.txt
 test:
+  pre:
+    - api/run.py
   override:
     - py.test -v -l --junitxml=$CIRCLE_TEST_REPORTS/test_results.xml:
         environment:
           PYTHONPATH: $HOME/$CIRCLE_PROJECT_REPONAME
         files:
           - app/tests/**/*.py
-deployment:
-  override:
-    - api/run
-test:
-  override:
-    - py.test -v -l --junitxml=$CIRCLE_TEST_REPORTS/test_results.xml:
-      environment:
-        PYTHONPATH: $HOME/$CIRCLE_PROJECT_REPONAME
-      files:
-        - api/tests/**/*.py
+          - api/tests/**/*.py
 ### Customize the test machine
 #machine:
 #
