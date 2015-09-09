@@ -70,6 +70,6 @@ class State(object):
         self.elements.append(element)
 
     def get_html_info(self):
-        self.element_html = {}
+        self.element_html = []
         for element in self.elements:
-            self.element_html[element] = element.html
+            self.element_html.append(element.html)

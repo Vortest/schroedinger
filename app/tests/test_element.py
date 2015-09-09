@@ -50,4 +50,9 @@ class ElementTest(TestBase):
         screenshot = elment.screenshot_as_base64
         assert screenshot is not "" and not None
 
+    def test_element_html(self):
+        self.driver.get("http://www.google.com")
+        elment = Element(self.driver, [(By.NAME,"q")])
+        print elment.html
+
 

@@ -170,8 +170,6 @@ class WebElement(webdriverElement):
 
     @property
     def html(self):
-        if not isinstance(self.element, webdriverElement):
-            print "nope"
         if "<" in self.inner_html:
             html =  self.outer_html.replace(self.inner_html,"")
         else:
@@ -180,8 +178,6 @@ class WebElement(webdriverElement):
 
     @property
     def inner_html(self):
-        if not isinstance(self.element, webdriverElement):
-            print "nope"
         html = self.element.get_attribute(('innerHTML'))
         return html
 
