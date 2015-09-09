@@ -48,18 +48,12 @@ class Element(WebElement):
         self.element.highlight(length)
 
     def is_present(self, timeout=1):
-        start_time = time.time()
-        end_time = start_time + timeout
-        while time.time() < end_time:
-            if self._element is None or self._element.is_stale():
-                for locator in self.locators:
-                    eles = self.driver.find_elements(locator[0],locator[1])
-                    if len(eles) > 0:
-                        self._element = eles[0]
-                        return True
-            logging.debug("Waiting for element")
-            time.sleep(1)
-        return False
+        self.timeout = timeout
+        try:
+            element = self.element
+            return True
+        except:
+            return False
 
     def __eq__(self, other):
         for locator in self.locators:
