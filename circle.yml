@@ -4,7 +4,8 @@ dependencies:
     - pip install -r requirements.txt
 test:
   pre:
-    - python $HOME/$CIRCLE_PROJECT_REPONAME/api/run.py &:
+    - python $HOME/$CIRCLE_PROJECT_REPONAME/api/run.py:
+        background: true
         environment:
           PYTHONPATH: $HOME/$CIRCLE_PROJECT_REPONAME
   override:
