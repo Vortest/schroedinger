@@ -1,26 +1,28 @@
 from selenium.webdriver.common.by import By
-from app.element import Element
+
+from app.webelement import WebElement
 from app.test_base import TestBase
-from app.selenium_command import SeleniumCommand
+from models.command import Command
+
 
 class TestSeleniumCommands(TestBase):
     def test_click(self):
         self.driver.get("http://www.google.com/")
-        command = SeleniumCommand(driver=self.driver, command=SeleniumCommand.CLICK,locator=[(By.NAME,"q")])
+        command = Command(driver=self.driver, command=Command.CLICK,locator=[(By.NAME,"q")])
         results = command.execute()
         assert results.passed, results.message
 
     def test_send_keys(self):
         self.driver.get("http://www.google.com/")
-        command = SeleniumCommand(driver=self.driver, command=SeleniumCommand.SENDKEYS,locator=[(By.NAME,"q")],params="Something")
+        command = Command(driver=self.driver, command=Command.SENDKEYS,locator=[(By.NAME,"q")],params="Something")
         results = command.execute()
 
-        assert Element(self.driver, [(By.NAME,"q")]).value == "Something"
+        assert WebElement(self.driver, [(By.NAME,"q")]).value == "Something"
         assert results.passed, results.message
 
     def test_navigate(self):
         self.driver.get("http://www.google.com/")
-        command = SeleniumCommand(driver=self.driver, command=SeleniumCommand.NAVIGATE,params="http://www.google.com/")
+        command = Command(driver=self.driver, command=Command.NAVIGATE,params="http://www.google.com/")
         results = command.execute()
 
         assert "google" in self.driver.current_url

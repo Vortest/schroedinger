@@ -3,6 +3,7 @@ import datetime
 from flask import url_for
 from api import db
 import logging
+from app.executable import Executable
 
 from app.webdriver_wrapper import WebDriver
 from app.webelement_wrapper import WebElement
@@ -12,8 +13,8 @@ import time
 
 class Locator(db.EmbeddedDocument):
     created_at = db.DateTimeField(default=datetime.datetime.now, required=True)
-    by = db.StringField(verbose_name="by", required=True)
-    value = db.StringField(verbose_name="value", required=True)
+    by = db.StringField(required=True)
+    value = db.StringField(required=True)
 
     def __repr__(self):
         return "Locator(%s, %s)" % (self.by, self.value)
@@ -26,7 +27,7 @@ class Locator(db.EmbeddedDocument):
         else:
             return False
 
-class ExpectedElement(db.Document):
+class Element(db.Document):
     created_at = db.DateTimeField(default=datetime.datetime.now, required=True)
     html = db.StringField(max_length=255, required=False)
     locators = db.ListField(db.EmbeddedDocumentField('Locator'))

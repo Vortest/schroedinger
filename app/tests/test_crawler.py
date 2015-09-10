@@ -14,11 +14,9 @@ class CrawlerTest(TestBase):
                 self.driver.get(url)
                 if(element.is_displayed()):
                     element.click()
-                    print "Is stale %r" % element.is_stale()
                     new_state = state_builder.get_current_state()
                     if new_state == initial_state:
                         print "looks like this is the same state"
-                        print "Is still stale %r" % element.is_stale()
                     else:
                         print 'new state found at %s' % self.driver.current_url
                         new_states.append(new_state)

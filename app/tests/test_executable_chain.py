@@ -1,17 +1,18 @@
-import pytest
 from selenium.webdriver.common.by import By
+
 from app.suite import Suite
 from app.test import Test
 from app.test_base import TestBase
-from app.selenium_command import SeleniumCommand
+from models.command import Command
 from app.action import Action
 from app.step import Step
 
+
 class TestExecutableChain(TestBase):
     def test_exe_commands(self):
-        navigate_command = SeleniumCommand(driver=self.driver,command="Navigate",params="http://www.google.com/")
-        command_1= SeleniumCommand(driver=self.driver, command=SeleniumCommand.SENDKEYS, locator=[(By.NAME,"q")], params="Something")
-        command_2= SeleniumCommand(driver=self.driver, command=SeleniumCommand.CLICK,locator=[(By.NAME,"btnG")])
+        navigate_command = Command(driver=self.driver,command="Navigate",params="http://www.google.com/")
+        command_1= Command(driver=self.driver, command=Command.SENDKEYS, locator=[(By.NAME,"q")], params="Something")
+        command_2= Command(driver=self.driver, command=Command.CLICK,locator=[(By.NAME,"btnG")])
 
         step1 = Step(navigate_command)
         step2 = Step(command_1)

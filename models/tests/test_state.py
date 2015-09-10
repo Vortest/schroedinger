@@ -1,7 +1,7 @@
 import unittest
 from selenium.webdriver.common.by import By
 from app.test_base import TestBase
-from models.expected_element import ExpectedElement, Locator
+from models.element import Element, Locator
 from models.post import Post, Comment
 from models.state import State
 
@@ -9,10 +9,10 @@ from models.state import State
 class TestState(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.locator = Locator(by=By.NAME, value="zq")
-        element = ExpectedElement(locators = [cls.locator])
+        cls.locator = Locator(by=By.NAME, value="q")
+        element = Element(locators = [cls.locator])
         element.save()
-        state = State(elements = [element])
+        state = State(elements = [element], url="http://www.google.com")
         state.save()
         cls.state_id = state.id
 
@@ -34,7 +34,7 @@ class TestState(unittest.TestCase):
         old_locator = element.locators[0]
         element_id = element.id
         new_locator = Locator(by=By.XPATH,value="//something")
-        new_element = ExpectedElement.objects(id=element_id).first()
+        new_element = Element.objects(id=element_id).first()
         new_element.locators[0] = new_locator
         new_element.save()
 

@@ -1,7 +1,7 @@
 import logging
 
 from selenium.webdriver.common.by import By
-from app.element import Element
+from app.webelement import WebElement
 
 from app.test_base import TestBase
 from app.locator_builder import LocatorBuilder

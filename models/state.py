@@ -2,14 +2,17 @@ import datetime
 
 from flask import url_for
 from api import db
-from models.expected_element import ExpectedElement
+from models.action import Action
+from models.element import Element
 
 
 class State(db.Document):
     created_at = db.DateTimeField(default=datetime.datetime.now, required=True)
     html = db.StringField(max_length=255, required=False)
-    elements = db.ListField(db.ReferenceField(ExpectedElement))
     screenshot = db.StringField(required=False)
+    elements = db.ListField(db.ReferenceField(Element))
+    actions = db.ListField(db.EmbeddedDocumentField(Action))
+    url = db.StringField(max_length=255, required=True)
 
     meta = {
         'allow_inheritance': True,

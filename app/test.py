@@ -1,5 +1,4 @@
 from action import Action
-from selenium_command import SeleniumCommand
 from executable import Executable
 
 class Test(Executable):

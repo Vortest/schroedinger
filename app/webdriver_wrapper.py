@@ -15,7 +15,7 @@ class WebDriver():
         self._driver = driver
     
     def find_element(self, by=By.ID, value=None):
-        logging.debug("Finding Element %s %s" % (by, value))
+        logging.debug("Finding WebElement %s %s" % (by, value))
         ele = WebElement(self.driver.find_element(by, value))
         #ele.highlight()
         return ele

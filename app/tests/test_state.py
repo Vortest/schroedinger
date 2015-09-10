@@ -1,5 +1,5 @@
 from selenium.webdriver.common.by import By
-from app.element import Element
+from app.webelement import WebElement
 from app.state_builder import StateBuilder
 from app.test_base import TestBase
 
@@ -93,7 +93,7 @@ class StateTest(TestBase):
         self.driver.get(self.url)
         builder = StateBuilder(self.driver)
         state = builder.get_current_state()
-        state.elements.append(Element(self.driver, [(By.CSS_SELECTOR, "INVALID")]))
+        state.elements.append(WebElement(self.driver, [(By.CSS_SELECTOR, "INVALID")]))
         missing_elements = state.get_missing_elements()
         assert len(missing_elements) == 1
 
@@ -102,7 +102,7 @@ class StateTest(TestBase):
         self.driver.get(self.url)
         builder = StateBuilder(self.driver)
         state = builder.get_current_state()
-        state.elements.append(Element(self.driver, [(By.CSS_SELECTOR, "INVALID")]))
+        state.elements.append(WebElement(self.driver, [(By.CSS_SELECTOR, "INVALID")]))
         missing_elements = state.get_missing_elements()
         for element in missing_elements:
             print "removing %s" % element

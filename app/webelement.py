@@ -6,7 +6,7 @@ from selenium.common import exceptions
 from test_base import TestBase
 import time
 
-class Element(WebElement):
+class WebElement(WebElement):
 
     def __init__(self, driver, locators, timeout = 5):
         assert isinstance(locators,list)
