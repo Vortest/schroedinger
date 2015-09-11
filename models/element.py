@@ -1,15 +1,5 @@
 import datetime
-
-from flask import url_for
 from api import db
-import logging
-from app.executable import Executable
-
-from app.webdriver_wrapper import WebDriver
-from app.webelement_wrapper import WebElement
-from selenium.common import exceptions
-import time
-
 
 class Locator(db.EmbeddedDocument):
     created_at = db.DateTimeField(default=datetime.datetime.now, required=True)

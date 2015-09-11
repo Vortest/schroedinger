@@ -15,3 +15,8 @@ class Test(db.Document, Executable):
         'indexes': ['-created_at'],
         'ordering': ['-created_at']
     }
+
+    def execute(self, driver):
+        self.execution_steps = self.actions
+        suite_results = Executable.execute(self, driver)
+        return suite_results

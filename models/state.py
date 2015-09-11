@@ -65,6 +65,12 @@ class State(db.Document):
     def __repr__(self):
         return "State(url=%s) %s Elements %s" % (self.url, len(self.elements),self.elements)
 
+    def get_web_elements(self, driver):
+        webelements = []
+        for element in self.elements:
+            webelements.append(WebElement(driver, element.locators))
+        return webelements
+
     def verify_state(self,driver):
 
         for element in self.elements:

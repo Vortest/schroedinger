@@ -34,8 +34,8 @@ class CrawlerTest(TestBase):
         print "there are {} elemnets1 founds".format(len(initial_state.elements))
 
         from app import element_filter
-        text_fields = element_filter.filter_elements(initial_state.elements,"input",("type","text"))
-        submit_fields = element_filter.filter_elements(initial_state.elements,"input",("type","submit"))
+        text_fields = element_filter.filter_elements(initial_state.get_web_elements(self.driver),"input",("type","text"))
+        submit_fields = element_filter.filter_elements(initial_state.get_web_elements(self.driver),"input",("type","submit"))
 
         print "Found %s text field" % len(text_fields)
         for field in text_fields:
