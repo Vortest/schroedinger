@@ -10,7 +10,7 @@ from models.post import Post
 @api.resource("/posts")
 class AllPosts(Resource):
     def get(self):
-        posts = Post.objects.get()
+        posts = Post.objects.all()
         return posts.to_json()
 
     def post(self):
