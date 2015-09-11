@@ -1,9 +1,10 @@
 import logging
 import datetime
+
 from api import db
 from app.webelement import WebElement
 from app.executable import Executable
-from app.executable_result import ExecutableResult
+from models.result import Result
 from models.element import Element
 
 
@@ -24,7 +25,7 @@ class Command(db.EmbeddedDocument, Executable):
     def execute(self, driver):
         try:
             self.driver = driver
-            result = ExecutableResult([], True, "Execute %s" % self.__repr__())
+            result = Result(passed=True, message="Execute %s" % self.__repr__())
             logging.info("Execute : %s" % self.__repr__())
             if self.command == self.NAVIGATE:
                 self.driver.get(self.params)
@@ -33,7 +34,7 @@ class Command(db.EmbeddedDocument, Executable):
             if self.command == self.SENDKEYS:
                 WebElement(self.driver, self.element.locators).send_keys(self.params)
         except Exception as e:
-            result = ExecutableResult([], False, "Command raised an exception %s" % str(e))
+            result = Result(passed=False, message="Command raised an exception %s" % str(e), exception=e)
         finally:
             logging.debug("Command %s" % result.passed)
             self.execution_results.append(result)

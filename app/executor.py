@@ -1,5 +1,5 @@
 
-from executable_result import ExecutableResult
+from models.result import Result
 class Executor(object):
 
     def __init__(self, steps):
@@ -13,10 +13,10 @@ class Executor(object):
             try:
                 step_results = step.execute(driver)
             except Exception as e:
-                step_results = ExecutableResult(self.execution_results,False,"Could not execute",e)
+                step_results = Result(self.execution_results,False,"Could not execute",e)
             finally:
                 self.execution_results.append(step_results)
         for result in self.execution_results:
             if not result.passed:
-               return ExecutableResult(self.execution_results,False,result.message)
-        return ExecutableResult(self.execution_results,True,"%s" % self.__class__)
+               return Result(self.execution_results,False,result.message)
+        return Result(self.execution_results,True,"%s" % self.__class__)

@@ -1,4 +1,4 @@
-from executable_result import ExecutableResult
+from models.result import Result
 class Executable(object):
 
     def __init__(self, steps):
@@ -12,10 +12,10 @@ class Executable(object):
             try:
                 step_results = step.execute(driver)
             except Exception as e:
-                step_results = ExecutableResult(self.execution_results,False,"Could not execute",e)
+                step_results = Result(step_results=self.execution_results,passed=False,message="Could not execute",exception=e)
             finally:
                 self.execution_results.append(step_results)
         for result in self.execution_results:
             if not result.passed:
-               return ExecutableResult(self.execution_results,False,result.message)
-        return ExecutableResult(self.execution_results,True,"%s" % self.__class__)
+               return Result(step_results=self.execution_results,passed=False,message=result.message)
+        return Result(step_results=self.execution_results,passed=True,message="%s" % self.__class__)

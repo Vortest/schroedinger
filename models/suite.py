@@ -1,9 +1,19 @@
+import datetime
+from api import db
 from app.executable import Executable
+from models.result import Result
 from models.test import Test
 
 
-class Suite(Executable):
-    def __init__(self, tests):
-        super(Suite,self).__init__(tests)
-        for test in tests:
-            assert isinstance(test, Test)
+class Suite(db.Document, Executable):
+    created_at = db.DateTimeField(default=datetime.datetime.now, required=True)
+    name = db.StringField(max_length=255, required=False)
+    url = db.StringField(max_length=255, required=False)
+    tests = db.ListField(db.ReferenceField(Test))
+    results = db.ListField(db.EmbeddedDocumentField(Result))
+
+    meta = {
+        'allow_inheritance': True,
+        'indexes': ['-created_at'],
+        'ordering': ['-created_at']
+    }
