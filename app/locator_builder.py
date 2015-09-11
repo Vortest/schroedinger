@@ -3,6 +3,8 @@ from selenium.webdriver.common.by import By
 import sys
 from attribute_builder import AttributeBuilder
 import logging
+from models.element import Locator
+
 logger = logging.getLogger()
 
 class LocatorBuilder(object):
@@ -19,22 +21,22 @@ class LocatorBuilder(object):
             type = attribute[0]
             value = attribute[1]
             if type == "class":
-                locator = (By.CLASS_NAME,value)
+                locator = Locator(by=By.CLASS_NAME,value=value)
             elif type == "id":
-                locator = (By.ID,value)
+                locator = Locator(by=By.ID,value=value)
             elif type == "text":
                 if self.element.tag_name == "a" and self.element.text != "":
-                    locator = (By.LINK_TEXT,self.element.text)
+                    locator = Locator(by=By.LINK_TEXT,value=self.element.text)
                 else:
                     if "'" in str(value):
-                        locator = (By.XPATH,"//{}[contains(text(),\"{}\")]".format(self.element.tag_name,str(value)))
+                        locator = Locator(by=By.XPATH,value="//{}[contains(text(),\"{}\")]".format(self.element.tag_name,str(value)))
                     else:
-                        locator = (By.XPATH,"//{}[contains(text(),'{}')]".format(self.element.tag_name,str(value)))
+                        locator = Locator(by=By.XPATH,value="//{}[contains(text(),'{}')]".format(self.element.tag_name,str(value)))
             elif type == "href":
                 value = attribute[1].split('/')[-1]
-                locator = (By.CSS_SELECTOR,"{}[{}*=\"{}\"]".format(self.element.tag_name, attribute[0], value))
+                locator = Locator(by=By.CSS_SELECTOR,value="{}[{}*=\"{}\"]".format(self.element.tag_name, attribute[0], value))
             else:
-                locator = (By.CSS_SELECTOR,"{}[{}*=\"{}\"]".format(self.element.tag_name, attribute[0], attribute[1]))
+                locator = Locator(by=By.CSS_SELECTOR,value="{}[{}*=\"{}\"]".format(self.element.tag_name, attribute[0], attribute[1]))
             if self.is_locator_valid(locator):
                 self.locators.append(locator)
 
@@ -47,7 +49,7 @@ class LocatorBuilder(object):
 
     def is_locator_valid(self,locator):
         try:
-            elements = self.driver.find_elements(locator[0],locator[1])
+            elements = self.driver.find_elements(locator.by,locator.value)
             if len(elements) == 1:
                 return True
             else:

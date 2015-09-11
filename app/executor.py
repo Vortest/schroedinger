@@ -8,10 +8,10 @@ class Executor(object):
         self.execution_steps = steps
         self.execution_results = []
 
-    def execute(self):
+    def execute(self, driver):
         for step in self.execution_steps:
             try:
-                step_results = step.execute()
+                step_results = step.execute(driver)
             except Exception as e:
                 step_results = ExecutableResult(self.execution_results,False,"Could not execute",e)
             finally:

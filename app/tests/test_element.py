@@ -5,22 +5,23 @@ from app import config
 
 from app.webelement import WebElement
 from app.test_base import TestBase
+from models.element import Locator
 
 
 class ElementTest(TestBase):
     def test_one_locator(self):
         self.driver.get("http://www.google.com")
-        locators = [(By.NAME,"q")]
+        locators = [Locator(by=By.NAME,value="q")]
         WebElement(self.driver, locators).send_keys("something")
 
     def test_multiple_locator(self):
         self.driver.get("http://www.google.com")
-        locators = [(By.CLASS_NAME,"Invalid"),(By.NAME,"q")]
+        locators = [Locator(by=By.CLASS_NAME,locator="Invalid"),Locator(by=By.NAME,value="q")]
         WebElement(self.driver, locators).send_keys("ters")
 
     def test_diff_elements(self):
         self.driver.get("http://www.google.com")
-        locators = [(By.NAME,"q"),(By.NAME,"btnK")]
+        locators = [LocatorLocator(by=By.NAME,value="q"),(By.NAME,"btnK")]
         WebElement(self.driver, locators).send_keys("ters")
 
     def test_element_not_found(self):
@@ -30,29 +31,29 @@ class ElementTest(TestBase):
 
     def test_element_highlight(self):
         self.driver.get("http://www.google.com")
-        locators = [(By.NAME,"q"),(By.NAME,"btnK")]
+        locators = [Locator(by=By.NAME,value="q"),(By.NAME,"btnK")]
         WebElement(self.driver, locators).highlight()
 
     def test_find_parent(self):
         self.driver.get("http://www.google.com")
-        elment = WebElement(self.driver, [(By.NAME,"q")])
+        elment = WebElement(self.driver, [Locator(by=By.NAME,value="q")])
         parent = elment.find_parent()
         assert parent.get_attribute("id") == "gs_lc0"
 
     def test_element_screenshot(self):
         self.driver.get("http://www.google.com")
-        elment = WebElement(self.driver, [(By.NAME,"q")])
+        elment = WebElement(self.driver, [Locator(by=By.NAME,value="q")])
         elment.screenshot(os.path.join(config.ROOT_DIR, "element.png"))
 
     def test_element_screenshot_string(self):
         self.driver.get("http://www.google.com")
-        elment = WebElement(self.driver, [(By.NAME,"q")])
+        elment = WebElement(self.driver, [Locator(by=By.NAME,value="q")])
         screenshot = elment.screenshot_as_base64
         assert screenshot is not "" and not None
 
     def test_element_html(self):
         self.driver.get("http://www.google.com")
-        elment = WebElement(self.driver, [(By.NAME,"q")])
+        elment = WebElement(self.driver, [Locator(by=By.NAME,value="q")])
         print elment.html
 
 

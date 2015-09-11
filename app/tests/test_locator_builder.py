@@ -14,7 +14,7 @@ class TestLocatorBuilder(TestBase):
         element = self.driver.find_element(By.NAME,"q")
         locators = LocatorBuilder(self.driver, element).get_locators()
         for locator in locators:
-            elements = self.driver.find_elements(locator[0],locator[1])
+            elements = self.driver.find_elements(locator.by,locator.value)
             assert len(elements) == 1
 
     def test_many(self):
@@ -25,7 +25,7 @@ class TestLocatorBuilder(TestBase):
             locators = LocatorBuilder(self.driver, element).get_locators()
             for locator in locators:
                 try:
-                    elements = self.driver.find_elements(locator[0],locator[1])
+                    elements = self.driver.find_elements(locator.by,locator.value)
                     assert len(elements) == 1
                 except:
                     logging.error("an error occured : {}".format(locator))

@@ -49,6 +49,8 @@ class Element(db.Document):
         return repr
 
     def __eq__(self, other):
+        if other is None:
+            return False
         for locator in self.locators:
             if locator in other.locators:
                 return True
