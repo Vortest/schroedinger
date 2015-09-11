@@ -7,7 +7,7 @@ from app.executable_result import ExecutableResult
 from models.element import Element
 
 
-class Command(db.EmbeddedDocument):
+class Command(db.EmbeddedDocument, Executable):
 
     NAVIGATE = "Navigate"
     CLICK = "Click"
@@ -20,25 +20,24 @@ class Command(db.EmbeddedDocument):
     element = db.ReferenceField(Element, required=False)
     params = db.StringField(required=False)
 
-    #
-    #     self.step_results = []
-    #
-    # def execute(self):
-    #     try:
-    #         result = ExecutableResult([], True, "Execute %s %s (%s)" % (self.command, self.locator, self.params))
-    #         logging.info("Execute : %s" % self)
-    #         if self.command == self.NAVIGATE:
-    #             self.driver.get(self.params)
-    #         if self.command == self.CLICK:
-    #             WebElement(self.driver, self.locator).click()
-    #         if self.command == self.SENDKEYS:
-    #             WebElement(self.driver, self.locator).send_keys(self.params)
-    #     except Exception as e:
-    #         result = ExecutableResult([], False, "Command raised an exception %s" % str(e))
-    #     finally:
-    #         logging.debug("Command %s" % result.passed)
-    #         self.step_results.append(result)
-    #         return result
+    execution_results = []
+    def execute(self, driver):
+        try:
+            self.driver = driver
+            result = ExecutableResult([], True, "Execute %s" % self.__repr__())
+            logging.info("Execute : %s" % self.__repr__())
+            if self.command == self.NAVIGATE:
+                self.driver.get(self.params)
+            if self.command == self.CLICK:
+                WebElement(self.driver, self.element.locators).click()
+            if self.command == self.SENDKEYS:
+                WebElement(self.driver, self.element.locators).send_keys(self.params)
+        except Exception as e:
+            result = ExecutableResult([], False, "Command raised an exception %s" % str(e))
+        finally:
+            logging.debug("Command %s" % result.passed)
+            self.execution_results.append(result)
+            return result
 
-    # def __str__(self):
-    #     return "Command(%s %s %s)" % (self.command, self.element, self.params)
+    def __repr__(self):
+        return "Command(%s %s %s)" % (str(self.command), str(self.element), self.params)

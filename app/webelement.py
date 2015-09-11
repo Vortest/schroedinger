@@ -1,5 +1,6 @@
 import logging
 from browser_manager import BrowserManager
+from models.element import Locator
 from webdriver_wrapper import WebDriver
 from webelement_wrapper import WebElement
 from selenium.common import exceptions
@@ -10,7 +11,7 @@ class WebElement(WebElement):
 
     def __init__(self, driver, locators, timeout = 5):
         assert isinstance(locators,list)
-        assert isinstance(locators[0],tuple)
+        assert isinstance(locators[0],Locator)
         assert isinstance(driver, WebDriver)
         self._element = None
         self.locators = locators
@@ -20,7 +21,7 @@ class WebElement(WebElement):
     def __repr__(self):
         repr = "ELEMENT: "
         for locator in self.locators:
-            repr += "{}:{}, ".format(locator[0],locator[1])
+            repr += "{}:{}, ".format(locator.by,locator.value)
         return repr
 
     @property
@@ -34,7 +35,7 @@ class WebElement(WebElement):
         while time.time() < end_time:
             if self._element is None or self._element.is_stale():
                 for locator in self.locators:
-                    eles = self.driver.find_elements(locator[0],locator[1])
+                    eles = self.driver.find_elements(locator.by,locator.value)
                     if len(eles) > 0:
                         self._element = eles[0]
                         return self._element

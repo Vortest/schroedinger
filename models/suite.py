@@ -1,5 +1,5 @@
-from executable import Executable
-from test import Test
+from app.executable import Executable
+from models.test import Test
 
 
 class Suite(Executable):

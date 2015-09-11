@@ -1,16 +1,17 @@
+
 from executable_result import ExecutableResult
-class Executable(object):
+class Executor(object):
 
     def __init__(self, steps):
         for step in steps:
-            assert isinstance(step, Executable)
+            assert hasattr(step, "execute")
         self.execution_steps = steps
         self.execution_results = []
 
-    def execute(self, driver):
+    def execute(self):
         for step in self.execution_steps:
             try:
-                step_results = step.execute(driver)
+                step_results = step.execute()
             except Exception as e:
                 step_results = ExecutableResult(self.execution_results,False,"Could not execute",e)
             finally:

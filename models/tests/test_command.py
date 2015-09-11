@@ -6,7 +6,7 @@ from models.element import Element, Locator
 from models.post import Post, Comment
 from app.browser_manager import BrowserManager
 
-class TestCommand(unittest.TestCase):
+class TestCommand(TestBase):
     @classmethod
     def setUpClass(cls):
         element = Element(locators = [Locator(by=By.NAME,value="q")])
@@ -23,6 +23,11 @@ class TestCommand(unittest.TestCase):
         element = Element(locators = [Locator(by=By.NAME,value="q")])
         element.save()
         command = Command(command="INVALID",element=element,params="Something")
+
+    def test_execute(self):
+        command = Command(command=Command.NAVIGATE,params="http://www.google.com/")
+        result = command.execute(self.driver)
+        assert result.passed, result.message
 
 
 

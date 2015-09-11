@@ -9,9 +9,9 @@ from app.browser_manager import BrowserManager
 from models.state import State
 
 
-class TestAction(unittest.TestCase):
+class TestAction(TestBase):
 
-    def test_action(self):
+    def test_save_action(self):
 
         element = Element(locators = [Locator(by=By.NAME,value="q")])
         element.save()
@@ -21,12 +21,31 @@ class TestAction(unittest.TestCase):
         state2.save()
         commands = [Command(command=Command.NAVIGATE,params="http://www.google.com/"),
                     Command(command=Command.SENDKEYS,element = element,params="Something")]
-        action = Action(name = "Some Action",commands=commands,end_state=state2)
+        action = Action(name = "Some Action",execution_steps=commands,start_state=state1, end_state=state2)
+        action.save()
         state1.actions = [action]
         state1.save()
-        assert state1.actions[0].commands == commands
+        print state1.id
+        assert state1.actions[0].execution_steps == commands
         assert state1.actions[0].end_state == state2
 
+    def test_execute(self):
 
-
+        element = Element(locators = [Locator(by=By.NAME,value="q")])
+        element2= Element(locators= [Locator(by=By.NAME,value="btnG")])
+        element.save()
+        element2.save()
+        state1 = State(elements=[], url="")
+        state2= State(elements=[element], url="http://www.google.com")
+        state3= State(elements=[element2], url="http://www.google.com")
+        state1.save()
+        state2.save()
+        state3.save()
+        commands = [Command(command=Command.NAVIGATE,params="http://www.google.com/"),
+                    Command(command=Command.SENDKEYS,element = element,params="Something"),
+                    Command(command=Command.CLICK,element=element2)]
+        action = Action(name = "Google Search",execution_steps=commands,start_state=state1, end_state=state3)
+        action.save()
+        results = action.execute(self.driver)
+        assert results.passed, results.message
 

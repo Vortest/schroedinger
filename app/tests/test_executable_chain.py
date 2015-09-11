@@ -1,7 +1,7 @@
 from selenium.webdriver.common.by import By
 
-from app.suite import Suite
-from app.test import Test
+from models.suite import Suite
+from models.test import Test
 from app.test_base import TestBase
 from models.command import Command
 from app.action import Action

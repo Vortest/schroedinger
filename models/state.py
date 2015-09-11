@@ -2,6 +2,7 @@ import datetime
 
 from flask import url_for
 from api import db
+from app.webelement import WebElement
 from models.action import Action
 from models.element import Element
 
@@ -11,7 +12,7 @@ class State(db.Document):
     html = db.StringField(max_length=255, required=False)
     screenshot = db.StringField(required=False)
     elements = db.ListField(db.ReferenceField(Element))
-    actions = db.ListField(db.EmbeddedDocumentField(Action))
+    actions = db.ListField(db.ReferenceField(Action))
     url = db.StringField(max_length=255, required=True)
 
     meta = {
@@ -64,9 +65,10 @@ class State(db.Document):
     def __repr__(self):
         return "State(url=%s) %s Elements %s" % (self.url, len(self.elements),self.elements)
 
-    def verify_state(self):
+    def verify_state(self,driver):
+
         for element in self.elements:
-            element.highlight()
+            WebElement(driver,element.locators).highlight()
 
     def get_missing_elements(self):
         missing_elements = []

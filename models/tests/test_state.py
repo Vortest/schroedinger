@@ -12,6 +12,7 @@ class TestState(unittest.TestCase):
         cls.locator = Locator(by=By.NAME, value="q")
         element = Element(locators = [cls.locator])
         element.save()
+
         state = State(elements = [element], url="http://www.google.com")
         state.save()
         cls.state_id = state.id

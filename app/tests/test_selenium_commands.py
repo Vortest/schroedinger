@@ -3,18 +3,19 @@ from selenium.webdriver.common.by import By
 from app.webelement import WebElement
 from app.test_base import TestBase
 from models.command import Command
+from models.element import Element
 
 
 class TestSeleniumCommands(TestBase):
     def test_click(self):
         self.driver.get("http://www.google.com/")
-        command = Command(driver=self.driver, command=Command.CLICK,locator=[(By.NAME,"q")])
+        command = Command(driver=self.driver, command=Command.CLICK,element=Element(locators=[(By.NAME,"q")]))
         results = command.execute()
         assert results.passed, results.message
 
     def test_send_keys(self):
         self.driver.get("http://www.google.com/")
-        command = Command(driver=self.driver, command=Command.SENDKEYS,locator=[(By.NAME,"q")],params="Something")
+        command = Command(driver=self.driver, command=Command.SENDKEYS,element=Element(locators=[(By.NAME,"q")]),params="Something")
         results = command.execute()
 
         assert WebElement(self.driver, [(By.NAME,"q")]).value == "Something"

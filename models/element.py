@@ -16,8 +16,8 @@ class Locator(db.EmbeddedDocument):
     by = db.StringField(required=True)
     value = db.StringField(required=True)
 
-    def __repr__(self):
-        return "Locator(%s, %s)" % (self.by, self.value)
+    def __str__(self):
+        return "(%s, %s)" % (self.by, self.value)
 
     def __eq__(self, other):
         if other is None:
@@ -33,9 +33,6 @@ class Element(db.Document):
     locators = db.ListField(db.EmbeddedDocumentField('Locator'))
     screenshot = db.StringField(max_length=255, required=False)
 
-    def get_absolute_url(self):
-        return url_for('post', kwargs={"slug": self.slug})
-
     def __unicode__(self):
         return self.locators
 
@@ -44,4 +41,19 @@ class Element(db.Document):
         'indexes': ['-created_at'],
         'ordering': ['-created_at']
     }
+
+    def __str__(self):
+        repr = "Element: "
+        for locator in self.locators:
+            repr += "{}, ".format(str(locator))
+        return repr
+
+    def __eq__(self, other):
+        for locator in self.locators:
+            if locator in other.locators:
+                return True
+        return False
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
 
