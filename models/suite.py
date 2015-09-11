@@ -11,7 +11,7 @@ class Suite(db.Document, Executable):
     url = db.StringField(max_length=255, required=False)
     tests = db.ListField(db.ReferenceField(Test))
     results = db.ListField(db.EmbeddedDocumentField(Result))
-    execution_steps = []
+    steps = []
     execution_results = []
 
     meta = {
@@ -21,6 +21,6 @@ class Suite(db.Document, Executable):
     }
 
     def execute(self, driver):
-        self.execution_steps = self.tests
+        self.steps = self.tests
         suite_results = Executable.execute(self, driver)
         self.results.append(suite_results)

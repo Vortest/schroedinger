@@ -9,10 +9,10 @@ from models.command import Command
 class Action(db.Document, Executable):
 
     created_at = db.DateTimeField(default=datetime.datetime.now, required=True)
-    name = db.StringField(verbose_name="name", required=True)
+    name = db.StringField(required=True)
     start_state = db.ReferenceField("State", required=True)
     end_state = db.ReferenceField("State", required=True)
-    execution_steps = db.ListField(db.EmbeddedDocumentField(Command))
+    steps = db.ListField(db.EmbeddedDocumentField(Command),required=False)
     execution_results = []
 
     def execute(self, driver):

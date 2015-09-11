@@ -17,6 +17,6 @@ class Test(db.Document, Executable):
     }
 
     def execute(self, driver):
-        self.execution_steps = self.actions
+        self.steps = self.actions
         suite_results = Executable.execute(self, driver)
         return suite_results

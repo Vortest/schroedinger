@@ -13,6 +13,7 @@ class State(db.Document):
     screenshot = db.StringField(required=False)
     elements = db.ListField(db.ReferenceField(Element))
     actions = db.ListField(db.ReferenceField(Action))
+    init_actions = db.ListField(db.ReferenceField(Action))
     url = db.StringField(max_length=255, required=True)
 
     meta = {

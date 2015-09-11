@@ -22,7 +22,7 @@ class TestResult(TestBase):
         commands = [Command(command=Command.NAVIGATE,params="http://www.google.com/"),
                     Command(command=Command.SENDKEYS,element = element,params="Something"),
                     Command(command=Command.CLICK,element=element2)]
-        action = Action(name = "Google Search",execution_steps=commands,start_state=state1, end_state=state3)
+        action = Action(name = "Google Search",steps=commands,start_state=state1, end_state=state3)
         action.save()
         test = Test(name="Some test",actions=[action])
         test.save()

@@ -1,30 +1,13 @@
 from app.state_builder import StateBuilder
 from app.test_base import TestBase
 import app.config as config
+from app.crawler import Crawler
 
 class CrawlerTest(TestBase):
     def test_crawl(self):
         url = "http://www.google.com/"
-        self.driver.get(url)
-        state_builder = StateBuilder(self.driver)
-        initial_state = state_builder.get_current_state()
-        new_states = []
-        for element in initial_state.elements:
-            try:
-                self.driver.get(url)
-                if(element.is_displayed()):
-                    element.click()
-                    new_state = state_builder.get_current_state()
-                    if new_state == initial_state:
-                        print "looks like this is the same state"
-                    else:
-                        print 'new state found at %s' % self.driver.current_url
-                        new_states.append(new_state)
-            except Exception as e:
-                print "Couldn't crawl element %s %s" % (element.locators, str(e))
-        print "%s states" % len(new_states)
-        for state in new_states:
-            print state
+        crawl = Crawler(self.driver)
+        crawl.crawl_url(url)
 
     def test_generate(self):
         url = "http://www.google.com/"

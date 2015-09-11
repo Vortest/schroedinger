@@ -50,9 +50,14 @@ class WebElement(webdriverElement):
 
     @property
     def screenshot_as_base64(self):
-        new_image = images.get_element_image(self.driver, self.element)
-        base_64_image = images.get_base64_from_image(new_image)
-        return base_64_image
+        try:
+            new_image = images.get_element_image(self.driver, self.element)
+            base_64_image = images.get_base64_from_image(new_image)
+            return base_64_image
+        except Exception as e:
+            logging.exception("Could not capture element screenshot : " + str(e))
+            return ""
+
 
     def is_enabled(self):
         return self.element.is_enabled()

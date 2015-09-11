@@ -5,12 +5,12 @@ class Executable(object):
     def __init__(self, steps):
         for step in steps:
             assert isinstance(step, Executable)
-        execution_steps = steps
+        self.steps = steps
 
     execution_results = []
 
     def execute(self, driver):
-        for step in self.execution_steps:
+        for step in self.steps:
             try:
                 step_results = step.execute(driver)
             except Exception as e:

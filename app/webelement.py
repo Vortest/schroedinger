@@ -34,11 +34,13 @@ class WebElement(WebElement):
         end_time = start_time + self.timeout
         while time.time() < end_time:
             if self._element is None or self._element.is_stale():
+                all_eles = []
                 for locator in self.locators:
                     eles = self.driver.find_elements(locator.by,locator.value)
-                    if len(eles) > 0:
-                        self._element = eles[0]
-                        return self._element
+                    all_eles.extend(eles)
+                if len(all_eles) > 0:
+                    self._element = max(all_eles, key=all_eles.count)
+                    return self._element
             else:
                 return self._element
             logging.debug("Waiting for element")
@@ -57,10 +59,10 @@ class WebElement(WebElement):
             return False
 
     def __eq__(self, other):
-        for locator in self.locators:
-            if locator in other.locators:
-                return True
-        return False
+        try:
+            return self.html == other.html
+        except:
+            return False
 
     def __ne__(self, other):
         return not self.__eq__(other)

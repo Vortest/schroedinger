@@ -36,6 +36,13 @@ def filter_inputs(elements):
 def filter_elements(elements, tag, attribute):
     new_elements = []
     for element in elements:
-        if element.is_displayed() and     element.tag_name == tag and element.get_attribute(attribute[0]) == attribute[1]:
+        if element.is_displayed() and element.tag_name == tag and element.get_attribute(attribute[0]) == attribute[1]:
+            new_elements.append(element)
+    return new_elements
+
+def filter_tag(elements, tag):
+    new_elements = []
+    for element in elements:
+        if element.tag_name == tag:
             new_elements.append(element)
     return new_elements

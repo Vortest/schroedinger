@@ -21,7 +21,7 @@ class Element(db.Document):
     created_at = db.DateTimeField(default=datetime.datetime.now, required=True)
     html = db.StringField(max_length=255, required=False)
     locators = db.ListField(db.EmbeddedDocumentField('Locator'))
-    screenshot = db.StringField(max_length=255, required=False)
+    screenshot = db.StringField(required=False)
 
     def __unicode__(self):
         return self.locators
