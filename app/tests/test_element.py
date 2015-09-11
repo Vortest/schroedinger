@@ -16,18 +16,18 @@ class ElementTest(TestBase):
 
     def test_multiple_locator(self):
         self.driver.get("http://www.google.com")
-        locators = [Locator(by=By.CLASS_NAME,locator="Invalid"),Locator(by=By.NAME,value="q")]
+        locators = [Locator(by=By.CLASS_NAME,value="Invalid"),Locator(by=By.NAME,value="q")]
         WebElement(self.driver, locators).send_keys("ters")
 
     def test_diff_elements(self):
         self.driver.get("http://www.google.com")
-        locators = [LocatorLocator(by=By.NAME,value="q"),(By.NAME,"btnK")]
+        locators = [Locator(by=By.NAME,value="q"),(By.NAME,"btnK")]
         WebElement(self.driver, locators).send_keys("ters")
 
     def test_element_not_found(self):
         self.driver.get("http://www.google.com")
         with self.assertRaises(exceptions.NoSuchElementException):
-            WebElement(self.driver, [(By.CLASS_NAME,"q")]).click()
+            WebElement(self.driver, [Locator(by=By.CLASS_NAME,value="q")]).click()
 
     def test_element_highlight(self):
         self.driver.get("http://www.google.com")

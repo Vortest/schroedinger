@@ -39,7 +39,7 @@ class State(db.Document):
         for element in self.elements:
             if element not in other.elements:
                 new_elements.append(element)
-        return State(new_elements, self.url)
+        return State(elements=new_elements, url=self.url)
 
     def __add__(self, other):
         """
@@ -48,7 +48,7 @@ class State(db.Document):
         :return:
         """
         all_elements = self.elements.extend(other.elements)
-        return State(all_elements,self.url)
+        return State(elements=all_elements,url=self.url)
 
     def __div__(self, other):
         """
@@ -60,7 +60,7 @@ class State(db.Document):
         for element in self.elements:
             if element in other.elements:
                 new_elements.append(element)
-        return State(new_elements,self.url)
+        return State(elements=new_elements,url=self.url)
 
     def __repr__(self):
         return "State(url=%s) %s Elements %s" % (self.url, len(self.elements),self.elements)
@@ -70,10 +70,10 @@ class State(db.Document):
         for element in self.elements:
             WebElement(driver,element.locators).highlight()
 
-    def get_missing_elements(self):
+    def get_missing_elements(self,driver):
         missing_elements = []
         for element in self.elements:
-            if not element.is_present():
+            if not WebElement(driver,element.locators).is_present():
                 missing_elements.append(element)
         return missing_elements
 

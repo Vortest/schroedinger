@@ -2,6 +2,8 @@ from selenium.webdriver.common.by import By
 from app.webelement import WebElement
 from app.state_builder import StateBuilder
 from app.test_base import TestBase
+from models.element import Locator
+
 
 class StateTest(TestBase):
     def test_state_builder(self):
@@ -61,7 +63,7 @@ class StateTest(TestBase):
         state2 = builder.get_current_state()
 
         uk_diff = state2 - state
-        uk_diff.verify_state()
+        uk_diff.verify_state(self.driver)
 
     def test_divide_state(self):
         self.url = "http://www.google.com"
@@ -75,10 +77,10 @@ class StateTest(TestBase):
         state2 = builder.get_current_state()
 
         shared_state = state2 / state
-        shared_state.verify_state()
+        shared_state.verify_state(self.driver)
 
         self.driver.get("http://www.google.com/")
-        shared_state.verify_state()
+        shared_state.verify_state(self.driver)
 
     def test_verify_state(self):
         self.url = "http://www.google.com"
@@ -86,15 +88,15 @@ class StateTest(TestBase):
         builder = StateBuilder(self.driver)
         state = builder.get_current_state()
         self.driver.get(self.url)
-        state.verify_state()
+        state.verify_state(self.driver)
 
     def test_get_missing_elements(self):
         self.url = "http://www.google.com"
         self.driver.get(self.url)
         builder = StateBuilder(self.driver)
         state = builder.get_current_state()
-        state.elements.append(WebElement(self.driver, [(By.CSS_SELECTOR, "INVALID")]))
-        missing_elements = state.get_missing_elements()
+        state.elements.append(WebElement(self.driver, [Locator(by=By.CSS_SELECTOR, value="INVALID")]))
+        missing_elements = state.get_missing_elements(self.driver)
         assert len(missing_elements) == 1
 
     def test_remove_missing_elements(self):
@@ -102,8 +104,8 @@ class StateTest(TestBase):
         self.driver.get(self.url)
         builder = StateBuilder(self.driver)
         state = builder.get_current_state()
-        state.elements.append(WebElement(self.driver, [(By.CSS_SELECTOR, "INVALID")]))
-        missing_elements = state.get_missing_elements()
+        state.elements.append(WebElement(self.driver, [Locator(by=By.CSS_SELECTOR, value="INVALID")]))
+        missing_elements = state.get_missing_elements(self.driver)
         for element in missing_elements:
             print "removing %s" % element
             state.remove_element(element)
@@ -122,7 +124,7 @@ class StateTest(TestBase):
         for element in diff_state.elements:
             state.add_element(element)
 
-        state.verify_state()
+        state.verify_state(self.driver)
 
         assert len(state.elements) == num_elements
 
