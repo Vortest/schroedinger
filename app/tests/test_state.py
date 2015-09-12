@@ -67,8 +67,7 @@ class StateTest(TestBase):
         state2 = builder.get_current_state()
 
         uk_diff = state2 - state
-        for element in uk_diff.elements:
-            element.highlight(-1)
+        uk_diff.verify_state(self.driver)
 
     def test_divide_state(self):
         self.url = "http://www.google.com"

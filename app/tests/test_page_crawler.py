@@ -11,7 +11,10 @@ class TestPageCrawler(TestBase):
         urls = crawl.get_links_on_url(url)
 
     def test_crawl(self):
-        url = "http://www.grubhub.com"
+        url = "http://www.google.com"
         crawl = PageCrawler(self.driver)
         urls = crawl.crawl_url(url)
+        urls = sorted(urls, key=len)
+        for url in urls:
+            print url
 

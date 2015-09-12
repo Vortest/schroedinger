@@ -7,6 +7,7 @@ from models.element import Locator
 
 class FilterTest(TestBase):
     def test_element_equal(self):
+        self.driver.get("http://www.google.com/")
         locators1 = [Locator(by=By.NAME,value="q")]
         locators2 = [Locator(by=By.NAME,value="q")]
         element1 = WebElement(self.driver, locators1)
@@ -16,6 +17,7 @@ class FilterTest(TestBase):
         assert element2 == element1
 
     def test_different_locators_equal(self):
+        self.driver.get("http://www.google.com/")
         locators1 = [Locator(by=By.NAME,value="q"),Locator(by=By.CLASS_NAME,value="foo")]
         locators2 = [Locator(by=By.CLASS_NAME,value="bar"),Locator(by=By.NAME,value="q")]
         element1 = WebElement(self.driver, locators1)
@@ -25,6 +27,7 @@ class FilterTest(TestBase):
         assert element2 == element1
 
     def test_missing_locator_fails(self):
+        self.driver.get("http://www.google.com/")
         locators1 = [Locator(by=By.NAME,value="z"),Locator(by=By.CLASS_NAME,value="foo")]
         locators2 = [Locator(by=By.NAME,value="bar"),Locator(by=By.NAME,value="q")]
         element1 = WebElement(self.driver, locators1)
@@ -35,6 +38,7 @@ class FilterTest(TestBase):
             assert element2 == element1
 
     def test_inequality(self):
+        self.driver.get("http://www.google.com/")
         locators1 = [Locator(by=By.NAME,value="z"),Locator(by=By.CLASS_NAME,value="foo")]
         locators2 = [Locator(by=By.NAME,value="bar"),Locator(by=By.NAME,value="q")]
         element1 = WebElement(self.driver, locators1)

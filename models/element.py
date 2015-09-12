@@ -17,11 +17,19 @@ class Locator(db.EmbeddedDocument):
         else:
             return False
 
+class Location(db.EmbeddedDocument):
+    created_at = db.DateTimeField(default=datetime.datetime.now, required=True)
+    x = db.IntField(required=True)
+    y = db.IntField(required=True)
+    width = db.IntField(required=True)
+    height = db.IntField(required=True)
+
 class Element(db.Document):
     created_at = db.DateTimeField(default=datetime.datetime.now, required=True)
     html = db.StringField(required=False)
-    locators = db.ListField(db.EmbeddedDocumentField('Locator'))
+    locators = db.ListField(db.EmbeddedDocumentField(Locator))
     screenshot = db.StringField(required=False)
+    location = db.EmbeddedDocumentField(Location, required=False)
 
     def __unicode__(self):
         return self.locators
@@ -48,4 +56,7 @@ class Element(db.Document):
 
     def __ne__(self, other):
         return not self.__eq__(other)
+
+    def set_location(self, element):
+        self.location = Location(x=element.location['x'],y=element.location['y'],width=element.size['width'],height=element.size['height'])
 

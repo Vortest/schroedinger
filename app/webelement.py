@@ -60,8 +60,9 @@ class WebElement(WrappedWebElement):
 
     def __eq__(self, other):
         try:
-            return self.html == other.html
-        except:
+            same = self.rect == other.rect
+            return same
+        except Exception as e:
             return False
 
     def __ne__(self, other):

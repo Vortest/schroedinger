@@ -23,3 +23,4 @@ class TestElement(unittest.TestCase):
         elements = Element.objects(id=self.element_id)
         for element in elements:
             print element.id
+
