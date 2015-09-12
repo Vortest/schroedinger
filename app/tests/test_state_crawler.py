@@ -5,7 +5,7 @@ from app.state_crawler import StateCrawler
 
 class CrawlerTest(TestBase):
     def test_state_crawl(self):
-        url = "http://www.percolate.com"
+        url = "http://www.google.com"
         crawl = StateCrawler(self.driver)
         state_id = crawl.crawl_url(url)
         print "State id is : " + state_id

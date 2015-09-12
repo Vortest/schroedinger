@@ -22,4 +22,7 @@ class Result(db.EmbeddedDocument):
         Result.total_indents -= 1
         return message
 
+    def __repr__(self):
+        return "Result(%s,%s)" % (self.passed, self.message)
+
 

@@ -16,6 +16,7 @@ class Action(db.Document, Executable):
     execution_results = []
 
     def execute(self, driver):
+        logging.debug("Executing Action %s" % self.name)
         self.start_state.verify_state(driver)
         results = Executable.execute(self, driver)
         self.end_state.verify_state(driver)
