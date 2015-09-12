@@ -1,8 +1,12 @@
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+import time
 from app.webelement import WebElement
 from app.state_builder import StateBuilder
 from app.test_base import TestBase
-from models.element import Locator
+from models.action import Action
+from models.command import Command
+from models.element import Locator, Element
 
 
 class StateTest(TestBase):
@@ -63,7 +67,8 @@ class StateTest(TestBase):
         state2 = builder.get_current_state()
 
         uk_diff = state2 - state
-        uk_diff.verify_state(self.driver)
+        for element in uk_diff.elements:
+            element.highlight(-1)
 
     def test_divide_state(self):
         self.url = "http://www.google.com"
@@ -128,10 +133,44 @@ class StateTest(TestBase):
 
         assert len(state.elements) == num_elements
 
+    def test_init_state(self):
+        self.url = "http://www.google.com"
+        builder = StateBuilder(self.driver)
+        blank_state = builder.get_blank_state()
+        blank_state.save()
+        self.driver.get(self.url)
+        state = builder.get_current_state()
+        state.save()
+        element = Element(locators = [Locator(by=By.NAME,value="q")])
+        element2= Element(locators= [Locator(by=By.NAME,value="btnG")])
+        element.save()
+        element2.save()
+        nav_command = [Command(command=Command.NAVIGATE,params="http://www.google.com/")]
+        type_command = [Command(command=Command.SENDKEYS,element = element,params="Something"),
+                        Command(command=Command.SENDKEYS,element = element,params=Keys.ENTER)]
 
 
+        action = Action(name = "Navigate",steps=nav_command,start_state=blank_state, end_state=state)
+        action.save()
+        action2 = Action(name = "Search",steps=type_command,start_state=state, end_state=blank_state)
+        action2.save()
 
+        action.execute(self.driver)
+        action2.execute(self.driver)
+        time.sleep(5)
+        new_state = builder.get_current_state()
+        new_state.save()
+        action2.end_state = new_state
+        action2.save()
 
+        new_state.init_actions = [action,action2]
+        new_state.save()
+        state_id = new_state.id
 
+        print state_id
+
+        self.driver.get("http://www.msn.com/")
+
+        new_state.initialize_state(self.driver)
 
 

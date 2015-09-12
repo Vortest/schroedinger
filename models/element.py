@@ -19,7 +19,7 @@ class Locator(db.EmbeddedDocument):
 
 class Element(db.Document):
     created_at = db.DateTimeField(default=datetime.datetime.now, required=True)
-    html = db.StringField(max_length=255, required=False)
+    html = db.StringField(required=False)
     locators = db.ListField(db.EmbeddedDocumentField('Locator'))
     screenshot = db.StringField(required=False)
 

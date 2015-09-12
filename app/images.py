@@ -25,16 +25,13 @@ def get_image_from_base64(value):
     return Image.open(StringIO.StringIO(base64.decodestring(value)))
 
 def get_base64_from_image(image):
-    string = get_image_string(image)
-    value = base64.b64encode(string)
-    return value
-
-def get_image_string(image):
     output = StringIO.StringIO()
     image.save(output,format="png")
-    text_value= output.getvalue()
+    string = output.getvalue()
     output.close()
-    return text_value
+    base64_string = base64.b64encode(string)
+    return base64_string
+
 
 def get_png_from_image(image):
     output = BytesIO()

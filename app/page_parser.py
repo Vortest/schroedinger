@@ -15,3 +15,18 @@ class PageParser(object):
         visible_eles = element_filter.filter_visible_elements(eles)
         final_elements = element_filter.filter_no_children(visible_eles)
         return final_elements
+
+    def get_usual_elements(self):
+        all_links = []
+        links = self.driver.find_elements(By.TAG_NAME,"a")
+        buttons = self.driver.find_elements(By.TAG_NAME,'button')
+        inputs = self.driver.find_elements(By.TAG_NAME,'input')
+        images = self.driver.find_elements(By.TAG_NAME,'img')
+        all_links.extend(links)
+        all_links.extend(buttons)
+        all_links.extend(inputs)
+        all_links.extend(images)
+        visible_eles = element_filter.filter_visible_elements(all_links)
+        final_elements = element_filter.filter_no_children(visible_eles)
+        return final_elements
+

@@ -16,8 +16,8 @@ class TestElement(unittest.TestCase):
         assert self.element_id is not None
 
     def test_get_elements(self):
-        elements = Element.objects.all()
-        assert len(elements) > 0
+        elements = Element.objects[:10]
+        assert len(elements) == 10
 
     def test_get_element(self):
         elements = Element.objects(id=self.element_id)

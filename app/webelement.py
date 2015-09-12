@@ -2,12 +2,12 @@ import logging
 from browser_manager import BrowserManager
 from models.element import Locator
 from webdriver_wrapper import WebDriver
-from webelement_wrapper import WebElement
+from wrapped_webelement import WrappedWebElement
 from selenium.common import exceptions
 from test_base import TestBase
 import time
 
-class WebElement(WebElement):
+class WebElement(WrappedWebElement):
 
     def __init__(self, driver, locators, timeout = 5):
         assert isinstance(locators,list)
@@ -47,7 +47,7 @@ class WebElement(WebElement):
             time.sleep(1)
         raise exceptions.NoSuchElementException("Could not find an element matching any of the following locators: {}".format(self.locators))
 
-    def highlight(self, length=.1):
+    def highlight(self, length=-1):
         self.element.highlight(length)
 
     def is_present(self, timeout=1):

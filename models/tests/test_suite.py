@@ -9,7 +9,7 @@ class TestSuite(TestBase):
         actions = Action.objects[:3]
         test = Test(name="Some test", actions = actions)
         test.save()
-        results = Result()
         suite = Suite(tests=[test], url="http://www.google.com./")
         suite.execute(self.driver)
         suite.save()
+        assert suite.results[-1].passed, suite.results[-1].message

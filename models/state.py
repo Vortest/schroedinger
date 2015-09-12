@@ -1,4 +1,5 @@
 import datetime
+import logging
 
 from flask import url_for
 from api import db
@@ -9,7 +10,7 @@ from models.element import Element
 
 class State(db.Document):
     created_at = db.DateTimeField(default=datetime.datetime.now, required=True)
-    html = db.StringField(max_length=255, required=False)
+    html = db.StringField(required=False)
     screenshot = db.StringField(required=False)
     elements = db.ListField(db.ReferenceField(Element))
     actions = db.ListField(db.ReferenceField(Action))
@@ -73,9 +74,12 @@ class State(db.Document):
         return webelements
 
     def verify_state(self,driver):
-
+        logging.debug("Verifying state %s %s" % (self.id, self.url))
         for element in self.elements:
-            WebElement(driver,element.locators).highlight()
+            try:
+                WebElement(driver,element.locators).highlight()
+            except Exception as e:
+                logging.error(str(e))
 
     def get_missing_elements(self,driver):
         missing_elements = []
@@ -98,3 +102,9 @@ class State(db.Document):
         self.element_html = []
         for element in self.elements:
             self.element_html.append(element.html)
+
+    def initialize_state(self, driver):
+        for action in self.init_actions:
+            result = action.execute(driver)
+            assert result.passed, result.message
+        self.verify_state(driver)

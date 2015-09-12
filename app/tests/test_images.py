@@ -9,12 +9,6 @@ class TestImages(TestBase):
         image = images.get_element_image(self.driver, element)
         assert image.size != (0,0) and image.size is not None
 
-    def test_get_image_string(self):
-        self.driver.get("http://stackoverflow.com/")
-        element = self.driver.find_element_by_id('hlogo')
-        image = images.get_element_image(self.driver, element)
-        text = images.get_image_string(image)
-
     def test_get_image_from_base64(self):
         self.driver.get("http://www.google.com/")
         screenshot = self.driver.get_screenshot_as_base64()

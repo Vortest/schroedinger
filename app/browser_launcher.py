@@ -11,6 +11,7 @@ def launch_browser():
                 driver = webdriver.Firefox()
             else:
                 raise ValueError("Unsupported Browser: %s" % config.BROWSER)
+            driver.maximize_window()
             return WebDriver(driver)
         except Exception as e:
             logging.exception("Could not launch browser : %s" % str(e))

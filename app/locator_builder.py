@@ -20,6 +20,8 @@ class LocatorBuilder(object):
         for attribute in self.attributes:
             type = attribute[0]
             value = attribute[1]
+            if type == "" or value == "":
+                break
             if type == "class":
                 locator = Locator(by=By.CLASS_NAME,value=value)
             elif type == "id":
@@ -33,7 +35,7 @@ class LocatorBuilder(object):
                     else:
                         locator = Locator(by=By.XPATH,value="//{}[contains(text(),'{}')]".format(self.element.tag_name,str(value)))
             elif type == "href":
-                value = attribute[1].split('/')[-1]
+                value = attribute[1].split('//')[-1]
                 locator = Locator(by=By.CSS_SELECTOR,value="{}[{}*=\"{}\"]".format(self.element.tag_name, attribute[0], value))
             else:
                 locator = Locator(by=By.CSS_SELECTOR,value="{}[{}*=\"{}\"]".format(self.element.tag_name, attribute[0], attribute[1]))
@@ -51,7 +53,11 @@ class LocatorBuilder(object):
         try:
             elements = self.driver.find_elements(locator.by,locator.value)
             if len(elements) == 1:
-                return True
+                if self.element != elements[0]:
+                    logging.error("Wrong element matched")
+                    return False
+                else:
+                    return True
             else:
                 logging.info("Found %s elements with locator" % len(elements))
                 for element in elements:
@@ -76,12 +82,12 @@ class LocatorBuilder(object):
 
     def get_complex_locators(self):
         return
-        # logging.info("Creating complex locators")
-        # css = self.element.tag_name
-        # for attribute in self.builder.get_attributes():
-        #     if attribute[0] != "text":
-        #         css += ("[{}*={}]".format(attribute[0],attribute[1]))
-        # locator = (By.CSS_SELECTOR,css)
-        # logging.info("Trying locator %s" % css)
-        # if self.is_locator_valid(locator):
-        #     self.locators.append(locator)
+        logging.info("Creating complex locators")
+        css = self.element.tag_name
+        for attribute in self.builder.get_attributes():
+            if attribute[0] != "text":
+                css += ("[{}*={}]".format(attribute[0],attribute[1]))
+        locator = Locator(by=By.XPATH,value=css)
+        logging.info("Trying locator %s" % css)
+        if self.is_locator_valid(locator):
+            self.locators.append(locator)

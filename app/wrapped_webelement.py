@@ -5,7 +5,7 @@ import logging
 import time
 import images
 
-class WebElement(webdriverElement):
+class WrappedWebElement(webdriverElement):
     @property
     def element(self):
         if isinstance(self._element, webdriverElement):
@@ -21,6 +21,8 @@ class WebElement(webdriverElement):
         self._element = element
         self._driver = element.parent
 
+    def __eq__(self, other):
+        return self.location == other.location
 
     def is_stale(self):
         try:
@@ -31,10 +33,10 @@ class WebElement(webdriverElement):
 
     def find_element(self, by=By.ID, value=None):
         ele = self.element.find_element(by, value)
-        if isinstance(ele,WebElement):
+        if isinstance(ele,WrappedWebElement):
             return ele
         else:
-            return WebElement(ele)
+            return WrappedWebElement(ele)
 
     def find_element_by_xpath(self, xpath):
         return self.element.find_element_by_xpath(xpath)
@@ -167,9 +169,11 @@ class WebElement(webdriverElement):
     def find_elements_by_css_selector(self, css_selector):
         return self.element.find_elements_by_css_selector(css_selector)
 
-    def highlight(self,length=.1):
+    def highlight(self,length=-1):
         background = self.driver.execute_script("return arguments[0].style.background", self.element)
         self.driver.execute_script("arguments[0].style.background='yellow'; return;",self.element)
+        if length == -1:
+            return
         time.sleep(length)
         self.driver.execute_script("arguments[0].style.background='%s'; return;" % background,self.element)
 

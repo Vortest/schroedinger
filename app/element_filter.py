@@ -1,4 +1,4 @@
-from webelement_wrapper import WebElement
+from wrapped_webelement import WrappedWebElement
 def filter_visible_elements(elements):
     visible_elements = []
     for ele in elements:

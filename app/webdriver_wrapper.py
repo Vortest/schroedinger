@@ -2,7 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 import logging
-from webelement_wrapper import WebElement
+from wrapped_webelement import WrappedWebElement
 
 
 class WebDriver():
@@ -15,8 +15,8 @@ class WebDriver():
         self._driver = driver
     
     def find_element(self, by=By.ID, value=None):
-        logging.debug("Finding WebElement %s %s" % (by, value))
-        ele = WebElement(self.driver.find_element(by, value))
+        logging.debug("Finding WrappedWebElement %s %s" % (by, value))
+        ele = WrappedWebElement(self.driver.find_element(by, value))
         #ele.highlight()
         return ele
 
@@ -27,12 +27,12 @@ class WebDriver():
         #new_eles = map(self.highlight,new_eles)
         return new_eles
 
-    def highlight(self, element, time=.1):
+    def highlight(self, element, time=-1):
         element.highlight(time)
         return element
 
     def wrap_element(self,element):
-        return WebElement(element)
+        return WrappedWebElement(element)
 
     def find_element_by_xpath(self, xpath):
         return self.driver.find_element_by_xpath(xpath)
@@ -235,3 +235,6 @@ class WebDriver():
     def find_elements_by_css_selector(self, css_selector):
         return self.driver.find_elements_by_css_selector(css_selector)
 
+    @property
+    def html(self):
+        return self.driver.page_source
