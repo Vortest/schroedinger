@@ -15,7 +15,9 @@ class StateTest(TestBase):
         self.driver.get(self.url)
         builder = StateBuilder(self.driver)
         state = builder.get_current_state()
-        assert len(state.elements) >= 15
+        for i in range(0,5):
+            self.driver.get(self.url)
+            state.verify_state(self.driver)
 
     def test_compare_same_page(self):
         self.url = "http://www.google.com/"
@@ -67,7 +69,8 @@ class StateTest(TestBase):
         state2 = builder.get_current_state()
 
         uk_diff = state2 - state
-        uk_diff.verify_state(self.driver)
+        uk_diff.verify_state(self.driver
+                             )
 
     def test_divide_state(self):
         self.url = "http://www.google.com"

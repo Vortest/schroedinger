@@ -88,6 +88,13 @@ class State(db.Document):
                 missing_elements.append(element)
         return missing_elements
 
+    def get_replaced_elements(self,driver, new_state):
+        replaced_elements = []
+        for element in new_state.elements:
+            if element not in self.elements:
+                replaced_elements.apppend(element)
+        return replaced_elements
+
     def update_element(self, old_element, new_element):
         self.elements.remove(old_element)
         self.elements.append(new_element)
