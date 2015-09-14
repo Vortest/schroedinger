@@ -1,11 +1,12 @@
 import abc
 
-
 class Executable(object):
+    def get_steps(self):
+        return self.steps
 
     def execute(self, driver):
+        self.driver = driver
         for step in self.steps:
-               return Result(step_results=self.execution_results,passed=False,message=result.message)
                 step.execute(driver)
 
 
