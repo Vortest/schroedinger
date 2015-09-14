@@ -2,7 +2,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 import time
 from app.webelement import WebElement
-from app.state_builder import StateBuilder
+from app import state_builder
 from app.test_base import TestBase
 from models.action import Action
 from models.command import Command
@@ -13,8 +13,7 @@ class StateTest(TestBase):
     def test_state_builder(self):
         self.url = "http://www.google.com/"
         self.driver.get(self.url)
-        builder = StateBuilder(self.driver)
-        state = builder.get_current_state()
+        state = state_builder.get_current_state(self.driver)
         for i in range(0,5):
             self.driver.get(self.url)
             state.verify_state(self.driver)
@@ -22,37 +21,31 @@ class StateTest(TestBase):
     def test_compare_same_page(self):
         self.url = "http://www.google.com/"
         self.driver.get(self.url)
-        builder = StateBuilder(self.driver)
-        state = builder.get_current_state()
+        state = state_builder.get_current_state(self.driver)
 
         self.url2 = "http://www.google.com/"
         self.driver.get(self.url2)
-        builder = StateBuilder(self.driver)
-        state2 = builder.get_current_state()
+        state2 = state_builder.get_current_state(self.driver)
         assert state == state2
 
     def test_compare_diff_page(self):
         self.url = "http://www.google.com/"
         self.driver.get(self.url)
-        builder = StateBuilder(self.driver)
-        state = builder.get_current_state()
+        state = state_builder.get_current_state(self.driver)
 
         self.url2 = "http://www.bluemodus.com/"
         self.driver.get(self.url2)
-        builder = StateBuilder(self.driver)
-        state2 = builder.get_current_state()
+        state2 = state_builder.get_current_state(self.driver)
         assert state != state2
 
     def test_compare_similar_pages(self):
         self.url = "http://www.google.com/"
         self.driver.get(self.url)
-        builder = StateBuilder(self.driver)
-        state = builder.get_current_state()
+        state = state_builder.get_current_state(self.driver)
 
         self.url2 = "http://www.google.co.uk/"
         self.driver.get(self.url2)
-        builder = StateBuilder(self.driver)
-        state2 = builder.get_current_state()
+        state2 = state_builder.get_current_state(self.driver)
 
         assert state != state2
 
@@ -60,13 +53,11 @@ class StateTest(TestBase):
     def test_subtract_state(self):
         self.url = "http://www.google.com/"
         self.driver.get(self.url)
-        builder = StateBuilder(self.driver)
-        state = builder.get_current_state()
+        state = state_builder.get_current_state(self.driver)
 
         self.url2 = "http://www.google.co.uk/"
         self.driver.get(self.url2)
-        builder = StateBuilder(self.driver)
-        state2 = builder.get_current_state()
+        state2 = state_builder.get_current_state(self.driver)
 
         uk_diff = state2 - state
         uk_diff.verify_state(self.driver
@@ -75,13 +66,11 @@ class StateTest(TestBase):
     def test_divide_state(self):
         self.url = "http://www.google.com"
         self.driver.get(self.url)
-        builder = StateBuilder(self.driver)
-        state = builder.get_current_state()
+        state = state_builder.get_current_state(self.driver)
 
         self.url2 = "http://www.google.co.uk"
         self.driver.get(self.url2)
-        builder = StateBuilder(self.driver)
-        state2 = builder.get_current_state()
+        state2 = state_builder.get_current_state(self.driver)
 
         shared_state = state2 / state
         shared_state.verify_state(self.driver)
@@ -92,16 +81,14 @@ class StateTest(TestBase):
     def test_verify_state(self):
         self.url = "http://www.google.com"
         self.driver.get(self.url)
-        builder = StateBuilder(self.driver)
-        state = builder.get_current_state()
+        state = state_builder.get_current_state(self.driver)
         self.driver.get(self.url)
         state.verify_state(self.driver)
 
     def test_get_missing_elements(self):
         self.url = "http://www.google.com"
         self.driver.get(self.url)
-        builder = StateBuilder(self.driver)
-        state = builder.get_current_state()
+        state = state_builder.get_current_state(self.driver)
         state.elements.append(WebElement(self.driver, [Locator(by=By.CSS_SELECTOR, value="INVALID")]))
         missing_elements = state.get_missing_elements(self.driver)
         assert len(missing_elements) == 1
@@ -109,8 +96,7 @@ class StateTest(TestBase):
     def test_remove_missing_elements(self):
         self.url = "http://www.google.com"
         self.driver.get(self.url)
-        builder = StateBuilder(self.driver)
-        state = builder.get_current_state()
+        state = state_builder.get_current_state(self.driver)
         state.elements.append(WebElement(self.driver, [Locator(by=By.CSS_SELECTOR, value="INVALID")]))
         missing_elements = state.get_missing_elements(self.driver)
         for element in missing_elements:
@@ -121,11 +107,10 @@ class StateTest(TestBase):
     def test_add_new_element(self):
         self.url = "http://www.google.com"
         self.driver.get(self.url)
-        builder = StateBuilder(self.driver)
-        state = builder.get_current_state()
+        state = state_builder.get_current_state(self.driver)
         num_elements = len(state.elements)
         state.remove_element(state.elements[1])
-        new_state = builder.get_current_state()
+        new_state = state_builder.get_current_state(self.driver)
         diff_state = new_state - state
         assert len(diff_state.elements) == 1
         for element in diff_state.elements:
@@ -137,11 +122,10 @@ class StateTest(TestBase):
 
     def test_init_state(self):
         self.url = "http://www.google.com"
-        builder = StateBuilder(self.driver)
-        blank_state = builder.get_blank_state()
+        blank_state = state_builder.get_blank_state()
         blank_state.save()
         self.driver.get(self.url)
-        state = builder.get_current_state()
+        state = state_builder.get_current_state(self.driver)
         state.save()
         element = Element(locators = [Locator(by=By.NAME,value="q")])
         element2= Element(locators= [Locator(by=By.NAME,value="btnG")])
@@ -160,7 +144,7 @@ class StateTest(TestBase):
         action.execute(self.driver)
         action2.execute(self.driver)
         time.sleep(5)
-        new_state = builder.get_current_state()
+        new_state = state_builder.get_current_state(self.driver)
         new_state.save()
         action2.end_state = new_state
         action2.save()

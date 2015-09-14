@@ -5,7 +5,6 @@ from app.executable import Executable
 from models.result import Result
 from models.test import Test
 
-
 class Suite(db.Document, Executable):
     created_at = db.DateTimeField(default=datetime.datetime.now, required=True)
     name = db.StringField(max_length=255, required=False)

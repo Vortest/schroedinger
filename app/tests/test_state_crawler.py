@@ -15,7 +15,7 @@ class CrawlerTest(TestBase):
     #     url = "http://www.google.com/"
     #     self.driver.get(url)
     #     state_builder = StateBuilder(self.driver)
-    #     initial_state = state_builder.get_current_state()
+    #     initial_state = state_builder.get_current_state(self.driver)
     #     print "there are {} elemnets1 founds".format(len(initial_state.elements))
     #
     #     from app import element_filter
@@ -26,7 +26,7 @@ class CrawlerTest(TestBase):
     #     for field in text_fields:
     #         field.highlight(1)
     #         field.send_keys("SOMETHING")
-    #     new_state = state_builder.get_current_state()
+    #     new_state = state_builder.get_current_state(self.driver)
     #
     #     if new_state != initial_state:
     #         print "new state detected"

@@ -1,4 +1,4 @@
-from app.state_builder import StateBuilder
+from app import state_builder
 from app.test_base import TestBase
 import app.images as images
 

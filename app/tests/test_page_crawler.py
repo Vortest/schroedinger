@@ -1,5 +1,5 @@
 from app.page_crawler import PageCrawler
-from app.state_builder import StateBuilder
+from app import state_builder
 from app.test_base import TestBase
 import app.config as config
 from app.state_crawler import StateCrawler

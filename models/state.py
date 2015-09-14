@@ -80,7 +80,7 @@ class State(db.Document):
                 WebElement(driver,element.locators).highlight()
             except Exception as e:
                 logging.error(str(e))
-                
+
 
     def get_missing_elements(self,driver):
         missing_elements = []

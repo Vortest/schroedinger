@@ -19,5 +19,5 @@ class Action(db.Document, Executable):
         logging.debug("Executing Action %s" % self.name)
         self.start_state.verify_state(driver)
         for command in self.commands:
-                command.execute(driver)
+            command.execute(driver)
         self.end_state.verify_state(driver)
