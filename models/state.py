@@ -14,7 +14,7 @@ class State(db.Document):
     screenshot = db.StringField(required=False)
     elements = db.ListField(db.ReferenceField(Element))
     actions = db.ListField(db.ReferenceField(Action))
-    init_actions = db.ListField(db.ReferenceField(Action))
+    init_actions = db.ListField(db.ReferenceField(Action), required=False)
     url = db.StringField(max_length=255, required=True)
 
     meta = {
@@ -80,6 +80,7 @@ class State(db.Document):
                 WebElement(driver,element.locators).highlight()
             except Exception as e:
                 logging.error(str(e))
+                
 
     def get_missing_elements(self,driver):
         missing_elements = []
@@ -112,6 +113,5 @@ class State(db.Document):
 
     def initialize_state(self, driver):
         for action in self.init_actions:
-            result = action.execute(driver)
-            assert result.passed, result.message
+            action.execute(driver)
         self.verify_state(driver)

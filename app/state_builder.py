@@ -7,34 +7,31 @@ from page_parser import PageParser
 from models.state import State
 
 
-class StateBuilder(object):
-    def __init__(self, driver):
-        self.driver = driver
-        self.parser = PageParser(self.driver)
 
-    def get_current_state(self):
-        try:
-            return self.get_state()
-        except Exception as e:
-            logging.exception(str(e))
-            return self.get_state()
+def get_current_state(driver):
+    try:
+        return get_state(driver)
+    except Exception as e:
+        logging.exception(str(e))
+        return get_state(driver)
 
-    def get_state(self):
-        locator_elements = []
-        elements = self.parser.get_all_elements()
-        print "Found %s elements " % len(elements)
-        for element in elements:
-            builder = LocatorBuilder(self.driver, element)
-            locators = builder.get_locators()
-            if(len(locators)) > 0:
-                new_element = Element(locators=locators, html=element.html[:255], screenshot=element.screenshot_as_base64)
-                new_element.set_location(element)
-                new_element.save()
-                locator_elements.append(new_element)
-                WebElement(self.driver,new_element.locators).highlight()
-        screenshot = self.driver.get_screenshot_as_base64()
-        state = State(elements=locator_elements,url=self.driver.current_url, html=self.driver.html, screenshot = screenshot)
-        return state
+def get_state(driver):
+    parser = PageParser(driver)
+    locator_elements = []
+    elements = parser.get_all_elements()
+    print "Found %s elements " % len(elements)
+    for element in elements:
+        builder = LocatorBuilder(driver, element)
+        locators = builder.get_locators()
+        if(len(locators)) > 0:
+            new_element = Element(locators=locators, html=element.html[:255], screenshot=element.screenshot_as_base64)
+            new_element.set_location(element)
+            new_element.save()
+            locator_elements.append(new_element)
+            WebElement(driver,new_element.locators).highlight()
+    screenshot = driver.get_screenshot_as_base64()
+    state = State(elements=locator_elements,url=driver.current_url, html=driver.html, screenshot = screenshot)
+    return state
 
-    def get_blank_state(self):
-        return State(elements=[],url="")
+def get_blank_state():
+    return State.objects(url="").first()

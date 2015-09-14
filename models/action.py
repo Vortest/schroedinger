@@ -12,12 +12,12 @@ class Action(db.Document, Executable):
     name = db.StringField(required=True)
     start_state = db.ReferenceField("State", required=True)
     end_state = db.ReferenceField("State", required=True)
-    steps = db.ListField(db.EmbeddedDocumentField(Command),required=False)
+    commands = db.ListField(db.EmbeddedDocumentField(Command),required=False)
     execution_results = []
 
     def execute(self, driver):
         logging.debug("Executing Action %s" % self.name)
         self.start_state.verify_state(driver)
-        results = Executable.execute(self, driver)
+        for command in self.commands:
+                command.execute(driver)
         self.end_state.verify_state(driver)
-        return results

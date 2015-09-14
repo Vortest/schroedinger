@@ -1,8 +1,7 @@
 import logging
 from app import action_builder
-from app.state_builder import StateBuilder
 from app.webelement import WebElement
-
+from app import state_builder
 
 class StateCrawler(object):
     def __init__(self, driver):
@@ -12,13 +11,11 @@ class StateCrawler(object):
         for element in state.elements:
             try:
                 state.initialize_state(self.driver)
-                state_builder = StateBuilder(self.driver)
-
                 print "Loaded initial state %s" % state.id
                 webelement = WebElement(self.driver, element.locators)
                 if webelement.is_displayed():
                     webelement.click()
-                    new_state = state_builder.get_current_state()
+                    new_state = state_builder.get_current_state(self.driver)
                     if new_state == state:
                         print "looks like this is the same state"
                     else:
@@ -37,17 +34,17 @@ class StateCrawler(object):
 
     def crawl_url(self, url, deep=False):
         self.driver.get(url)
-        state_builder = StateBuilder(self.driver)
-        initial_state = state_builder.get_current_state()
+        initial_state = state_builder.get_current_state(self.driver)
         initial_state.save()
         blank_state = state_builder.get_blank_state()
         blank_state.save()
-        nav_action = action_builder.get_nav_action(url,start_state=blank_state,end_state=initial_state)
+        nav_action = action_builder.get_nav_action(url,initial_state)
         nav_action.save()
         initial_state.init_actions = [nav_action]
         initial_state.save()
         print "Saved initial state %s" % initial_state.id
-        self.crawl_state(initial_state)
+        if deep:
+            self.crawl_state(initial_state)
         return initial_state.id
 
 

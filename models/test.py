@@ -17,6 +17,9 @@ class Test(db.Document, Executable):
     }
 
     def execute(self, driver):
-        self.steps = self.actions
-        suite_results = Executable.execute(self, driver)
-        return suite_results
+        self.driver = driver
+        for action in self.actions:
+                action.execute(driver)
+
+    def get_steps(self):
+        return self.actions

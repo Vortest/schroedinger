@@ -1,5 +1,6 @@
 import unittest
 from selenium.webdriver.common.by import By
+from app import state_builder
 from app.test_base import TestBase
 from models.action import Action
 from models.command import Command
@@ -7,26 +8,33 @@ from models.element import Element, Locator
 from models.post import Post, Comment
 from app.browser_manager import BrowserManager
 from models.state import State
-
+import app.action_builder as action_builder
 
 class TestAction(TestBase):
 
     def test_save_action(self):
-
         element = Element(locators = [Locator(by=By.NAME,value="q")])
         element.save()
+        google_home = State(url=self.driver.current_url, elements=[element])
+        google_home.save()
+        action = action_builder.get_nav_action("http://www.google.com/",google_home)
+        action.save()
+
         state1 = State(elements=[element], url="http://www.google.com")
-        state2= State(elements=[element], url="http://www.google.com")
         state1.save()
+
+
+        state2= State(elements=[element], url="http://www.google.com")
+
         state2.save()
         commands = [Command(command=Command.NAVIGATE,params="http://www.google.com/"),
                     Command(command=Command.SENDKEYS,element = element,params="Something")]
-        action = Action(name = "Some Action",steps=commands,start_state=state1, end_state=state2)
+        action = Action(name = "Some Action",commands=commands,start_state=state1, end_state=state2)
         action.save()
         state1.actions = [action]
         state1.save()
         print state1.id
-        assert state1.actions[0].steps == commands
+        assert state1.actions[0].commands == commands
         assert state1.actions[0].end_state == state2
 
     def test_execute(self):
@@ -44,8 +52,7 @@ class TestAction(TestBase):
         commands = [Command(command=Command.NAVIGATE,params="http://www.google.com/"),
                     Command(command=Command.SENDKEYS,element = element,params="Something"),
                     Command(command=Command.CLICK,element=element2)]
-        action = Action(name = "Google Search",steps=commands,start_state=state1, end_state=state3)
+        action = Action(name = "Google Search",commands=commands,start_state=state1, end_state=state3)
         action.save()
         results = action.execute(self.driver)
-        assert results.passed, results.message
 

@@ -1,6 +1,7 @@
 import unittest
 from selenium.webdriver.common.by import By
 from app.test_base import TestBase
+from models.action import Action
 from models.command import Command
 from models.element import Element, Locator
 from models.post import Post, Comment
@@ -23,11 +24,11 @@ class TestCommand(TestBase):
         element = Element(locators = [Locator(by=By.NAME,value="q")])
         element.save()
         command = Command(command="INVALID",element=element,params="Something")
+        with self.assertRaises(ValueError):
+            command.execute(self.driver)
 
     def test_execute(self):
         command = Command(command=Command.NAVIGATE,params="http://www.google.com/")
-        result = command.execute(self.driver)
-        assert result.passed, result.message
-
+        command.execute(self.driver)
 
 

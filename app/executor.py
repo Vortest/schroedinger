@@ -1,22 +1,16 @@
 
 from models.result import Result
-class Executor(object):
 
-    def __init__(self, steps):
-        for step in steps:
-            assert hasattr(step, "execute")
-        self.steps = steps
-        self.execution_results = []
+step_results = []
 
-    def execute(self, driver):
-        for step in self.steps:
-            try:
-                step_results = step.execute(driver)
-            except Exception as e:
-                step_results = Result(self.execution_results,False,"Could not execute",e)
-            finally:
-                self.execution_results.append(step_results)
-        for result in self.execution_results:
-            if not result.passed:
-               return Result(self.execution_results,False,result.message)
-        return Result(self.execution_results,True,"%s" % self.__class__)
+def execute(executable, driver):
+    for step in executable.get_steps():
+        try:
+            step.execute(driver)
+            result = Result(passed=True, message=str(step.__class__))
+        except Exception as e:
+            result = Result(passed=False, message="%s" % str(step.__class__),exception=str(e))
+            return result
+        finally:
+            step_results.append(result)
+    return Result(step_results = step_results,passed = True, message = str(executable.__class__))

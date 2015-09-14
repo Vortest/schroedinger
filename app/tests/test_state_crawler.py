@@ -1,6 +1,4 @@
-from app.state_builder import StateBuilder
 from app.test_base import TestBase
-import app.config as config
 from app.state_crawler import StateCrawler
 
 class CrawlerTest(TestBase):
@@ -8,7 +6,7 @@ class CrawlerTest(TestBase):
         url = "http://www.google.com"
         crawl = StateCrawler(self.driver)
         state_id = crawl.crawl_url(url)
-        print "State id is : " + state_id
+        print "State id is : %s" % state_id
 
 
     #
