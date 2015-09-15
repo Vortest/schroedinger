@@ -1,8 +1,10 @@
 import datetime
 from api import db
+from app import state_builder
 from app.executable import Executable
 from models.action import Action
 from models.element import Element
+from models.result import Result
 
 
 class Test(db.Document, Executable):
@@ -17,9 +19,9 @@ class Test(db.Document, Executable):
     }
 
     def execute(self, driver):
-        self.driver = driver
-        for action in self.actions:
-                action.execute(driver)
+        self.steps = self.actions
+        suite_results = Executable.execute(self, driver)
+        return suite_results
 
     def get_steps(self):
         return self.actions

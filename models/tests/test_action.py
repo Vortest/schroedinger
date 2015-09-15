@@ -29,12 +29,12 @@ class TestAction(TestBase):
         state2.save()
         commands = [Command(command=Command.NAVIGATE,params="http://www.google.com/"),
                     Command(command=Command.SENDKEYS,element = element,params="Something")]
-        action = Action(name = "Some Action",commands=commands,start_state=state1, end_state=state2)
+        action = Action(name = "Some Action",steps=commands,start_state=state1, end_state=state2)
         action.save()
         state1.actions = [action]
         state1.save()
         print state1.id
-        assert state1.actions[0].commands == commands
+        assert state1.actions[0].steps == commands
         assert state1.actions[0].end_state == state2
 
     def test_execute(self):
@@ -52,7 +52,7 @@ class TestAction(TestBase):
         commands = [Command(command=Command.NAVIGATE,params="http://www.google.com/"),
                     Command(command=Command.SENDKEYS,element = element,params="Something"),
                     Command(command=Command.CLICK,element=element2)]
-        action = Action(name = "Google Search",commands=commands,start_state=state1, end_state=state3)
+        action = Action(name = "Google Search",steps=commands,start_state=state1, end_state=state3)
         action.save()
         results = action.execute(self.driver)
 

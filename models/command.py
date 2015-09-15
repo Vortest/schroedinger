@@ -26,16 +26,27 @@ class Command(db.EmbeddedDocument, Executable):
     def get_steps(self):
         return self
 
+    execution_results = []
     def execute(self, driver):
-        logging.info("Execute : %s" % self.__repr__())
-        if self.command not in self.COMMANDS:
-            raise ValueError("Command not supported %s" % self.command)
-        if self.command == self.NAVIGATE:
-            driver.get(self.params)
-        if self.command == self.CLICK:
-            WebElement(driver, self.element.locators).click()
-        if self.command == self.SENDKEYS:
-            WebElement(driver, self.element.locators).send_keys(self.params)
+        try:
+            self.driver = driver
+            result = Result(passed=True, message="Execute %s" % self.__repr__())
+            logging.info("Execute : %s" % self.__repr__())
+            if self.command == self.NAVIGATE:
+                self.driver.get(self.params)
+            elif self.command == self.CLICK:
+                WebElement(self.driver, self.element.locators).click()
+            elif self.command == self.SENDKEYS:
+                WebElement(self.driver, self.element.locators).send_keys(self.params)
+            else:
+                raise ValueError("Could not execute command %s" % self.command)
+        except Exception as e:
+            result = Result(passed=False, message="Command raised an exception %s" % str(e), exception=str(e))
+        finally:
+            logging.debug("Command %s" % result.passed)
+            self.execution_results.append(result)
+            return result
+
 
 
     def __repr__(self):

@@ -2,8 +2,11 @@ from wrapped_webelement import WrappedWebElement
 def filter_visible_elements(elements):
     visible_elements = []
     for ele in elements:
-        if ele.is_displayed and ele.size["height"] > 0 and ele.size["width"] > 0 and ele.location["x"] > 0 and ele.location["y"] > 0:
-            visible_elements.append(ele)
+        try:
+            if ele.is_displayed and ele.size["height"] > 0 and ele.size["width"] > 0 and ele.location["x"] > 0 and ele.location["y"] > 0:
+                visible_elements.append(ele)
+        except:
+            pass
     return visible_elements
 
 def filter_by(elements, attribute, value):

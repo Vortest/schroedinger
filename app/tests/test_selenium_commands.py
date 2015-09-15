@@ -1,6 +1,4 @@
 from selenium.webdriver.common.by import By
-from app import executor
-
 from app.webelement import WebElement
 from app.test_base import TestBase
 from models.command import Command
@@ -11,7 +9,7 @@ class TestSeleniumCommands(TestBase):
     def test_click(self):
         self.driver.get("http://www.google.com/")
         command = Command(driver=self.driver, command=Command.CLICK,element=Element(locators=[Locator(by=By.NAME,value="q")]))
-        executor.execute(command, self.driver)
+        command.execute(self.driver)
 
     def test_send_keys(self):
         self.driver.get("http://www.google.com/")

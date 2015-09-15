@@ -24,8 +24,8 @@ class TestCommand(TestBase):
         element = Element(locators = [Locator(by=By.NAME,value="q")])
         element.save()
         command = Command(command="INVALID",element=element,params="Something")
-        with self.assertRaises(ValueError):
-            command.execute(self.driver)
+        response = command.execute(self.driver)
+        assert not response.passed, response.exception
 
     def test_execute(self):
         command = Command(command=Command.NAVIGATE,params="http://www.google.com/")

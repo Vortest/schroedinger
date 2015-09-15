@@ -1,5 +1,4 @@
 from selenium.webdriver.common.by import By
-from app import executor
 from app.test_base import TestBase
 from models.action import Action
 from models.command import Command
@@ -24,7 +23,7 @@ class TestResult(TestBase):
         commands = [Command(command=Command.NAVIGATE,params="http://www.google.com/"),
                     Command(command=Command.SENDKEYS,element = element,params="Something"),
                     Command(command=Command.CLICK,element=element2)]
-        action = Action(name = "Google Search",commands=commands,start_state=state1, end_state=state3)
+        action = Action(name = "Google Search",steps=commands,start_state=state1, end_state=state3)
         action.save()
         test = Test(name="Some test",actions=[action])
         test.save()
@@ -32,6 +31,8 @@ class TestResult(TestBase):
         suite.execute(self.driver)
         suite.save()
         assert suite.suite_results[-1].passed, suite.suite_results[-1].exception
+        assert suite.suite_results[-1].step_results[-1].passed, suite.suite_results[-1].step_results[-1].exception
+        assert suite.suite_results[-1].step_results[-1].step_results[0].step_results[0].passed
 
     def test_failure_report(self):
         element = Element(locators = [Locator(by=By.NAME,value="INVALID")])
@@ -47,7 +48,7 @@ class TestResult(TestBase):
         commands = [Command(command=Command.NAVIGATE,params="http://www.google.com/"),
                     Command(command=Command.SENDKEYS,element = element,params="Something"),
                     Command(command=Command.CLICK,element=element2)]
-        action = Action(name = "Google Search",commands=commands,start_state=state1, end_state=state3)
+        action = Action(name = "Google Search",steps=commands,start_state=state1, end_state=state3)
         action.save()
         test = Test(name="Some test",actions=[action])
         test.save()
