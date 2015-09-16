@@ -56,3 +56,21 @@ class TestAction(TestBase):
         action.save()
         results = action.execute(self.driver)
 
+
+    def test_verify_state_action(self):
+
+        element = Element(locators = [Locator(by=By.NAME,value="q")])
+        element2= Element(locators= [Locator(by=By.NAME,value="btnK")])
+        element.save()
+        element2.save()
+        state1 = State(elements=[], url="")
+        state1.save()
+
+        state = State(elements=[element], url="http://www.google.com")
+        verify_state = action_builder.get_verify_state_action(state)
+        commands = [Command(command=Command.NAVIGATE,params="http://www.google.com/")]
+        action = Action(name = "Google Nav",steps=commands,start_state=state1, end_state=state)
+        action.save()
+        state.actions = []
+
+        results = action.execute(self.driver)

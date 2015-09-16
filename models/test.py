@@ -1,4 +1,5 @@
 import datetime
+import logging
 from api import db
 from app import state_builder
 from app.executable import Executable
@@ -19,6 +20,7 @@ class Test(db.Document, Executable):
     }
 
     def execute(self, driver):
+        logging.debug("Executing Test %s" % self.name)
         self.steps = self.actions
         suite_results = Executable.execute(self, driver)
         return suite_results

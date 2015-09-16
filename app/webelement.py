@@ -58,6 +58,10 @@ class WebElement(WrappedWebElement):
         except:
             return False
 
+    def verify(self, timeout=5):
+        self.timeout = timeout
+        return self.element
+
     def __eq__(self, other):
         try:
             same = self.rect == other.rect

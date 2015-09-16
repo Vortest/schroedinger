@@ -78,11 +78,14 @@ class State(db.Document):
     def verify_state(self,driver):
         logging.debug("Verifying state %s %s" % (self.id, self.url))
         for element in self.elements:
-            try:
-                WebElement(driver,element.locators).highlight()
-            except Exception as e:
-                logging.error(str(e))
+            WebElement(driver,element.locators).highlight()
 
+    def is_state_present(self, driver):
+        logging.debug("Is state Present: %s %s" % (self.id, self.url))
+        for element in self.elements:
+            if not WebElement(driver,element.locators).is_present(5):
+                return False
+        return True
 
     def get_missing_elements(self,driver):
         missing_elements = []

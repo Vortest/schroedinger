@@ -32,7 +32,7 @@ class TestResult(TestBase):
         suite.save()
         assert suite.suite_results[-1].passed, suite.suite_results[-1].exception
         assert suite.suite_results[-1].step_results[-1].passed, suite.suite_results[-1].step_results[-1].exception
-        assert suite.suite_results[-1].step_results[-1].step_results[0].step_results[0].passed
+        assert suite.suite_results[-1].step_results[-1].step_results[0].step_results[2].passed
 
     def test_failure_report(self):
         element = Element(locators = [Locator(by=By.NAME,value="INVALID")])
@@ -56,3 +56,6 @@ class TestResult(TestBase):
         suite.execute(self.driver)
         suite.save()
         assert not suite.suite_results[-1].passed
+        assert suite.suite_results[-1].last_state is not None
+        assert suite.suite_results[-1].last_html is not None and not ""
+        assert suite.suite_results[-1].screenshot is not None and not ""

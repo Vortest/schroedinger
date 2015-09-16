@@ -1,4 +1,5 @@
 import datetime
+import logging
 from api import db
 from app.executable import Executable
 from models.result import Result
@@ -18,12 +19,8 @@ class Suite(db.Document, Executable):
         'ordering': ['-created_at']
     }
 
-    # def execute(self, driver):
-    #     self.steps = self.tests
-    #     suite_results = Executable.execute(self, driver)
-    #     self.suite_results.append(suite_results)
-
     def execute(self, driver):
+        logging.debug("Executing Suite %s" % self.name)
         self.driver = driver
         suite_result = Result(passed=True,message="Passed",exception="Passed")
 
@@ -31,13 +28,12 @@ class Suite(db.Document, Executable):
             test_result = test.execute(driver)
             suite_result.step_results.append(test_result)
             if not test_result.passed:
-                suite_result.passed =False
-               # suite_result.last_state = state_builder.get_current_state(driver)
-               # suite_result.last_html = driver.html
-               # suite_result.screenshot = driver.get_screenshot_as_base64()
                 suite_result.passed = False
                 suite_result.message = str(self.__class__)
                 suite_result.exception = test_result.exception
+                suite_result.failed_state = test_result.failed_state
+                suite_result.actual_state = test_result.actual_state
 
         self.suite_results.append(suite_result)
+        self.cascade_save()
         return suite_result

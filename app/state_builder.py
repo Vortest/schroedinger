@@ -35,3 +35,10 @@ def get_state(driver):
 
 def get_blank_state():
     return State.objects(url="").first()
+
+def get_extra_elements(driver, state):
+    actual_state = get_state(driver)
+    diff_state = actual_state - state
+    return diff_state.elements
+
+

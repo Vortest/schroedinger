@@ -11,6 +11,10 @@ class Result(db.EmbeddedDocument):
     message = db.StringField(required=True)
     exception = db.StringField(max_length=255, required=False)
     step_results = db.ListField(db.EmbeddedDocumentField('self'))
+    failed_state = db.ReferenceField('State', required=False)
+    actual_state = db.ReferenceField('State', required=False)
+    html = db.StringField(required=False)
+    screenshot = db.StringField(required=False)
 
     def __str__(self):
         Result.total_indents += 1
