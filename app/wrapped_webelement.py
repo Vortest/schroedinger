@@ -206,3 +206,6 @@ class WrappedWebElement(webdriverElement):
     def find_child(self):
         return self.find_element(By.CSS_SELECTOR,">")
 
+    @property
+    def area(self):
+        return self.size["height"] * self.size["height"]

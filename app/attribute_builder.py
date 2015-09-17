@@ -4,7 +4,7 @@ from attribute_counter import AttributeCounter
 
 
 class AttributeBuilder(HTMLParser):
-    SKIP_ATTRIBUTES = ['style','maxlength','data-ved']
+    SKIP_ATTRIBUTES = ['style','maxlength','data-ved', 'onmousedown']
 
     def __init__(self,element):
         self.reset()
@@ -31,9 +31,10 @@ class AttributeBuilder(HTMLParser):
         return self.total_attributes
 
     def get_text_as_attribute(self):
-        text = self.element.text
-        if text is not u'':
-            self.total_attributes.append(("text",text))
+        if hasattr(self.element,"text"):
+            text = self.element.text
+            if text is not u'':
+                self.total_attributes.append(("text",text))
 
     def get_unique_attributes(self):
         html = self.element.driver.page_source

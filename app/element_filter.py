@@ -32,8 +32,11 @@ def login_fields(elements):
 def filter_inputs(elements):
     new_elements = []
     for element in elements:
-        if element.tag_name == "input":
-            new_elements.append(element)
+        try:
+            if element.tag_name == "input":
+                new_elements.append(element)
+        except:
+            pass
     return new_elements
 
 def filter_elements(elements, tag, attribute):
@@ -47,5 +50,12 @@ def filter_tag(elements, tag):
     new_elements = []
     for element in elements:
         if element.tag_name == tag:
+            new_elements.append(element)
+    return new_elements
+
+def filter_contains_text(elements, text):
+    new_elements = []
+    for element in elements:
+        if text.lower() in element.html.lower():
             new_elements.append(element)
     return new_elements

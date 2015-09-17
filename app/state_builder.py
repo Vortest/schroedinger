@@ -5,11 +5,12 @@ from webelement import WebElement
 from locator_builder import LocatorBuilder
 from page_parser import PageParser
 from models.state import State
-
+import time
 
 
 def get_current_state(driver):
     try:
+        time.sleep(3)
         return get_state(driver)
     except Exception as e:
         logging.exception(str(e))
@@ -19,6 +20,7 @@ def get_state(driver):
     parser = PageParser(driver)
     locator_elements = []
     elements = parser.get_all_elements()
+    elements = sorted(elements,key=lambda element: element.area,reverse=True)
     print "Found %s elements " % len(elements)
     for element in elements:
         builder = LocatorBuilder(driver, element)
