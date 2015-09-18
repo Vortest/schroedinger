@@ -116,7 +116,7 @@ class WrappedWebElement(webdriverElement):
 
     @property
     def text(self):
-        return self.element.text.encode('utf-8')
+        return self.element.text.decode('utf-8')
 
     def is_selected(self):
         return self.element.is_selected()
@@ -180,25 +180,25 @@ class WrappedWebElement(webdriverElement):
     @property
     def html(self):
         if "<" in self.inner_html:
-            html =  self.outer_html.replace(self.inner_html,"")
+            html =  (self.outer_html.replace(self.inner_html,"")).encode('utf-8')
         else:
-            html = self.outer_html
-        return html.encode('utf-8')
+            html = (self.outer_html).encode('ascii','ignore')
+        return (html).encode('ascii','ignore')
 
     @property
     def inner_html(self):
         html = self.element.get_attribute(('innerHTML'))
-        return html.encode('utf-8')
+        return (html).encode('ascii','ignore')
 
     @property
     def outer_html(self):
         html = self.element.get_attribute('outerHTML')
-        return html.encode('utf-8')
+        return (html).encode('ascii','ignore')
 
     @property
     def value(self):
         value = self.element.get_attribute("value")
-        return value.encode('utf-8')
+        return (value).encode('ascii','ignore')
 
     def find_parent(self):
         return self.find_element(By.XPATH,"..")

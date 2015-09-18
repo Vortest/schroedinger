@@ -221,7 +221,7 @@ class WebDriver():
 
     @property
     def page_source(self):
-        return self.driver.page_source.encode('utf-8')
+        return (self.driver.page_source).encode('utf-8')
 
     def add_cookie(self, cookie_dict):
         self.driver.add_cookie(cookie_dict)
@@ -237,4 +237,4 @@ class WebDriver():
 
     @property
     def html(self):
-        return self.driver.page_source.encode('utf-8')
+        return (self.driver.page_source).encode('utf-8')
