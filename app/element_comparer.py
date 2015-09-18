@@ -1,10 +1,16 @@
 from app import state_builder
 from app.attribute_builder import AttributeBuilder
+from models.element import Element
+
+
 class ElementComparer(object):
     def __init__(self, driver):
         self.driver = driver
 
     def compare_elements(self, element1, element2):
+        assert isinstance(element1, Element)
+        assert isinstance(element2, Element)
+
         points = 0
         total = 0
 

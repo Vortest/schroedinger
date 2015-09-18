@@ -116,7 +116,7 @@ class WrappedWebElement(webdriverElement):
 
     @property
     def text(self):
-        return self.element.text
+        return self.element.text.encode('utf-8')
 
     def is_selected(self):
         return self.element.is_selected()
@@ -188,17 +188,17 @@ class WrappedWebElement(webdriverElement):
     @property
     def inner_html(self):
         html = self.element.get_attribute(('innerHTML'))
-        return html
+        return html.encode('utf-8')
 
     @property
     def outer_html(self):
         html = self.element.get_attribute('outerHTML')
-        return html
+        return html.encode('utf-8')
 
     @property
     def value(self):
         value = self.element.get_attribute("value")
-        return value
+        return value.encode('utf-8')
 
     def find_parent(self):
         return self.find_element(By.XPATH,"..")
