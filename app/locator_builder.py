@@ -18,36 +18,41 @@ class LocatorBuilder(object):
 
     def get_locators(self):
         for attribute in self.attributes:
-            type = attribute[0]
-            value = attribute[1]
-            if type == "" or value == "":
-                break
-            if type == "class":
-                locator = Locator(by=By.CLASS_NAME,value=value)
-            elif type == "id":
-                locator = Locator(by=By.ID,value=value)
-            elif type == "text":
-                if self.element.tag_name == "a" and self.element.text != "":
-                    locator = Locator(by=By.LINK_TEXT,value=self.element.text)
-                else:
-                    if "'" in str(value):
-                        locator = Locator(by=By.XPATH,value="//{}[contains(text(),\"{}\")]".format(self.element.tag_name,str(value)))
-                    else:
-                        locator = Locator(by=By.XPATH,value="//{}[contains(text(),'{}')]".format(self.element.tag_name,str(value)))
-            elif type == "href":
-                value = attribute[1].split('//')[-1]
-                locator = Locator(by=By.CSS_SELECTOR,value="{}[{}*=\"{}\"]".format(self.element.tag_name, attribute[0], value))
-            else:
-                locator = Locator(by=By.CSS_SELECTOR,value="{}[{}*=\"{}\"]".format(self.element.tag_name, attribute[0], attribute[1]))
-            if self.is_locator_valid(locator):
-                self.locators.append(locator)
-
+            self.get_locators_for_attribute(attribute)
         if len(self.locators) == 0:
             try:
-                logging.error("Could not get locators for element : {} found {} duplicate attributes".format(self.builder.html,len(self.builder.duplicate_attributes)))
+                for att in self.builder.duplicate_attributes:
+                    self.get_locators_for_attribute(att)
+                if len(self.locators) == 0:
+                    logging.error("Could not get locators for element : {} found {} duplicate attributes".format(self.builder.html,len(self.builder.duplicate_attributes)))
             finally:
                 self.get_complex_locators()
         return self.locators
+
+    def get_locators_for_attribute(self, attribute):
+        type = attribute[0]
+        value = attribute[1]
+        if type == "" or value == "":
+            return
+        if type == "class":
+            locator = Locator(by=By.CLASS_NAME,value=value)
+        elif type == "id":
+            locator = Locator(by=By.ID,value=value)
+        elif type == "text":
+            if self.element.tag_name == "a" and self.element.text != "":
+                locator = Locator(by=By.LINK_TEXT,value=self.element.text)
+            else:
+                if "'" in str(value):
+                    locator = Locator(by=By.XPATH,value="//{}[contains(text(),\"{}\")]".format(self.element.tag_name,str(value)))
+                else:
+                    locator = Locator(by=By.XPATH,value="//{}[contains(text(),'{}')]".format(self.element.tag_name,str(value)))
+        elif type == "href":
+            value = attribute[1].split('//')[-1]
+            locator = Locator(by=By.CSS_SELECTOR,value="{}[{}*=\"{}\"]".format(self.element.tag_name, attribute[0], value))
+        else:
+            locator = Locator(by=By.CSS_SELECTOR,value="{}[{}*=\"{}\"]".format(self.element.tag_name, attribute[0], attribute[1]))
+        if self.is_locator_valid(locator):
+            self.locators.append(locator)
 
     def is_locator_valid(self,locator):
         try:
