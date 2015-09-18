@@ -56,6 +56,7 @@ class TestResult(TestBase):
         suite.execute(self.driver)
         suite.save()
         assert not suite.suite_results[-1].passed
-        assert suite.suite_results[-1].last_state is not None
-        assert suite.suite_results[-1].last_html is not None and not ""
+        assert suite.suite_results[-1].actual_state is not None
+        assert suite.suite_results[-1].failed_state is not None
+        assert suite.suite_results[-1].html is not None and not ""
         assert suite.suite_results[-1].screenshot is not None and not ""

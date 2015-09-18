@@ -67,6 +67,7 @@ class TestAction(TestBase):
         state1.save()
 
         state = State(elements=[element], url="http://www.google.com")
+        state.save()
         verify_state = action_builder.get_verify_state_action(state)
         commands = [Command(command=Command.NAVIGATE,params="http://www.google.com/")]
         action = Action(name = "Google Nav",steps=commands,start_state=state1, end_state=state)

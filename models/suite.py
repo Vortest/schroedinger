@@ -33,6 +33,8 @@ class Suite(db.Document, Executable):
                 suite_result.exception = test_result.exception
                 suite_result.failed_state = test_result.failed_state
                 suite_result.actual_state = test_result.actual_state
+                suite_result.html = self.driver.page_source
+                suite_result.screenshot = self.driver.get_screenshot_as_base64()
 
         self.suite_results.append(suite_result)
         self.cascade_save()

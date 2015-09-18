@@ -12,7 +12,7 @@ class TestSuite(TestBase):
     def test_save_test(self):
         element = Element(locators = [Locator(by=By.NAME,value="q")])
         element.save()
-        state1 = State(elements=[element], url="http://www.google.com")
+        state1 = State(elements=[], url="")
         state2= State(elements=[element], url="http://www.google.com")
         state1.save()
         state2.save()
