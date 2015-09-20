@@ -38,8 +38,8 @@ class TestUpdateState(TestBase):
         print suite.id
         assert suite.suite_results[-1].passed
 
-        # search_field.locators = [Locator(by=By.CLASS_NAME,value="INVALID")]
-        # search_field.save()
+        search_field.locators = [Locator(by=By.CLASS_NAME,value="INVALID")]
+        search_field.save()
         suite.execute(self.driver)
         results = suite.suite_results[-1]
         assert not results.passed
