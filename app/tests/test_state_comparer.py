@@ -106,3 +106,13 @@ class TestStateComparer(TestBase):
 
         suite.execute(self.driver)
         assert suite.suite_results[-1].passed, suite.suite_results[-1].exception
+
+
+    def test_find_saved_state(self):
+        new_state = state_builder.get_url_state(self.driver, "https://www.bluemodus.com/home")
+        states = State.objects(url="https://www.bluemodus.com/home")[:10]
+        for state in states:
+            if state == new_state:
+                print "Found it!"
+                break;
+        assert 1 == 2

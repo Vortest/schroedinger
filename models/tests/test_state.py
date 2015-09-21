@@ -45,3 +45,9 @@ class TestState(unittest.TestCase):
 
         assert newlocator == new_locator
         assert newlocator != old_locator
+
+    def test_state_url_query(self):
+        states = State.objects(url="https://www.bluemodus.com/home")[:10]
+        for state in states:
+            print len(state.elements)
+

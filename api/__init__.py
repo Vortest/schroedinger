@@ -10,3 +10,4 @@ app.config["MONGODB_SETTINGS"] = {'DB': "vortest"}
 app.config["SECRET_KEY"] = "KeepThisS3cr3t"
 
 db = MongoEngine(app)
+

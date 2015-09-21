@@ -28,6 +28,16 @@ class StateTest(TestBase):
         state2 = state_builder.get_current_state(self.driver)
         assert state == state2
 
+    def test_compare_same_page_fails_missing_element(self):
+        self.url = "http://www.google.com/"
+        self.driver.get(self.url)
+        state = state_builder.get_current_state(self.driver)
+        state.elements.remove(state.elements[0])
+        self.url2 = "http://www.google.com/"
+        self.driver.get(self.url2)
+        state2 = state_builder.get_current_state(self.driver)
+        assert state != state2
+
     def test_compare_diff_page(self):
         self.url = "http://www.google.com/"
         self.driver.get(self.url)

@@ -32,3 +32,4 @@ class StateComparer(object):
                     best_fit = (missing_element,extra_element)
             fixed_elements.append(best_fit)
         return fixed_elements
+

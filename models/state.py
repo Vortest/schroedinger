@@ -9,7 +9,6 @@ from app.webelement import WebElement
 from models.action import Action
 from models.element import Element
 
-
 class State(db.Document):
     created_at = db.DateTimeField(default=datetime.datetime.now, required=True)
     html = db.StringField(required=False)
@@ -21,8 +20,8 @@ class State(db.Document):
 
     meta = {
         'allow_inheritance': True,
-        'indexes': ['-created_at'],
-        'ordering': ['-created_at']
+        'indexes': ['-created_at','-url'],
+        'ordering': ['-created_at', '-url'],
     }
 
     def __eq__(self, other):
@@ -150,3 +149,4 @@ class State(db.Document):
 
     def get_blank_state(self):
         return State.objects(url="").first()
+

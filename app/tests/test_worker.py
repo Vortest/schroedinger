@@ -2,6 +2,7 @@ import time
 from app import state_builder
 from app.page_crawler_worker import PageCrawlerWorker
 from app.state_bulder_worker import StateBuilderWorker
+from app.state_crawler_worker import StateCrawlerWorker
 from app.test_base import TestBase
 from app.worker import Worker
 
@@ -34,7 +35,7 @@ class TestWorker(TestBase):
 
     def test_page_crawl(self):
         worker = PageCrawlerWorker(5)
-        worker.crawl_from_root("http://www.bluemodus.com/")
+        worker.crawl_from_root("http://www.citadel.com/")
         worker.start()
         time.sleep(20)
         worker.stop()

@@ -21,8 +21,9 @@ class ElementTest(TestBase):
 
     def test_diff_elements(self):
         self.driver.get("http://www.google.com")
-        locators = [Locator(by=By.NAME,value="q"),Locator(by=By.NAME,value="btnK")]
+        locators = [Locator(by=By.NAME,value="q"),Locator(by=By.NAME,value="btnK"),Locator(by=By.ID,value="lst-ib")]
         WebElement(self.driver, locators).send_keys("ters")
+
 
     def test_element_not_found(self):
         self.driver.get("http://www.google.com")
