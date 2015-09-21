@@ -6,7 +6,9 @@ from locator_builder import LocatorBuilder
 from page_parser import PageParser
 from models.state import State
 import time
-
+def get_url_state(driver, url):
+    driver.get(url)
+    return get_current_state(driver)
 
 def get_current_state(driver):
     try:

@@ -48,6 +48,8 @@ class LocatorBuilder(object):
                     locator = Locator(by=By.XPATH,value="//{}[contains(text(),'{}')]".format(self.element.tag_name,str(value)))
         elif type == "href":
             value = attribute[1].split('//')[-1]
+            value = value.split('?')[0]
+            value = value.split('&')
             locator = Locator(by=By.CSS_SELECTOR,value="{}[{}*=\"{}\"]".format(self.element.tag_name, attribute[0], value))
         else:
             locator = Locator(by=By.CSS_SELECTOR,value="{}[{}*=\"{}\"]".format(self.element.tag_name, attribute[0], attribute[1]))

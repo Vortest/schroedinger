@@ -3,8 +3,9 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 import logging
 from wrapped_webelement import WrappedWebElement
-
-
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.ERROR)
+logging = logger
 class WebDriver():
     
     @property
@@ -221,7 +222,10 @@ class WebDriver():
 
     @property
     def page_source(self):
-        return (self.driver.page_source).encode('utf-8')
+        try:
+            return (self.driver.page_source).encode('utf-8')
+        except:
+            return ""
 
     def add_cookie(self, cookie_dict):
         self.driver.add_cookie(cookie_dict)

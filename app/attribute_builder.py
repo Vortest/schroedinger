@@ -4,7 +4,7 @@ from attribute_counter import AttributeCounter
 
 
 class AttributeBuilder(HTMLParser):
-    SKIP_ATTRIBUTES = ['style','maxlength','data-ved', 'onmousedown']
+    SKIP_ATTRIBUTES = ['style','maxlength','data-ved', 'onmousedown', 'data-async-context']
 
     def __init__(self,element):
         self.reset()

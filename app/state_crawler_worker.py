@@ -1,64 +1,79 @@
 import abc
+import logging
 import threading,Queue,time,sys,traceback
-import re
-from app import browser_manager
-from app import state_builder
+from app.webelement import WebElement
 from app.worker import Worker
 from threading import Thread, current_thread, currentThread
-from app import browser_launcher
-from app import page_crawler
+from app import state_builder,action_builder, browser_launcher, state_crawler
+from app import url_parser
 
-class PageCrawlerWorker(Worker):
+class UrlCrawlerWorker(Worker):
+    def process_item(self, url):
+        print "Processing %s %s" % (currentThread(),url)
+        self.driver = browser_launcher.launch_browser()
+        state =  self.crawl_url(url)
+        print "Found %s elements" % state.elements
+        self.driver.quit()
+        print "UrlCrawler finished processing %s" % url
+        return state
 
-    def __init__(self, num_threads, max_results= 100):
-        super(Worker,self).__init__()
-        self.all_urls = []
-        self.num_threads = num_threads
-        self.num_threads = num_threads
-        self.Qin  = Queue.Queue()
-        self.Qout = Queue.Queue()
-        self.Qerr = Queue.Queue()
-        self.Pool = []
-        self.max_results = max_results
+    def crawl_url(self, url):
+        self.driver.get(url)
+        initial_state = state_builder.get_current_state(self.driver)
+        initial_state.save()
+        blank_state = state_builder.get_blank_state()
+        blank_state.save()
+        nav_action = action_builder.get_nav_action(url,initial_state)
+        nav_action.save()
+        initial_state.init_actions = [nav_action]
+        initial_state.save()
+        print "Saved initial state %s" % initial_state.id
+        return initial_state
 
-    def process_item(self, root_url):
-        print "Crawling %s %s" % (currentThread(),root_url)
-        driver = browser_launcher.launch_browser()
-        print "Driver launched"
-        urls = page_crawler.PageCrawler(driver).get_links_on_url(root_url)
-        print "crawling complete"
-        driver.quit()
-        print "driver quit"
-        for url in urls:
-            print "appending %s" % url
-            self.put(url)
+class StateCrawlerWorker(Worker):
+    def process_item(self, state):
+        print "Processing %s %s" % (currentThread(),state)
+        self.driver = browser_launcher.launch_browser()
+        state =  self.crawl_state(state)
+        print "Found %s elements" % state.elements
+        self.driver.quit()
+        for action in state.actions:
+            print "adding state to Q %s" % action.end_state
+            self.put(action.end_state)
+        print "StateCrawler finished processing %s" % state
+        return state
 
 
-        return sorted(self.all_urls)
-
-        return urls
-
-    def crawl_from_root(self, url):
-        print "Crawling from root %s" % url
-        self.root_url = url
-        self.put(url)
-        print "Crawl complete"
-
-    def put(self,url,flag='ok'):
-        print "there are %s urls" % len(self.all_urls)
-        if len(self.all_urls) >= self.max_results:
-            print "max results found"
-        if url in self.all_urls:
-            print "url already found %s" % url
-        else:
-            self.all_urls.append(url)
-            domain = re.findall("\.(\w*)\.",str(url))
-            if "mailto:" not in url:
-                if len(domain) == 0:
-                    domain = re.findall("(\w*)\.",str(url))
-                if len(domain) > 0:
-                    if str(domain[0]) in self.root_url:
-                        print "Adding %s to the queue" % url
-                        self.Qin.put([flag,url])
+    def crawl_state(self, state):
+        for element in state.elements:
+            try:
+                state.initialize_state(self.driver)
+                print "Loaded initial state %s" % state.id
+                webelement = WebElement(self.driver, element.locators)
+                if webelement.is_displayed():
+                    print "Clicking %s" % element
+                    webelement.click()
+                    domain = url_parser.get_domain_from_url(self.driver.current_url)
+                    if domain not in state.url:
+                        print "State is different domain"
+                        break
+                    if state.is_state_present(self.driver):
+                        print "looks like this is the same state"
                     else:
-                        print "wrong domain %s" % str(domain[0])
+                        new_state = state_builder.get_current_state(self.driver)
+                        new_state.save()
+                        print 'new state found at %s %s' % (self.driver.current_url,new_state.id)
+                        click_action = action_builder.get_click_action(element, state, new_state)
+                        new_state.init_actions = state.init_actions
+                        new_state.init_actions.append(click_action)
+                        new_state.save()
+                        state.actions.append(click_action)
+                        state.save()
+                        self.put(new_state)
+                else:
+                    logging.error("Could not reproduce state %s element %s not present" % (state, element))
+            except Exception as e:
+                print "Couldn't crawl element %s %s" % (element.locators, str(e))
+        return state
+
+

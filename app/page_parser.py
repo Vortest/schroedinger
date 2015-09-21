@@ -14,7 +14,7 @@ class PageParser(object):
         eles = self.driver.find_elements(By.CSS_SELECTOR,"*")
         visible_eles = element_filter.filter_visible_elements(eles)
         final_elements = element_filter.filter_no_children(visible_eles)
-        return final_elements
+        return final_elements[:50]
 
     def get_usual_elements(self):
         all_links = []

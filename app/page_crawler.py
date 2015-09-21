@@ -44,6 +44,7 @@ class PageCrawler(object):
         links = element_filter.filter_visible_elements(links)
         for link in links:
             try:
+                link.highlight(-1)
                 href = link.get_attribute("href")
                 if href == "":
                     break
