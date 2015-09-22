@@ -36,6 +36,7 @@ class StateTest(TestBase):
         self.url2 = "http://www.google.com/"
         self.driver.get(self.url2)
         state2 = state_builder.get_current_state(self.driver)
+        state2.elements.remove(state.elements[6])
         assert state != state2
 
     def test_compare_diff_page(self):

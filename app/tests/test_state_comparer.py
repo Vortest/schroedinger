@@ -115,4 +115,3 @@ class TestStateComparer(TestBase):
             if state == new_state:
                 print "Found it!"
                 break;
-        assert 1 == 2
