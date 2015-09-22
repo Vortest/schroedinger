@@ -23,7 +23,7 @@ class TestStateComparer(TestBase):
 
         self.driver.get("http://www.google.com")
         comparer = StateComparer(self.driver)
-        comparison = comparer.get_compare(state2)
+        comparison = comparer.compare_to_live_state(state2)
 
         assert comparison == (1,16), comparison
 
@@ -59,7 +59,7 @@ class TestStateComparer(TestBase):
         results = suite.suite_results[-1]
         assert not results.passed
 
-        comparison = StateComparer(self.driver).compare_state(results.failed_state, results.actual_state)
+        comparison = StateComparer(self.driver).compare_states(results.failed_state, results.actual_state)
 
         assert len(comparison[0].elements) == len(comparison[1].elements)
 
@@ -107,8 +107,3 @@ class TestStateComparer(TestBase):
         suite.execute(self.driver)
         assert suite.suite_results[-1].passed, suite.suite_results[-1].exception
 
-
-    def test_find_saved_state(self):
-        new_state = state_builder.get_url_state(self.driver, "https://www.bluemodus.com/home")
-        states = State.objects(url="https://www.bluemodus.com/home")[:10]
-        assert new_state in states
