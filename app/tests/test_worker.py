@@ -20,16 +20,9 @@ class TestWorker(TestBase):
         worker.put("http://www.google.com")
         worker.put("http://www.google.com")
         worker.put("http://www.google.com")
-        worker.put("http://www.google.com")
-        worker.put("http://www.google.com")
-        worker.put("http://www.google.com")
-        worker.put("http://www.google.com")
-        worker.put("http://www.google.com")
-        worker.put("http://www.google.com")
-        worker.put("http://www.google.com")
         worker.start()
         worker.stop()
-        for i in range(10):
+        for i in range(3):
             state = worker.get()
             print state.url
 
