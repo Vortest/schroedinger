@@ -43,7 +43,7 @@ class WebElement(WrappedWebElement):
                     return self._element
             else:
                 return self._element
-            logging.debug("Waiting for element")
+            logging.debug("Waiting for element %s" % self)
             time.sleep(1)
         raise exceptions.NoSuchElementException("Could not find an element matching any of the following locators: {}".format(self.locators))
 

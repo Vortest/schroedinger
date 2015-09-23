@@ -24,6 +24,8 @@ class LocatorBuilder(object):
                 for att in self.builder.duplicate_attributes:
                     self.get_locators_for_attribute(att)
                 if len(self.locators) == 0:
+                    if len(self.attributes) != 0:
+                        logging.error("HMM Found unique attributes but no locators")
                     logging.error("Could not get locators for element : {} found {} duplicate attributes".format(self.builder.html,len(self.builder.duplicate_attributes)))
             finally:
                 self.get_complex_locators()
@@ -49,7 +51,7 @@ class LocatorBuilder(object):
         elif type == "href":
             value = attribute[1].split('//')[-1]
             value = value.split('?')[0]
-            value = value.split('&')
+            value = value.split('&')[0]
             locator = Locator(by=By.CSS_SELECTOR,value="{}[{}*=\"{}\"]".format(self.element.tag_name, attribute[0], value))
         else:
             locator = Locator(by=By.CSS_SELECTOR,value="{}[{}*=\"{}\"]".format(self.element.tag_name, attribute[0], attribute[1]))
@@ -59,14 +61,14 @@ class LocatorBuilder(object):
     def is_locator_valid(self,locator):
         try:
             elements = self.driver.find_elements(locator.by,locator.value)
-            if len(elements) == 1:
+            if len(elements) >= 1:
                 if self.element != elements[0]:
                     logging.error("Wrong element matched")
                     return False
                 else:
                     return True
             else:
-                logging.info("Found %s elements with locator" % len(elements))
+                logging.info("Found %s elements with locator %s" % (len(elements),str(locator)))
                 for element in elements:
                     logging.debug(element.html)
                 return False

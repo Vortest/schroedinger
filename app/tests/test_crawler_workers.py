@@ -9,10 +9,10 @@ class TestWorker(TestBase):
         urlworker = UrlCrawlerWorker(1)
         urlworker.put("http://www.google.com/")
         urlworker.start()
-        stateworker = StateCrawlerWorker(5)
+        stateworker = StateCrawlerWorker(3)
         stateworker.start()
         stateworker.put(urlworker.get())
-        for i in range(10):
+        for i in range(3):
             print stateworker.get()
 
 

@@ -6,6 +6,9 @@ class Locator(db.EmbeddedDocument):
     by = db.StringField(required=True)
     value = db.StringField(required=True)
 
+    def __repr__(self):
+        return self.__str__()
+
     def __str__(self):
         return "(%s, %s)" % (self.by, self.value)
 
