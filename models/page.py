@@ -1,6 +1,6 @@
 import datetime
 from api import db
-from models.element import Element
+from models.element_state import ElementState
 from models.state import State
 
 

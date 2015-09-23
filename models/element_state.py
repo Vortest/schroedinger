@@ -24,7 +24,7 @@ class Location(db.EmbeddedDocument):
     width = db.IntField(required=True)
     height = db.IntField(required=True)
 
-class Element(db.Document):
+class ElementState(db.Document):
     created_at = db.DateTimeField(default=datetime.datetime.now, required=True)
     html = db.StringField(required=False)
     locators = db.ListField(db.EmbeddedDocumentField(Locator))
@@ -41,7 +41,7 @@ class Element(db.Document):
     }
 
     def __str__(self):
-        repr = "Element: "
+        repr = "ElementState: "
         for locator in self.locators:
             repr += "{}, ".format(str(locator))
         return repr

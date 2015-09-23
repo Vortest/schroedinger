@@ -1,11 +1,13 @@
 import logging
 from selenium.common.exceptions import StaleElementReferenceException
-from models.element import Element
+from models.element_state import ElementState
 from webelement import WebElement
 from locator_builder import LocatorBuilder
 from page_parser import PageParser
 from models.state import State
 import time
+from app import element_builder
+
 def get_url_state(driver, url):
     driver.get(url)
     return get_current_state(driver)
@@ -25,14 +27,7 @@ def get_state(driver):
     elements = sorted(elements,key=lambda element: element.area,reverse=True)
     print "Found %s elements " % len(elements)
     for element in elements:
-        builder = LocatorBuilder(driver, element)
-        locators = builder.get_locators()
-        if(len(locators)) > 0:
-            new_element = Element(locators=locators, html=element.html[:255], screenshot=element.screenshot_as_base64)
-            new_element.set_location(element)
-            new_element.save()
-            locator_elements.append(new_element)
-            WebElement(driver,new_element.locators).highlight()
+       locator_elements.append(element_builder.build_element(driver, element))
     screenshot = driver.get_screenshot_as_base64()
     state = State(elements=locator_elements,url=driver.current_url, html=driver.html, screenshot = screenshot)
     return state
@@ -47,10 +42,19 @@ def get_extra_elements(driver, state):
 
 def get_new_state(driver, old_state):
     parser = PageParser(driver)
+    state_elements = []
     live_elements = parser.get_all_elements()
-    old_state_elements = old_state.get_web_elements()
 
-    for element in old_state_elements:
-        if element in live_elements:
-            live_elements.remove(element)
+    for element in old_state.elements:
+        webelement = WebElement(driver, element.locators)
+        if webelement.is_present(1):
+            webelement.highlight(color="green")
+            state_elements.append(element)
+            live_elements.remove(webelement)
 
+    for element in live_elements:
+        element.highlight(color="blue")
+        new_element_state = element_builder.build_element(driver, element)
+        state_elements.append(new_element_state)
+
+    return State(elements = state_elements, url=driver.current_url, html=driver.html, screenshot = driver.get_screenshot_as_base64())

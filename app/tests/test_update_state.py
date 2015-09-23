@@ -4,7 +4,7 @@ from app.state_comparer import StateComparer
 from app.test_base import TestBase
 from models.action import Action
 from models.command import Command
-from models.element import Element, Locator
+from models.element_state import ElementState, Locator
 from models.state import State
 from models.suite import Suite
 from models.test import Test

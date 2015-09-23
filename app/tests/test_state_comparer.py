@@ -5,7 +5,7 @@ from app.state_comparer import StateComparer
 from app.test_base import TestBase
 from models.action import Action
 from models.command import Command
-from models.element import Element, Locator
+from models.element_state import ElementState, Locator
 from models.state import State
 from models.suite import Suite
 from models.test import Test
@@ -14,9 +14,9 @@ from app import element_filter
 class TestStateComparer(TestBase):
     def test_get_compare(self):
 
-        element = Element(locators = [Locator(by=By.LINK_TEXT,value="Images")])
+        element = ElementState(locators = [Locator(by=By.LINK_TEXT,value="Images")])
         element.save()
-        element2 = Element(locators = [Locator(by=By.NAME,value="INVALID")])
+        element2 = ElementState(locators = [Locator(by=By.NAME,value="INVALID")])
         element2.save()
         state2= State(elements=[element,element2], url="http://www.google.com")
         state2.save()
@@ -58,7 +58,7 @@ class TestStateComparer(TestBase):
         suite.execute(self.driver)
         results = suite.suite_results[-1]
         assert not results.passed
-        
+
 
         comparison = StateComparer(self.driver).compare_states(results.failed_state, results.actual_state)
 

@@ -5,7 +5,7 @@ from app import config
 
 from app.webelement import WebElement
 from app.test_base import TestBase
-from models.element import Locator
+from models.element_state import Locator
 
 
 class ElementTest(TestBase):

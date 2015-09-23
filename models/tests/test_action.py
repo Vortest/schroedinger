@@ -4,7 +4,7 @@ from app import state_builder
 from app.test_base import TestBase
 from models.action import Action
 from models.command import Command
-from models.element import Element, Locator
+from models.element_state import ElementState, Locator
 from models.post import Post, Comment
 from app.browser_manager import BrowserManager
 from models.state import State
@@ -13,7 +13,7 @@ import app.action_builder as action_builder
 class TestAction(TestBase):
 
     def test_save_action(self):
-        element = Element(locators = [Locator(by=By.NAME,value="q")])
+        element = ElementState(locators = [Locator(by=By.NAME,value="q")])
         element.save()
         google_home = State(url=self.driver.current_url, elements=[element])
         google_home.save()
@@ -39,8 +39,8 @@ class TestAction(TestBase):
 
     def test_execute(self):
 
-        element = Element(locators = [Locator(by=By.NAME,value="q")])
-        element2= Element(locators= [Locator(by=By.NAME,value="btnG")])
+        element = ElementState(locators = [Locator(by=By.NAME,value="q")])
+        element2= ElementState(locators= [Locator(by=By.NAME,value="btnG")])
         element.save()
         element2.save()
         state1 = State(elements=[], url="")
@@ -59,8 +59,8 @@ class TestAction(TestBase):
 
     def test_verify_state_action(self):
 
-        element = Element(locators = [Locator(by=By.NAME,value="q")])
-        element2= Element(locators= [Locator(by=By.NAME,value="btnK")])
+        element = ElementState(locators = [Locator(by=By.NAME,value="q")])
+        element2= ElementState(locators= [Locator(by=By.NAME,value="btnK")])
         element.save()
         element2.save()
         state1 = State(elements=[], url="")

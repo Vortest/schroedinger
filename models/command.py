@@ -5,7 +5,7 @@ from api import db
 from app.webelement import WebElement
 from app.executable import Executable
 from models.result import Result
-from models.element import Element
+from models.element_state import ElementState
 
 
 class Command(db.EmbeddedDocument, Executable):
@@ -19,7 +19,7 @@ class Command(db.EmbeddedDocument, Executable):
 
     created_at = db.DateTimeField(default=datetime.datetime.now, required=True)
     command = db.StringField(required=True, choices=COMMANDS)
-    element = db.ReferenceField(Element, required=False)
+    element = db.ReferenceField(ElementState, required=False)
     params = db.StringField(required=False)
 
     execution_results = []

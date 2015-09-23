@@ -7,13 +7,13 @@ from app.locator_builder import LocatorBuilder
 from app.page_parser import PageParser
 from app.webelement import WebElement
 from models.action import Action
-from models.element import Element
+from models.element_state import ElementState
 
 class State(db.Document):
     created_at = db.DateTimeField(default=datetime.datetime.now, required=True)
     html = db.StringField(required=False)
     screenshot = db.StringField(required=False)
-    elements = db.ListField(db.ReferenceField(Element))
+    elements = db.ListField(db.ReferenceField(ElementState))
     actions = db.ListField(db.ReferenceField(Action))
     init_actions = db.ListField(db.ReferenceField(Action), required=False)
     url = db.StringField(max_length=255, required=True)
@@ -71,7 +71,9 @@ class State(db.Document):
     def get_web_elements(self, driver):
         webelements = []
         for element in self.elements:
-            webelements.append(WebElement(driver, element.locators))
+            webelement = WebElement(driver, element.locators)
+            webelement.element_state = element
+            webelements.append(webelement)
         return webelements
 
     def verify_state(self,driver):
@@ -138,7 +140,7 @@ class State(db.Document):
             builder = LocatorBuilder(driver, element)
             locators = builder.get_locators()
             if(len(locators)) > 0:
-                new_element = Element(locators=locators, html=element.html[:255], screenshot=element.screenshot_as_base64)
+                new_element = ElementState(locators=locators, html=element.html[:255], screenshot=element.screenshot_as_base64)
                 new_element.set_location(element)
                 new_element.save()
                 locator_elements.append(new_element)

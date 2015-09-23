@@ -3,7 +3,7 @@ from selenium.webdriver.common.by import By
 import sys
 from attribute_builder import AttributeBuilder
 import logging
-from models.element import Locator
+from models.element_state import Locator
 
 logger = logging.getLogger()
 

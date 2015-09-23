@@ -35,7 +35,7 @@ class StateCrawlerWorker(Worker):
     def process_item(self, state):
         print "Processing %s %s" % (currentThread(),state)
         self.driver = browser_launcher.launch_browser()
-        state =  self.crawl_state(state)
+        state = self.crawl_state(state)
         print "Found %s elements" % state.elements
         self.driver.quit()
         for action in state.actions:

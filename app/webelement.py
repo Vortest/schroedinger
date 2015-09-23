@@ -1,6 +1,6 @@
 import logging
 from browser_manager import BrowserManager
-from models.element import Locator
+from models.element_state import Locator
 from webdriver_wrapper import WebDriver
 from wrapped_webelement import WrappedWebElement
 from selenium.common import exceptions

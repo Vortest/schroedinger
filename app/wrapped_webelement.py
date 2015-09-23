@@ -22,7 +22,10 @@ class WrappedWebElement(webdriverElement):
         self._driver = element.parent
 
     def __eq__(self, other):
-        return self.location == other.location
+        try:
+            return self.location == other.location
+        except Exception as e:
+            return False
 
     def is_stale(self):
         try:

@@ -2,7 +2,7 @@ from selenium.webdriver.common.by import By
 from app.test_base import TestBase
 from models.action import Action
 from models.command import Command
-from models.element import Element, Locator
+from models.element_state import ElementState, Locator
 from models.result import Result
 from models.state import State
 from models.suite import Suite
@@ -10,7 +10,7 @@ from models.test import Test
 
 class TestSuite(TestBase):
     def test_save_test(self):
-        element = Element(locators = [Locator(by=By.NAME,value="q")])
+        element = ElementState(locators = [Locator(by=By.NAME,value="q")])
         element.save()
         state1 = State(elements=[], url="")
         state2= State(elements=[element], url="http://www.google.com")

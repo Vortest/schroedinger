@@ -2,7 +2,7 @@ from selenium.webdriver.common.by import By
 from app import state_builder
 from app.test_base import TestBase
 from app.webelement import WebElement
-from models.element import Element, Locator
+from models.element_state import ElementState, Locator
 
 
 class TestElementCompare(TestBase):

@@ -2,7 +2,7 @@ from selenium.webdriver.common.by import By
 from app.element_type import ElementType
 from app.test_base import TestBase
 from app.webelement import WebElement
-from models.element import Locator
+from models.element_state import Locator
 
 
 class ElementTypeTest(TestBase):

@@ -2,7 +2,7 @@ from selenium.webdriver.common.by import By
 from app.test_base import TestBase
 from models.action import Action
 from models.command import Command
-from models.element import Element, Locator
+from models.element_state import ElementState, Locator
 from models.state import State
 from models.suite import Suite
 from models.test import Test
@@ -10,8 +10,8 @@ from models.test import Test
 class TestResult(TestBase):
 
     def test_save_result(self):
-        element = Element(locators = [Locator(by=By.NAME,value="q")])
-        element2= Element(locators= [Locator(by=By.NAME,value="btnG")])
+        element = ElementState(locators = [Locator(by=By.NAME,value="q")])
+        element2= ElementState(locators= [Locator(by=By.NAME,value="btnG")])
         element.save()
         element2.save()
         state1 = State(elements=[], url="")
@@ -35,8 +35,8 @@ class TestResult(TestBase):
         assert suite.suite_results[-1].step_results[-1].step_results[0].step_results[2].passed
 
     def test_failure_report(self):
-        element = Element(locators = [Locator(by=By.NAME,value="INVALID")])
-        element2= Element(locators= [Locator(by=By.NAME,value="INVALID")])
+        element = ElementState(locators = [Locator(by=By.NAME,value="INVALID")])
+        element2= ElementState(locators= [Locator(by=By.NAME,value="INVALID")])
         element.save()
         element2.save()
         state1 = State(elements=[], url="")

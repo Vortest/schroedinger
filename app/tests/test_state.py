@@ -6,7 +6,7 @@ from app import state_builder
 from app.test_base import TestBase
 from models.action import Action
 from models.command import Command
-from models.element import Locator, Element
+from models.element_state import Locator, ElementState
 
 
 class StateTest(TestBase):
@@ -138,8 +138,8 @@ class StateTest(TestBase):
         self.driver.get(self.url)
         state = state_builder.get_current_state(self.driver)
         state.save()
-        element = Element(locators = [Locator(by=By.NAME,value="q")])
-        element2= Element(locators= [Locator(by=By.NAME,value="btnG")])
+        element = ElementState(locators = [Locator(by=By.NAME,value="q")])
+        element2= ElementState(locators= [Locator(by=By.NAME,value="btnG")])
         element.save()
         element2.save()
         nav_command = [Command(command=Command.NAVIGATE,params="http://www.google.com/")]
