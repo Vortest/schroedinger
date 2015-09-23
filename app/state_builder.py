@@ -45,4 +45,12 @@ def get_extra_elements(driver, state):
     diff_state = actual_state - state
     return diff_state.elements
 
+def get_new_state(driver, old_state):
+    parser = PageParser(driver)
+    live_elements = parser.get_all_elements()
+    old_state_elements = old_state.get_web_elements()
+
+    for element in old_state_elements:
+        if element in live_elements:
+            live_elements.remove(element)
 

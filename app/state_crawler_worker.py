@@ -6,6 +6,7 @@ from app.worker import Worker
 from threading import Thread, current_thread, currentThread
 from app import state_builder,action_builder, browser_launcher, state_crawler
 from app import url_parser
+from app import state_comparer
 
 class UrlCrawlerWorker(Worker):
     def process_item(self, url):
@@ -52,6 +53,7 @@ class StateCrawlerWorker(Worker):
                 webelement = WebElement(self.driver, element.locators)
                 if webelement.is_displayed():
                     print "Clicking %s" % element
+                    webelement.highlight(length=2,color="red")
                     webelement.click()
                     domain = url_parser.get_domain_from_url(self.driver.current_url)
                     if domain not in state.url:

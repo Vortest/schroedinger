@@ -169,9 +169,9 @@ class WrappedWebElement(webdriverElement):
     def find_elements_by_css_selector(self, css_selector):
         return self.element.find_elements_by_css_selector(css_selector)
 
-    def highlight(self,length=-1):
+    def highlight(self,length=-1,color="yellow"):
         background = self.driver.execute_script("return arguments[0].style.background", self.element)
-        self.driver.execute_script("arguments[0].style.background='yellow'; return;",self.element)
+        self.driver.execute_script("arguments[0].style.background='%s'; return;" % color,self.element)
         if length == -1:
             return
         time.sleep(length)
@@ -209,3 +209,11 @@ class WrappedWebElement(webdriverElement):
     @property
     def area(self):
         return self.size["height"] * self.size["height"]
+
+    def is_editable(self):
+        tags = ["input","textarea"]
+        return self.tag_name in tags
+
+    def is_clickable(self):
+        tags = ["a","button"]
+        return self.tag_name in tags

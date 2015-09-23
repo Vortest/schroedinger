@@ -44,7 +44,7 @@ class TestUpdateState(TestBase):
         results = suite.suite_results[-1]
         assert not results.passed
 
-        comparison = StateComparer(self.driver).compare_state(results.failed_state, results.actual_state)
+        comparison = StateComparer(self.driver).compare_states(results.failed_state, results.actual_state)
 
         assert len(comparison[0].elements) == len(comparison[1].elements)
 

@@ -27,12 +27,12 @@ class TestWorker(TestBase):
             print state.url
 
     def test_page_crawl(self):
-        worker = PageCrawlerWorker(5)
+        worker = PageCrawlerWorker(1)
         worker.crawl_from_root("http://www.citadel.com/")
         worker.start()
         time.sleep(20)
         worker.stop()
-        for i in range(10):
+        for i in range(3):
             url = worker.get()
             print url
 

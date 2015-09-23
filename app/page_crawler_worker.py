@@ -32,10 +32,6 @@ class PageCrawlerWorker(Worker):
         for url in urls:
             print "appending %s" % url
             self.put(url)
-
-
-        return sorted(self.all_urls)
-
         return urls
 
     def crawl_from_root(self, url):
