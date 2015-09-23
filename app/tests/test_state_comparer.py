@@ -58,6 +58,7 @@ class TestStateComparer(TestBase):
         suite.execute(self.driver)
         results = suite.suite_results[-1]
         assert not results.passed
+        
 
         comparison = StateComparer(self.driver).compare_states(results.failed_state, results.actual_state)
 
