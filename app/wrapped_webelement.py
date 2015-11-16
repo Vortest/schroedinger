@@ -17,6 +17,9 @@ class WrappedWebElement(webdriverElement):
     def driver(self):
         return self._driver
 
+    def __repr__(self):
+        return self.html
+
     def __init__(self, element):
         self._element = element
         self._driver = element.parent
@@ -78,7 +81,12 @@ class WrappedWebElement(webdriverElement):
         return self.element.find_elements_by_tag_name(name)
 
     def find_elements(self, by=By.ID, value=None):
-        return self.element.find_elements(by, value)
+        elements =  self.element.find_elements(by, value)
+        new_eles = map(self.wrap_element,elements)
+        return new_eles
+
+    def wrap_element(self,element):
+        return WrappedWebElement(element)
 
     @property
     def rect(self):

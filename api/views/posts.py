@@ -4,7 +4,6 @@ from flask_restful import reqparse, abort, Api, Resource
 import sys
 from api import api
 
-print sys.path
 from models.post import Post
 
 @api.resource("/posts")

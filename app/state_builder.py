@@ -23,11 +23,13 @@ def get_current_state(driver):
 def get_state(driver):
     parser = PageParser(driver)
     locator_elements = []
-    elements = parser.get_all_elements()
-    elements = sorted(elements,key=lambda element: element.area,reverse=True)
+    elements = parser.get_usual_elements()
     print "Found %s elements " % len(elements)
     for element in elements:
-       locator_elements.append(element_builder.build_element(driver, element))
+        new_element = element_builder.build_element(driver, element)
+        if new_element is not None:
+            locator_elements.append(new_element)
+
     screenshot = driver.get_screenshot_as_base64()
     state = State(elements=locator_elements,url=driver.current_url, html=driver.html, screenshot = screenshot)
     return state
@@ -44,14 +46,16 @@ def get_new_state(driver, old_state):
     parser = PageParser(driver)
     state_elements = []
     live_elements = parser.get_all_elements()
-
+    #first look for the old elements that are still present
     for element in old_state.elements:
         webelement = WebElement(driver, element.locators)
         if webelement.is_present(1):
             webelement.highlight(color="green")
-            state_elements.append(element)
-            live_elements.remove(webelement)
+            if webelement in live_elements:
+                state_elements.append(element)
+                live_elements.remove(webelement)
 
+    #look for any changed elements
     for element in live_elements:
         element.highlight(color="blue")
         new_element_state = element_builder.build_element(driver, element)

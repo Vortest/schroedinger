@@ -46,7 +46,7 @@ class StateCrawlerWorker(Worker):
 
 
     def crawl_state(self, state):
-        for element in state.elements:
+        for element in state.elements[:20]:
             try:
                 state.initialize_state(self.driver)
                 print "Loaded initial state %s" % state.id

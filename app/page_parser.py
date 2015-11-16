@@ -22,11 +22,15 @@ class PageParser(object):
         buttons = self.driver.find_elements(By.TAG_NAME,'button')
         inputs = self.driver.find_elements(By.TAG_NAME,'input')
         images = self.driver.find_elements(By.TAG_NAME,'img')
+        selects = self.driver.find_elements(By.TAG_NAME,'select')
+        forms =  self.driver.find_elements(By.TAG_NAME,'form')
         all_links.extend(links)
         all_links.extend(buttons)
         all_links.extend(inputs)
         all_links.extend(images)
+        all_links.extend(selects)
+        all_links.extend(forms)
         visible_eles = element_filter.filter_visible_elements(all_links)
-        final_elements = element_filter.filter_no_children(visible_eles)
+        final_elements = sorted(visible_eles,key=lambda element: element.area,reverse=True)
         return final_elements
 

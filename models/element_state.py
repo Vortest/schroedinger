@@ -27,12 +27,31 @@ class Location(db.EmbeddedDocument):
     width = db.IntField(required=True)
     height = db.IntField(required=True)
 
+class ElementType(object):
+    PASSWORD = "password"
+    USERNAME = "username"
+    LOGIN = "login"
+    LOGOUT = "logout"
+    SUBMIT = "submit"
+    SEARCH = "search"
+    PHONE = "phone"
+    ZIP = "zip"
+    FIRSTNAME = "firstname"
+    LASTNAME = "lastname"
+    ADDRESS = "address"
+    DATE = "date"
+    MONTH = "month"
+    YEAR = "year"
+    DAY = "day"
+    UNKNOWN = "unknown"
+
 class ElementState(db.Document):
     created_at = db.DateTimeField(default=datetime.datetime.now, required=True)
     html = db.StringField(required=False)
     locators = db.ListField(db.EmbeddedDocumentField(Locator))
     screenshot = db.StringField(required=False)
     location = db.EmbeddedDocumentField(Location, required=False)
+    type = db.StringField(required=False)
 
     def __unicode__(self):
         return self.locators

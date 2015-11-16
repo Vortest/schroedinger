@@ -5,15 +5,12 @@ from app.test_base import TestBase
 from app.worker import Worker
 
 class TestWorker(TestBase):
-    def test_page_crawl(self):
+    def test_url_crawl(self):
         urlworker = UrlCrawlerWorker(1)
         urlworker.put("http://www.google.com/")
         urlworker.start()
-        stateworker = StateCrawlerWorker(3)
-        stateworker.start()
-        stateworker.put(urlworker.get())
-        for i in range(3):
-            print stateworker.get()
-
+        for i in range(1):
+            print urlworker.get()
+        urlworker.stop()
 
 

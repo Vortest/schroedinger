@@ -20,16 +20,40 @@ class LocatorBuilder(object):
         for attribute in self.attributes:
             self.get_locators_for_attribute(attribute)
         if len(self.locators) == 0:
+            if len(self.attributes) != 0:
+                logging.error("HMM Found unique attributes but no locators")
             try:
-                for att in self.builder.duplicate_attributes:
-                    self.get_locators_for_attribute(att)
-                if len(self.locators) == 0:
-                    if len(self.attributes) != 0:
-                        logging.error("HMM Found unique attributes but no locators")
-                    logging.error("Could not get locators for element : {} found {} duplicate attributes".format(self.builder.html,len(self.builder.duplicate_attributes)))
-            finally:
-                self.get_complex_locators()
+                logging.debug("Trying duplicates")
+                self.get_duplicate_attribute_locators(self.builder.duplicate_attributes)
+            except Exception as e:
+                logging.exception(str(e))
         return self.locators
+
+    def get_duplicate_attribute_locators(self, duplicate_attributes):
+        parent = self.element.find_parent()
+        parent_locators = LocatorBuilder(self.driver, parent).get_locators()
+        for locator in parent_locators:
+            if locator.by == By.CSS_SELECTOR:
+                parent_css = locator.value
+            if locator.by == By.CLASS_NAME:
+                parent_css = ".%s" % locator.value
+            if locator.by == By.ID:
+                parent_css = "#%s" % locator.value
+            new_locator = Locator(by=By.CSS_SELECTOR,value="%s>%s" % (parent_css, self.element.tag_name))
+            if self.is_locator_valid(new_locator):
+                    self.locators.append(new_locator)
+            else:
+                for attribute in duplicate_attributes:
+                    type = attribute[0]
+                    value = attribute[1]
+                    child_css = "{}[{}*=\"{}\"]".format(self.element.tag_name, type, value)
+                    if locator.by == By.CSS_SELECTOR:
+                        parent_css = locator.value
+                    if locator.by == By.CLASS_NAME:
+                        parent_css = ".%s" % locator.value
+                    new_locator = Locator(by=By.CSS_SELECTOR,value="%s %s" % (parent_css, child_css))
+                    if self.is_locator_valid(new_locator):
+                            self.locators.append(new_locator)
 
     def get_locators_for_attribute(self, attribute):
         type = attribute[0]
@@ -61,9 +85,9 @@ class LocatorBuilder(object):
     def is_locator_valid(self,locator):
         try:
             elements = self.driver.find_elements(locator.by,locator.value)
-            if len(elements) >= 1:
+            if len(elements) == 1:
                 if self.element != elements[0]:
-                    logging.error("Wrong element matched")
+                    logging.error("Wrong element matched. Search=%s Old=%s Got=%s" % (str(locator),elements[0].html, self.element.html))
                     return False
                 else:
                     return True

@@ -27,7 +27,8 @@ class TestLocatorBuilder(TestBase):
                 try:
                     elements = self.driver.find_elements(locator.by,locator.value)
                     assert len(elements) == 1
-                except:
+                except Exception as e:
+                    logging.exception(str(e))
                     logging.error("an error occured : {}".format(locator))
 
 
