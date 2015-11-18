@@ -34,7 +34,7 @@ class ElementMatcher(object):
     YEAR = ElementFinder(["[Dd]ate"],ElementType.YEAR)
 
     def __init__(self):
-        self.matches = [self.PASSWORD,self.LOGIN,self.LOGOUT, self.USERNAME, self.SUBMIT, self.SEARCH, self.ADDRESS,
+        self.matches = [self.PASSWORD,self.LOGIN,self.LOGOUT, self.USERNAME,self.SEARCH, self.SUBMIT, self.ADDRESS,
                         self.PHONE, self.ZIP, self.FIRSTNAME, self.LASTNAME]
 
     def match(self, element):

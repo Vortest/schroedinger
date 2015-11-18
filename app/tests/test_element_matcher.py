@@ -16,8 +16,8 @@ class TestElementMatcher(TestBase):
 
     def test_password(self):
         matcher = ElementMatcher()
-        self.driver.get("https://accounts.google.com/ServiceLogin")
-        element = self.driver.find_element(By.ID,"Passwd")
+        self.driver.get("https://signin.ebay.com")
+        element = self.driver.find_element(By.ID,"pass")
         type = matcher.match(element)
         assert type == ElementType.PASSWORD, type
 
