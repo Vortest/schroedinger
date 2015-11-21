@@ -4,8 +4,9 @@ from app import state_builder
 
 class GenerateFormsTest(TestBase):
     def test_generate_login_test(self):
-        self.driver.get("http://www.facebook.com")
-        state = state_builder.get_current_state(self.driver)
+        pass
+    #     self.driver.get("http://www.facebook.com")
+    #     state = state_builder.get_current_state(self.driver)
 
         #get the page or state
         #find all the fields

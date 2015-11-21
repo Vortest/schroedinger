@@ -7,15 +7,16 @@ from app import state_builder
 
 class GenerateFormsTest(TestBase):
     def test_generate_form_test(self):
-        self.driver.get("http://www.facebook.com")
-        forms = self.driver.find_elements(By.TAG_NAME,"form")
-        matcher = ElementMatcher()
-        for form in forms:
-            print "Form %s" % form.html
-            inputs = form.find_elements(By.TAG_NAME,"input")
-            for input in inputs:
-                input.highlight(color="green")
-                type = matcher.match(input)
+        pass
+        # self.driver.get("http://www.facebook.com")
+        # forms = self.driver.find_elements(By.TAG_NAME,"form")
+        # matcher = ElementMatcher()
+        # for form in forms:
+        #     print "Form %s" % form.html
+        #     inputs = form.find_elements(By.TAG_NAME,"input")
+        #     for input in inputs:
+        #         input.highlight(color="green")
+        #         type = matcher.match(input)
                 #print "%s %s" % (type, input.html)
 
 

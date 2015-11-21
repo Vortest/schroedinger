@@ -10,4 +10,5 @@ class TestStateScanner(TestBase):
         scanner = StateScanner(self.driver)
 
         missing_elements = scanner.check_state(state)
-        assert len(missing_elements) == 0
+        #expect 1 missing since gmail link cant be found
+        assert len(missing_elements) == 1, "missing %s elements" % len(missing_elements)

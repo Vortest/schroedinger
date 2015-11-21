@@ -23,8 +23,8 @@ class LocatorBuilder(object):
             if len(self.attributes) != 0:
                 logging.error("HMM Found unique attributes but no locators")
             try:
-                logging.debug("Not trying duplicate attributesr %s" % self.element)
-                # self.get_duplicate_attribute_locators(self.builder.duplicate_attributes)
+                logging.debug("Trying parent locators for element: %s" % self.element)
+                self.get_duplicate_attribute_locators(self.builder.duplicate_attributes)
             except Exception as e:
                 logging.exception(str(e))
         return self.locators
@@ -41,7 +41,8 @@ class LocatorBuilder(object):
                 parent_css = "#%s" % locator.value
             new_locator = Locator(by=By.CSS_SELECTOR,value="%s>%s" % (parent_css, self.element.tag_name))
             if self.is_locator_valid(new_locator):
-                    self.locators.append(new_locator)
+                logging.debug("Found a locator from a parent attribute")
+                self.locators.append(new_locator)
             else:
                 for attribute in duplicate_attributes:
                     type = attribute[0]
@@ -51,7 +52,7 @@ class LocatorBuilder(object):
                         parent_css = locator.value
                     if locator.by == By.CLASS_NAME:
                         parent_css = ".%s" % locator.value
-                    new_locator = Locator(by=By.CSS_SELECTOR,value="%s %s" % (parent_css, child_css))
+                    new_locator = Locator(by=By.CSS_SELECTOR,value="%s>%s" % (parent_css, child_css))
                     if self.is_locator_valid(new_locator):
                         logging.debug("Found a locator from a duplicate attribute")
                         self.locators.append(new_locator)
