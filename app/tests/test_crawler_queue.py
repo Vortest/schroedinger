@@ -21,4 +21,4 @@ class TestCrawlerQueue(unittest.TestCase):
         consumer = CrawlerConsumer()
 
         producer.start()
-        consumer.consume_task()
+        producer.stop()
