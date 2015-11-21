@@ -16,3 +16,4 @@ web.py==0.37
 http://effbot.org/media/downloads/Imaging-1.1.7.tar.gz
 pytest-cov==2.1.0
 pytest-xdist==1.13.1
+pika==0.10.0
