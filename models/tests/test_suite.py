@@ -16,13 +16,16 @@ class TestSuite(TestBase):
         state2= State(elements=[element], url="http://www.google.com")
         state1.save()
         state2.save()
-        commands = [Command(command=Command.NAVIGATE,params="http://www.google.com/"),
-                    Command(command=Command.SENDKEYS,element = element,params="Something")]
+        config = {}
+        config["url"] = "http://www.google.com/"
+        config["search"] = "Something"
+        commands = [Command(command=Command.NAVIGATE,params="url"),
+                    Command(command=Command.SENDKEYS,element = element,params="search")]
         action = Action(name = "Some Action",steps=commands,start_state=state1, end_state=state2)
         action.save()
         test = Test(name="Some test", actions = [action])
         test.save()
-        suite = Suite(tests=[test], url="http://www.google.com./")
-        suite.execute(self.driver)
+        suite = Suite(tests=[test], url="http://www.google.com/")
+        suite.execute(self.driver, config)
         suite.save()
         assert suite.suite_results[-1].passed, suite.suite_results[-1].message

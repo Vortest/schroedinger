@@ -28,17 +28,21 @@ class Command(db.EmbeddedDocument, Executable):
         return self
 
     execution_results = []
-    def execute(self, driver):
+    def execute(self, driver, config={}):
         try:
+            if self.param in config:
+                param = config[self.params]
+            else:
+                param = self.params
             self.driver = driver
-            result = Result(passed=True, message="Execute %s" % self.__repr__())
-            logging.debug("Execute : %s" % self.__repr__())
+            result = Result(passed=True, message="Execute %s %s" % (self.__repr__(),param))
+            logging.debug("Execute : %s %s" % (self.__repr__(), param))
             if self.command == self.NAVIGATE:
-                self.driver.get(self.params)
+                self.driver.get(param)
             elif self.command == self.CLICK:
                 WebElement(self.driver, self.element.locators).click()
             elif self.command == self.SENDKEYS:
-                WebElement(self.driver, self.element.locators).send_keys(self.params)
+                WebElement(self.driver, self.element.locators).send_keys(param)
             elif self.command == self.VERIFY:
                 WebElement(self.driver, self.element.locators).verify()
             else:

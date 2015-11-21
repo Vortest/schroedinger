@@ -19,10 +19,10 @@ class Test(db.Document, Executable):
         'ordering': ['-created_at']
     }
 
-    def execute(self, driver):
+    def execute(self, driver, config={}):
         logging.debug("Executing Test %s" % self.name)
         self.steps = self.actions
-        suite_results = Executable.execute(self, driver)
+        suite_results = Executable.execute(self, driver, config)
         return suite_results
 
     def get_steps(self):
