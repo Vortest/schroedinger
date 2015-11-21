@@ -3,21 +3,23 @@ import logging
 from api import db
 from app.executable import Executable
 from models.result import Result
+from models.status import Status
 from models.suite import Suite
+from models.suite_config import SuiteConfig
+
 
 class SuiteRun(db.Document, Executable):
+
     created_at = db.DateTimeField(default=datetime.datetime.now, required=True)
     name = db.StringField(max_length=255, required=False)
     suite = db.ReferenceField(Suite, required=True)
-    config = db.EmbeddedDocumentField(SuiteConfig, required=True)
+    config = db.ReferenceField(SuiteConfig, required=True)
     start_after = db.DateTimeField(default=datetime.datetime.now, required=True)
     started_time = db.DateTimeField(default=datetime.datetime.now, required=True)
     ended_time = db.DateTimeField(default=datetime.datetime.now, required=True)
-    status = db.StringField(max_length=25,required=True, choices = TASK_STATUS)
+    status = db.StringField(max_length=25,required=True, choices=Status.ALL_STATUS)
     message = db.StringField(max_length=255,required=True)
     user = db.StringField(max_length=255, required=True)
-
-    tests = db.ListField(db.ReferenceField(Test))
     suite_results = db.ListField(db.EmbeddedDocumentField(Result), required=False)
 
     meta = {
