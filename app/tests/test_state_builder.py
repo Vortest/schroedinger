@@ -20,7 +20,8 @@ class StateTest(TestBase):
             for stateelement in state.elements:
                 if newelement.id == stateelement.id:
                     found = True
-            assert found, "Element ID not found, element was not reused %s" % newelement.id
+            if not found:
+                assert found, "Element ID not found, element was not reused %s" % newelement.locators
 
     def test_buidler_reuses_some_elemnts(self):
         self.url = "http://www.google.com/"

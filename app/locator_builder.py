@@ -85,7 +85,7 @@ class LocatorBuilder(object):
     def is_locator_valid(self,locator):
         try:
             elements = self.driver.find_elements(locator.by,locator.value)
-            if len(elements) == 1:
+            if len(elements) >= 1:
                 if self.element != elements[0]:
                     logging.error("Wrong element matched. Search=%s Old=%s Got=%s" % (str(locator),elements[0].html, self.element.html))
                     return False
