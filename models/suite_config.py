@@ -4,11 +4,15 @@ from api import db
 
 class RunConfig(db.EmbeddedDocument):
     browser = db.StringField(max_length=255, required=True)
-    browser_version = db.StringField(max_length=255, required=False)
+    device_name = db.StringField(max_length=255, required=True)
+    version = db.StringField(max_length=255, required=False)
+    platform = db.StringField(max_length=255, required=False)
     resolution = db.StringField(max_length=255, required=False)
-    os = db.StringField(max_length=255, required=False)
-    os_version = db.StringField(max_length=255, required=False)
+    orientation = db.StringField(max_length=255, required=False)
     domain = db.StringField(max_length=255, required=False)
+    host = db.StringField(max_length=255, required=False)
+    sauce_user = db.StringField(max_length=255, required=False)
+    sauce_key = db.StringField(max_length=255, required=False)
     username = db.StringField(max_length=255, required=False)
     password = db.StringField(max_length=255, required=False)
     params = db.DictField(default={}, required=False)

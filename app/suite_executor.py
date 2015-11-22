@@ -10,13 +10,7 @@ class SuiteExecutor:
 
     def execute(self):
         for config in self.configs.configs:
-            session = BrowserSession()
-            session.browser = config.browser
-            session.sauce_user = "bkitchener1"
-            session.sauce_key = "c479e821-57e7-4b3f-8548-48e520585187"
-            session.use_defaults(webdriver.DesiredCapabilities.FIREFOX)
-            session.start_sauce_session()
-            self.driver = browser_launcher.launch_browser(config)
+            self.driver = BrowserSession(config).driver
             self.suite.execute(self.driver, config.params)
             self.driver.quit()
 
