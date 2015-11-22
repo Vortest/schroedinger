@@ -4,7 +4,7 @@ from api import db
 
 class RunConfig(db.EmbeddedDocument):
     browser = db.StringField(max_length=255, required=True)
-    device_name = db.StringField(max_length=255, required=True)
+    device_name = db.StringField(max_length=255, required=False)
     version = db.StringField(max_length=255, required=False)
     platform = db.StringField(max_length=255, required=False)
     resolution = db.StringField(max_length=255, required=False)
