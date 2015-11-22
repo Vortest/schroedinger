@@ -48,3 +48,6 @@ class BrowserSession(object):
         self.browser = device["browserName"]
         self.version = device["version"]
         self.platform = device["platform"]
+
+    def end(self):
+        self.driver.quit()

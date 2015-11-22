@@ -32,30 +32,30 @@ class LocatorBuilder(object):
     def get_duplicate_attribute_locators(self, duplicate_attributes):
         parent = self.element.find_parent()
         parent_locators = LocatorBuilder(self.driver, parent).get_locators()
-        for locator in parent_locators:
-            if locator.by == By.CSS_SELECTOR:
-                parent_css = locator.value
-            if locator.by == By.CLASS_NAME:
-                parent_css = ".%s" % locator.value
-            if locator.by == By.ID:
-                parent_css = "#%s" % locator.value
-            new_locator = Locator(by=By.CSS_SELECTOR,value="%s>%s" % (parent_css, self.element.tag_name))
-            if self.is_locator_valid(new_locator):
-                logging.debug("Found a locator from a parent attribute")
-                self.locators.append(new_locator)
-            else:
-                for attribute in duplicate_attributes:
-                    type = attribute[0]
-                    value = attribute[1]
-                    child_css = "{}[{}*=\"{}\"]".format(self.element.tag_name, type, value)
-                    if locator.by == By.CSS_SELECTOR:
-                        parent_css = locator.value
-                    if locator.by == By.CLASS_NAME:
-                        parent_css = ".%s" % locator.value
-                    new_locator = Locator(by=By.CSS_SELECTOR,value="%s>%s" % (parent_css, child_css))
-                    if self.is_locator_valid(new_locator):
-                        logging.debug("Found a locator from a duplicate attribute")
-                        self.locators.append(new_locator)
+        locator = parent_locators[0]
+        if locator.by == By.CSS_SELECTOR:
+            parent_css = locator.value
+        if locator.by == By.CLASS_NAME:
+            parent_css = ".%s" % locator.value
+        if locator.by == By.ID:
+            parent_css = "#%s" % locator.value
+        new_locator = Locator(by=By.CSS_SELECTOR,value="%s>%s" % (parent_css, self.element.tag_name))
+        if self.is_locator_valid(new_locator):
+            logging.debug("Found a locator from a parent attribute")
+            self.locators.append(new_locator)
+        else:
+            for attribute in duplicate_attributes:
+                type = attribute[0]
+                value = attribute[1]
+                child_css = "{}[{}*=\"{}\"]".format(self.element.tag_name, type, value)
+                if locator.by == By.CSS_SELECTOR:
+                    parent_css = locator.value
+                if locator.by == By.CLASS_NAME:
+                    parent_css = ".%s" % locator.value
+                new_locator = Locator(by=By.CSS_SELECTOR,value="%s>%s" % (parent_css, child_css))
+                if self.is_locator_valid(new_locator):
+                    logging.debug("Found a locator from a duplicate attribute")
+                    self.locators.append(new_locator)
 
     def get_locators_for_attribute(self, attribute):
         type = attribute[0]

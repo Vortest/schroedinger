@@ -12,7 +12,7 @@ from models.test import Test
 
 
 class TestExecutor(unittest.TestCase):
-    def test_execute_suite_for_all_configs(self):
+    def test_local_suite(self):
         element = ElementState(locators = [Locator(by=By.NAME,value="q")])
         element.save()
         state1 = State(elements=[], url="")
@@ -35,5 +35,6 @@ class TestExecutor(unittest.TestCase):
         configs = SuiteConfig(configs=[config1, config2], suite=suite)
         executor = SuiteExecutor(suite,configs)
         executor.execute()
+
 
 

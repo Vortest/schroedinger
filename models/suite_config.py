@@ -11,7 +11,7 @@ class RunConfig(db.EmbeddedDocument):
     domain = db.StringField(max_length=255, required=False)
     username = db.StringField(max_length=255, required=False)
     password = db.StringField(max_length=255, required=False)
-    params = db.DictField(required=False)
+    params = db.DictField(default={}, required=False)
 
 class SuiteConfig(db.Document):
     created_at = db.DateTimeField(default=datetime.datetime.now, required=True)
@@ -23,5 +23,12 @@ class SuiteConfig(db.Document):
         'indexes': ['-created_at'],
         'ordering': ['-created_at']
     }
+
+    @staticmethod
+    def default():
+        suite= SuiteConfig(configs=[RunConfig(browser="Firefox")])
+        suite.save()
+        return suite
+
 
 

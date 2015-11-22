@@ -30,6 +30,9 @@ class WrappedWebElement():
         except Exception as e:
             return False
 
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
     def is_stale(self):
         try:
             self.element.is_enabled()
