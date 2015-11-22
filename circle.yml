@@ -9,17 +9,17 @@ test:
         environment:
           PYTHONPATH: $HOME/$CIRCLE_PROJECT_REPONAME
   override:
-    - py.test -v -l --junitxml=$CIRCLE_TEST_REPORTS/models_test_results.xml:
+    - py.test -n 4 -v -l --junitxml=$CIRCLE_TEST_REPORTS/models_test_results.xml:
         environment:
           PYTHONPATH: $HOME/$CIRCLE_PROJECT_REPONAME
         files:
           - models/tests/**/*.py
-    - py.test -v -l --junitxml=$CIRCLE_TEST_REPORTS/app_test_results.xml:
+    - py.test -n 4 -v -l --junitxml=$CIRCLE_TEST_REPORTS/app_test_results.xml:
         environment:
           PYTHONPATH: $HOME/$CIRCLE_PROJECT_REPONAME
         files:
           - app/tests/**/*.py
-    - py.test -v -l --junitxml=$CIRCLE_TEST_REPORTS/api_test_results.xml:
+    - py.test -n 4 -v -l --junitxml=$CIRCLE_TEST_REPORTS/api_test_results.xml:
         environment:
           PYTHONPATH: $HOME/$CIRCLE_PROJECT_REPONAME
         files:
