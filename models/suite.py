@@ -3,6 +3,7 @@ import logging
 from api import db
 from app.executable import Executable
 from models.result import Result
+from models.suite_config import SuiteConfig
 from models.test import Test
 from app import state_builder
 
@@ -12,6 +13,7 @@ class Suite(db.Document, Executable):
     url = db.StringField(max_length=255, required=False)
     tests = db.ListField(db.ReferenceField(Test))
     suite_results = db.ListField(db.EmbeddedDocumentField(Result), required=False)
+    configs = db.ReferenceField(SuiteConfig, required=False)
 
     meta = {
         'allow_inheritance': True,
@@ -20,7 +22,7 @@ class Suite(db.Document, Executable):
     }
 
     def execute(self, driver, config={}):
-        logging.debug("Executing Suite %s" % self.name)
+        logging.debug("Executing Suite %s" % self.id)
         self.driver = driver
         suite_result = Result(passed=True,message="Passed",exception="Passed")
 

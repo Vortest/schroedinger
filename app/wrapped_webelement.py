@@ -5,7 +5,7 @@ import logging
 import time
 import images
 
-class WrappedWebElement(webdriverElement):
+class WrappedWebElement():
     @property
     def element(self):
         if isinstance(self._element, webdriverElement):
@@ -141,8 +141,8 @@ class WrappedWebElement(webdriverElement):
         return new_image
 
     def send_keys(self, *value):
-        logging.debug("SendKeys %s" % value)
-        self.element.send_keys(value)
+        self.element.send_keys(*value)
+        # logging.debug("SendKeys %s" % value)
 
     def find_element_by_link_text(self, link_text):
         return self.element.find_element_by_link_text(link_text)

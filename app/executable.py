@@ -3,7 +3,7 @@ import abc
 from models.result import Result
 class Executable(object):
 
-    def execute(self, driver, config):
+    def execute(self, driver, config={}):
         self.execution_results = []
         for step in self.steps:
             step_results = step.execute(driver, config)

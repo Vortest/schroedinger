@@ -7,8 +7,8 @@ class SuiteExecutor:
         self.configs = configs
 
     def execute(self):
-        for config in self.configs:
-            self.driver = browser_launcher.launch_browser(self.config)
-            results = self.suite.execute(self.driver, self.config)
+        for config in self.configs.configs:
+            self.driver = browser_launcher.launch_browser(config)
+            self.suite.execute(self.driver, config.params)
             self.driver.quit()
-            return results
+
