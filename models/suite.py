@@ -29,7 +29,7 @@ class Suite(db.Document, Executable):
             suite_result.step_results.append(test_result)
             if not test_result.passed:
                 suite_result.passed = False
-                suite_result.message = str(self.__class__)
+                suite_result.message = test_result.message
                 suite_result.exception = test_result.exception
                 suite_result.failed_state = test_result.failed_state
                 suite_result.actual_state = test_result.actual_state

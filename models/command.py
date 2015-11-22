@@ -30,7 +30,7 @@ class Command(db.EmbeddedDocument, Executable):
     execution_results = []
     def execute(self, driver, config={}):
         try:
-            if self.param in config:
+            if self.params in config:
                 param = config[self.params]
             else:
                 param = self.params

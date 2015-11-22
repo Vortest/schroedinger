@@ -30,7 +30,7 @@ class TestResult(TestBase):
         suite = Suite(name="some name",tests=[test])
         suite.execute(self.driver)
         suite.save()
-        assert suite.suite_results[-1].passed, suite.suite_results[-1].exception
+        assert suite.suite_results[-1].passed, suite.suite_results[-1].message
         assert suite.suite_results[-1].step_results[-1].passed, suite.suite_results[-1].step_results[-1].exception
         assert suite.suite_results[-1].step_results[-1].step_results[0].step_results[2].passed
 
