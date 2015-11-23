@@ -5,7 +5,7 @@ import logging
 import time
 import images
 
-class WrappedWebElement():
+class WrappedWebElement(webdriverElement):
     @property
     def element(self):
         if isinstance(self._element, webdriverElement):

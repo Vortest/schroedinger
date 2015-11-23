@@ -6,7 +6,7 @@ from models.suite_config import SuiteConfig, RunConfig
 
 class TestBrowserSession(unittest.TestCase):
     def test_launch_local(self):
-        session = BrowserSession()
+        session = BrowserSession(config=SuiteConfig.default())
         session.browser = "Firefox"
         session.start_local_session()
         session.driver.get("http://www.google.com")

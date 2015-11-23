@@ -1,5 +1,7 @@
 from selenium import webdriver
 
+from webdriver_wrapper import WebDriver
+
 class BrowserSession(object):
     SAUCE_HOST = "http://%s:%s@ondemand.saucelabs.com:80/wd/hub"
     REMOTE_HOST = "http://%s:%s/wd/hub"
@@ -17,10 +19,11 @@ class BrowserSession(object):
         }
 
     def start_sauce_session(self):
-        self.driver = webdriver.Remote(
+        driver = webdriver.Remote(
             command_executor=BrowserSession.SAUCE_HOST % (self.config.sauce_user, self.config.sauce_key),
             desired_capabilities=self.desired_caps
         )
+        self.driver = WebDriver(driver)
 
     def get_caps(self):
         if self.browser == "Firefox":
@@ -40,19 +43,21 @@ class BrowserSession(object):
 
 
     def start_remote_session(self):
-        self.driver = webdriver.Remote(
-            command_executor=BrowserSession.REMOTE_HOST % (self.host,self.port),
+        driver = webdriver.Remote(
+            command_executor=BrowserSession.REMOTE_HOST % (self.config.host,self.config.port),
             desired_capabilities=self.desired_caps
         )
+        self.driver = WebDriver(driver)
 
     def start_local_session(self):
-        if self.browser == "Firefox":
-            self.driver = webdriver.Firefox()
-        elif self.browser == "Chrome":
-            self.driver = webdriver.Chrome()
+        if self.config.browser == "Firefox":
+            driver = webdriver.Firefox()
+        elif self.config.browser == "Chrome":
+            driver = webdriver.Chrome()
+        self.driver = WebDriver(driver)
 
     def set_resolution(self):
-        self.driver.set_window_size(self.width, self.height)
+        self.driver.set_window_size(self.config.width, self.config.height)
 
     def use_defaults(self, device):
         self.browser = device["browserName"]

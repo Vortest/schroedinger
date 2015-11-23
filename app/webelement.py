@@ -60,7 +60,7 @@ class WebElement(WrappedWebElement):
 
     def verify(self, timeout=5):
         self.timeout = timeout
-        return self.element
+        self.highlight
 
     def __eq__(self, other):
         try:
