@@ -13,6 +13,6 @@ class SuiteExecutor:
             browser = BrowserSession(config)
             browser.start_local_session()
             self.driver = browser.driver
-            self.suite.execute(self.driver, config.params)
+            self.suite.execute(self.driver, config)
             self.driver.quit()
 

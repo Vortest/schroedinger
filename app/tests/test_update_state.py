@@ -7,11 +7,17 @@ from models.command import Command
 from models.element_state import ElementState, Locator
 from models.state import State
 from models.suite import Suite
+from models.suite_config import RunConfig
 from models.test import Test
 from app import element_filter
 from app.state_comparer import StateComparer
 
 class TestUpdateState(TestBase):
+    config=RunConfig(params={
+            "url":"http://www.google.com/",
+            "search":"Something"
+        })
+
     def test_compare_state(self):
         self.driver.get("http://www.google.com/")
         state1 = state_builder.get_blank_state()
@@ -24,23 +30,24 @@ class TestUpdateState(TestBase):
 
         search_fields = element_filter.filter_contains_text(state2.elements,"Search")
         search_field = search_fields[0]
-        commands1 = [Command(command=Command.NAVIGATE,params="http://www.google.com/")]
-        commands2 = [Command(command=Command.SENDKEYS,element = search_field,params="Something")]
+        commands1 = [Command(command=Command.NAVIGATE,config_key="url")]
+        commands2 = [Command(command=Command.SENDKEYS,element = search_field,config_key="search")]
         nav_action = Action(name = "Google Nav",steps=commands1,start_state=state1, end_state=state2)
         search_action = Action(name = "Google Search",steps=commands2,start_state=state2, end_state=state3)
         nav_action.save()
         search_action.save()
-        test = Test(name="Google Search Failure",actions=[nav_action,search_action])
+        test = Test(n
+        ame="Google Search Failure",actions=[nav_action,search_action])
         test.save()
         suite = Suite(name="Failure Example",tests=[test])
-        suite.execute(self.driver)
+        suite.execute(self.driver,self.config)
         suite.save(cascade=True)
         print suite.id
         assert suite.suite_results[-1].passed
 
         search_field.locators = [Locator(by=By.CLASS_NAME,value="INVALID")]
         search_field.save()
-        suite.execute(self.driver)
+        suite.execute(self.driver,self.config)
         results = suite.suite_results[-1]
         assert not results.passed
 

@@ -9,6 +9,8 @@ from models.post import Post, Comment
 from app.browser_manager import BrowserManager
 from models.state import State
 import app.action_builder as action_builder
+from models.suite_config import RunConfig
+
 
 class TestAction(TestBase):
 
@@ -49,12 +51,12 @@ class TestAction(TestBase):
         state1.save()
         state2.save()
         state3.save()
-        commands = [Command(command=Command.NAVIGATE,params="http://www.google.com/"),
-                    Command(command=Command.SENDKEYS,element = element,params="Something"),
+        commands = [Command(command=Command.NAVIGATE,config_key="url"),
+                    Command(command=Command.SENDKEYS,element = element,config_key="search"),
                     Command(command=Command.CLICK,element=element2)]
         action = Action(name = "Google Search",steps=commands,start_state=state1, end_state=state3)
         action.save()
-        results = action.execute(self.driver)
+        results = action.execute(self.driver,config=RunConfig(params={"url":"http://www.google.com/","search":"Something"}))
 
 
     def test_verify_state_action(self):
@@ -69,9 +71,9 @@ class TestAction(TestBase):
         state = State(elements=[element], url="http://www.google.com")
         state.save()
         verify_state = action_builder.get_verify_state_action(state)
-        commands = [Command(command=Command.NAVIGATE,params="http://www.google.com/")]
+        commands = [Command(command=Command.NAVIGATE,config_key="url")]
         action = Action(name = "Google Nav",steps=commands,start_state=state1, end_state=state)
         action.save()
         state.actions = []
 
-        results = action.execute(self.driver)
+        results = action.execute(self.driver, config=RunConfig(params={"url":"http://www.google.com/","search":"Something"}))

@@ -8,6 +8,7 @@ from models.command import Command
 from models.element_state import ElementState, Locator
 from models.state import State
 from models.suite import Suite
+from models.suite_config import RunConfig
 from models.test import Test
 from app import element_filter
 
@@ -36,11 +37,11 @@ class TestStateComparer(TestBase):
         self.driver.get("https://www.google.com/#q=something")
         state3 = state_builder.get_current_state(self.driver)
         state3.save()
-
+        config=RunConfig(params={"url":"http://www.google.com/","search":"Something"})
         search_fields = element_filter.filter_contains_text(state2.elements,"Search")
         search_field = search_fields[0]
-        commands1 = [Command(command=Command.NAVIGATE,params="http://www.google.com/")]
-        commands2 = [Command(command=Command.SENDKEYS,element = search_field,params="Something")]
+        commands1 = [Command(command=Command.NAVIGATE,config_key="url")]
+        commands2 = [Command(command=Command.SENDKEYS,element = search_field,config_key="search")]
         nav_action = Action(name = "Google Nav",steps=commands1,start_state=state1, end_state=state2)
         search_action = Action(name = "Google Search",steps=commands2,start_state=state2, end_state=state3)
         nav_action.save()
@@ -48,14 +49,14 @@ class TestStateComparer(TestBase):
         test = Test(name="Google Search Failure",actions=[nav_action,search_action])
         test.save()
         suite = Suite(name="Failure Example",tests=[test])
-        suite.execute(self.driver)
+        suite.execute(self.driver, config)
         suite.save(cascade=True)
         print suite.id
         assert suite.suite_results[-1].passed
 
         search_field.locators = [Locator(by=By.CLASS_NAME,value="INVALID")]
         search_field.save()
-        suite.execute(self.driver)
+        suite.execute(self.driver,config=config)
         results = suite.suite_results[-1]
         assert not results.passed
 
@@ -73,11 +74,11 @@ class TestStateComparer(TestBase):
         self.driver.get("https://www.google.com/#q=something")
         state3 = state_builder.get_current_state(self.driver)
         state3.save()
-
+        config=RunConfig(params={"url":"http://www.google.com/","search":"Something"})
         search_fields = element_filter.filter_contains_text(state2.elements,"Search")
         search_field = search_fields[0]
-        commands1 = [Command(command=Command.NAVIGATE,params="http://www.google.com/")]
-        commands2 = [Command(command=Command.SENDKEYS,element = search_field,params="Something")]
+        commands1 = [Command(command=Command.NAVIGATE,config_key="url")]
+        commands2 = [Command(command=Command.SENDKEYS,element = search_field,config_key="search")]
         nav_action = Action(name = "Google Nav",steps=commands1,start_state=state1, end_state=state2)
         search_action = Action(name = "Google Search",steps=commands2,start_state=state2, end_state=state3)
         nav_action.save()
@@ -85,14 +86,14 @@ class TestStateComparer(TestBase):
         test = Test(name="Google Search Failure",actions=[nav_action,search_action])
         test.save()
         suite = Suite(name="Failure Example",tests=[test])
-        suite.execute(self.driver)
+        suite.execute(self.driver,config)
         suite.save(cascade=True)
         assert suite.suite_results[-1].passed, suite.suite_results[-1].exception
 
         search_field.locators = [Locator(by=By.CLASS_NAME,value="INVALID")]
         search_field.save()
         suite = Suite(name="Failure Example",tests=[test])
-        suite.execute(self.driver)
+        suite.execute(self.driver, config)
         suite.save(cascade=True)
         print suite.id
         results = suite.suite_results[-1]
@@ -105,6 +106,6 @@ class TestStateComparer(TestBase):
             old_element.locators = new_element.locators
             old_element.save()
 
-        suite.execute(self.driver)
+        suite.execute(self.driver, config)
         assert suite.suite_results[-1].passed, suite.suite_results[-1].exception
 

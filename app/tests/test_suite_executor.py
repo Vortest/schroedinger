@@ -22,8 +22,8 @@ class TestExecutor(unittest.TestCase):
         params = {}
         params["url"] = "http://www.google.com/"
         params["search"] = "Something"
-        commands = [Command(command=Command.NAVIGATE,params="url"),
-                    Command(command=Command.SENDKEYS,element = element,params="search")]
+        commands = [Command(command=Command.NAVIGATE,config_key="url"),
+                    Command(command=Command.SENDKEYS,element = element,config_key="search")]
         action = Action(name = "Some Action",steps=commands,start_state=state1, end_state=state2)
         action.save()
         test = Test(name="Some test", actions = [action])

@@ -6,6 +6,7 @@ from models.element_state import ElementState, Locator
 from models.result import Result
 from models.state import State
 from models.suite import Suite
+from models.suite_config import RunConfig
 from models.test import Test
 
 class TestSuite(TestBase):
@@ -16,11 +17,9 @@ class TestSuite(TestBase):
         state2= State(elements=[element], url="http://www.google.com")
         state1.save()
         state2.save()
-        config = {}
-        config["url"] = "http://www.google.com/"
-        config["search"] = "Something"
-        commands = [Command(command=Command.NAVIGATE,params="url"),
-                    Command(command=Command.SENDKEYS,element = element,params="search")]
+        config=RunConfig(params={"url":"http://www.google.com/","search":"Something"})
+        commands = [Command(command=Command.NAVIGATE,config_key="url"),
+                    Command(command=Command.SENDKEYS,element = element,config_key="search")]
         action = Action(name = "Some Action",steps=commands,start_state=state1, end_state=state2)
         action.save()
         test = Test(name="Some test", actions = [action])

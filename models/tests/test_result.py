@@ -5,6 +5,7 @@ from models.command import Command
 from models.element_state import ElementState, Locator
 from models.state import State
 from models.suite import Suite
+from models.suite_config import RunConfig
 from models.test import Test
 
 class TestResult(TestBase):
@@ -20,15 +21,15 @@ class TestResult(TestBase):
         state1.save()
         state2.save()
         state3.save()
-        commands = [Command(command=Command.NAVIGATE,params="http://www.google.com/"),
-                    Command(command=Command.SENDKEYS,element = element,params="Something"),
+        commands = [Command(command=Command.NAVIGATE,config_key = "url"),
+                    Command(command=Command.SENDKEYS,element = element,config_key = "search"),
                     Command(command=Command.CLICK,element=element2)]
         action = Action(name = "Google Search",steps=commands,start_state=state1, end_state=state3)
         action.save()
         test = Test(name="Some test",actions=[action])
         test.save()
         suite = Suite(name="some name",tests=[test])
-        suite.execute(self.driver)
+        suite.execute(self.driver,config=RunConfig(params={"url":"http://www.google.com/","search":"Something"}))
         suite.save()
         assert suite.suite_results[-1].passed, suite.suite_results[-1].message
         assert suite.suite_results[-1].step_results[-1].passed, suite.suite_results[-1].step_results[-1].exception
@@ -45,15 +46,15 @@ class TestResult(TestBase):
         state1.save()
         state2.save()
         state3.save()
-        commands = [Command(command=Command.NAVIGATE,params="http://www.google.com/"),
-                    Command(command=Command.SENDKEYS,element = element,params="Something"),
+        commands = [Command(command=Command.NAVIGATE,config_key="http://www.google.com/"),
+                    Command(command=Command.SENDKEYS,element = element,config_key="search"),
                     Command(command=Command.CLICK,element=element2)]
         action = Action(name = "Google Search",steps=commands,start_state=state1, end_state=state3)
         action.save()
         test = Test(name="Some test",actions=[action])
         test.save()
         suite = Suite(name="some name",tests=[test])
-        suite.execute(self.driver)
+        suite.execute(self.driver,config=RunConfig(params={"url":"http://www.google.com/","search":"Something"}))
         suite.save()
         assert not suite.suite_results[-1].passed
         assert suite.suite_results[-1].actual_state is not None

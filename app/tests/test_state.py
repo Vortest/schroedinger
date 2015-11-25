@@ -7,6 +7,7 @@ from app.test_base import TestBase
 from models.action import Action
 from models.command import Command
 from models.element_state import Locator, ElementState
+from models.suite_config import RunConfig
 
 
 class StateTest(TestBase):
@@ -142,18 +143,18 @@ class StateTest(TestBase):
         element2= ElementState(locators= [Locator(by=By.NAME,value="btnG")])
         element.save()
         element2.save()
-        nav_command = [Command(command=Command.NAVIGATE,params="http://www.google.com/")]
-        type_command = [Command(command=Command.SENDKEYS,element = element,params="Something"),
-                        Command(command=Command.SENDKEYS,element = element,params=Keys.ENTER)]
+        nav_command = [Command(command=Command.NAVIGATE,config_key="url")]
+        type_command = [Command(command=Command.SENDKEYS,element = element,config_key="search"),
+                        Command(command=Command.SENDKEYS,element = element,config_key="enter")]
 
 
         action = Action(name = "Navigate",steps=nav_command,start_state=blank_state, end_state=state)
         action.save()
         action2 = Action(name = "Search",steps=type_command,start_state=state, end_state=blank_state)
         action2.save()
-
-        action.execute(self.driver)
-        action2.execute(self.driver)
+        config=RunConfig(params={"url":"http://www.google.com/","search":"Something","enter":Keys.ENTER})
+        action.execute(self.driver, config)
+        action2.execute(self.driver, config)
         time.sleep(5)
         new_state = state_builder.get_current_state(self.driver)
         new_state.save()
@@ -168,7 +169,7 @@ class StateTest(TestBase):
 
         self.driver.get("http://www.msn.com/")
 
-        new_state.initialize_state(self.driver)
+        new_state.initialize_state(self.driver,config)
 
 
 

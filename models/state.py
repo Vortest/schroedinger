@@ -120,9 +120,9 @@ class State(db.Document):
         for element in self.elements:
             self.element_html.append(element.html)
 
-    def initialize_state(self, driver):
+    def initialize_state(self, driver,config):
         for action in self.init_actions:
-            action.execute(driver)
+            action.execute(driver,config)
         self.verify_state(driver)
 
 

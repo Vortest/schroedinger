@@ -17,7 +17,7 @@ class Action(db.Document, Executable):
     steps = db.ListField(db.EmbeddedDocumentField(Command),required=False)
     execution_results = []
 
-    def execute(self, driver, config={}):
+    def execute(self, driver, config):
         logging.debug("Executing Action %s" % self.name)
         if not self.start_state.is_state_present(driver):
             result =Result(step_results=self.execution_results,passed=False,message="State %s not present" % self.start_state)

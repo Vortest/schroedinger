@@ -21,7 +21,7 @@ class Suite(db.Document, Executable):
         'ordering': ['-created_at']
     }
 
-    def execute(self, driver, config={}):
+    def execute(self, driver, config):
         logging.debug("Executing Suite %s" % self.id)
         self.driver = driver
         suite_result = Result(passed=True,message="Passed",exception="Passed")
