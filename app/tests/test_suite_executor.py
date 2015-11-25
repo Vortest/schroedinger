@@ -2,6 +2,7 @@ import unittest
 from selenium.webdriver.common.by import By
 from app.suite_executor import SuiteExecutor
 from app.test_base import TestBase
+from app.test_builder import TestGenerator
 from models.action import Action
 from models.command import Command
 from models.element_state import ElementState, Locator
@@ -29,12 +30,16 @@ class TestExecutor(unittest.TestCase):
         test = Test(name="Some test", actions = [action])
         test.save()
         suite = TestSuite(tests=[test], url="http://www.google.com/")
-        suite.save()
+
         config1 = RunConfig(browser="Firefox", params = params)
         config2 = RunConfig(browser="Chrome", params = params)
         configs = SuiteConfig(configs=[config1, config2], suite=suite)
-        executor = SuiteExecutor(suite,configs)
+        suite.suite_config = configs
+        suite.save()
+        executor = SuiteExecutor(suite)
         executor.execute()
+
+
 
 
 

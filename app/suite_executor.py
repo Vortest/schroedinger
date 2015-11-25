@@ -4,12 +4,11 @@ from app.browser_session import BrowserSession
 
 
 class SuiteExecutor:
-    def __init__(self, suite, configs):
+    def __init__(self, suite):
         self.suite = suite
-        self.configs = configs
 
     def execute(self):
-        for config in self.configs.configs:
+        for config in self.suite.config.configs:
             browser = BrowserSession(config)
             browser.start_local_session()
             self.driver = browser.driver

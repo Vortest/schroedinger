@@ -50,9 +50,10 @@ class BrowserSession(object):
         self.driver = WebDriver(driver)
 
     def start_local_session(self):
-        if self.config.browser == "Firefox":
+        browser = str(self.config.browser).lower()
+        if browser == "firefox":
             driver = webdriver.Firefox()
-        elif self.config.browser == "Chrome":
+        elif browser == "chrome":
             driver = webdriver.Chrome()
         self.driver = WebDriver(driver)
 

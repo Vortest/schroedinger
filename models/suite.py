@@ -13,7 +13,7 @@ class Suite(db.Document, Executable):
     url = db.StringField(max_length=255, required=False)
     tests = db.ListField(db.ReferenceField(Test))
     suite_results = db.ListField(db.EmbeddedDocumentField(Result), required=False)
-    configs = db.ReferenceField(SuiteConfig, default = SuiteConfig.default(), required=False)
+    suite_config = db.ReferenceField(SuiteConfig, default = SuiteConfig.default(), required=False)
 
     meta = {
         'allow_inheritance': True,
@@ -21,13 +21,13 @@ class Suite(db.Document, Executable):
         'ordering': ['-created_at']
     }
 
-    def execute(self, driver, config):
+    def execute(self, driver, run_config):
         logging.debug("Executing Suite %s" % self.id)
         self.driver = driver
         suite_result = Result(passed=True,message="Passed",exception="Passed")
 
         for test in self.tests:
-            test_result = test.execute(driver, config)
+            test_result = test.execute(driver, run_config)
             suite_result.step_results.append(test_result)
             if not test_result.passed:
                 suite_result.passed = False
