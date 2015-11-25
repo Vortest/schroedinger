@@ -85,7 +85,10 @@ class State(db.Document):
         logging.debug("Is state Present: %s %s" % (self.id, self.url))
         for element in self.elements:
             if not WebElement(driver,element.locators).is_present(5):
+                logging.debug("Element not present: %s" % element.locators)
                 return False
+            else:
+                logging.debug("Element is present: %s" % element.locators)
         return True
 
     def get_missing_elements(self,driver):

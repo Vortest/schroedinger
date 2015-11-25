@@ -22,6 +22,7 @@ class RunConfig(db.EmbeddedDocument):
         config = RunConfig(browser="Firefox")
         return config
 
+
 class SuiteConfig(db.Document):
     created_at = db.DateTimeField(default=datetime.datetime.now, required=True)
     start_after = db.DateTimeField(default=datetime.datetime.now, required=True)

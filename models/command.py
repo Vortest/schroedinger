@@ -20,7 +20,7 @@ class Command(db.EmbeddedDocument, Executable):
     created_at = db.DateTimeField(default=datetime.datetime.now, required=True)
     command = db.StringField(required=True, choices=COMMANDS)
     element = db.ReferenceField(ElementState, required=False)
-    params = db.StringField(required=False)
+    config_key = db.StringField(required=False)
 
     execution_results = []
 
@@ -28,26 +28,27 @@ class Command(db.EmbeddedDocument, Executable):
         return self
 
     execution_results = []
-    def execute(self, driver, config={}):
+    def execute(self, driver, config):
         try:
-            if self.params in config:
-                param = config[self.params]
+            if self.config_key == None:
+                self.param = ""
             else:
-                param = self.params
+                self.param = config.params[self.config_key]
             self.driver = driver
-            result = Result(passed=True, message="Execute %s %s" % (self.__repr__(),param))
-            logging.debug("Execute : %s %s" % (self.__repr__(), param))
+            result = Result(passed=True, message="Execute %s %s" % (self.__repr__(),self.param))
+            logging.debug("Execute : %s %s" % (self.__repr__(), self.param))
             if self.command == self.NAVIGATE:
-                self.driver.get(param)
+                self.driver.get(self.param)
             elif self.command == self.CLICK:
                 WebElement(self.driver, self.element.locators).click()
             elif self.command == self.SENDKEYS:
-                WebElement(self.driver, self.element.locators).send_keys(param)
+                WebElement(self.driver, self.element.locators).send_keys(self.param)
             elif self.command == self.VERIFY:
-                WebElement(self.driver, self.element.locators).verify()
+                WebElement(self.driver, self.element.locators).highlight(self.param)
             else:
                 raise ValueError("Command not supported: %s" % self.command)
         except Exception as e:
+            logging.debug("Exception : %s" % str(e))
             result = Result(passed=False, message="Command raised an exception %s" % str(e), exception=str(e))
         finally:
             self.execution_results.append(result)
@@ -56,4 +57,4 @@ class Command(db.EmbeddedDocument, Executable):
 
 
     def __repr__(self):
-        return "Command(%s %s %s)" % (str(self.command), str(self.element), self.params)
+        return "Command(%s %s %s)" % (str(self.command), str(self.element), self.param)

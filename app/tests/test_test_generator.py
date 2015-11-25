@@ -8,11 +8,30 @@ from app.test_base import TestBase
 from models.action import Action
 from models.command import Command
 from models.element_state import Locator, ElementState
+from models.suite_config import SuiteConfig, RunConfig
 
 
 class TestTestGenerator(TestBase):
-    def test_generate_nav_test(self):
+    def test_generate_google_nav_test(self):
         generator = TestGenerator(self.driver)
         test = generator.generate_navigate_test("http://www.google.com/")
+        for i in range(0,5):
+            result = test.execute(self.driver)
+            assert result.passed, result.message
+
+    def test_generate_facebook_nav_test(self):
+        generator = TestGenerator(self.driver)
+        test = generator.generate_navigate_test("http://www.facebook.com/")
         result = test.execute(self.driver)
         assert result.passed, result.message
+
+    def test_arrow_cart_nav_test(self):
+        params={
+            "url":"https://qacart.arrow.com:8443"
+        }
+
+        generator = TestGenerator(self.driver)
+        test = generator.generate_navigate_test("http://cart.arrow.com/")
+        result = test.execute(self.driver,config=RunConfig(params=params))
+        assert result.passed, result.message
+

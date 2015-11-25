@@ -32,6 +32,8 @@ class LocatorBuilder(object):
     def get_duplicate_attribute_locators(self, duplicate_attributes):
         parent = self.element.find_parent()
         parent_locators = LocatorBuilder(self.driver, parent).get_locators()
+        if parent_locators.__len__()==0:
+            return
         locator = parent_locators[0]
         if locator.by == By.CSS_SELECTOR:
             parent_css = locator.value
@@ -75,7 +77,8 @@ class LocatorBuilder(object):
                 else:
                     locator = Locator(by=By.XPATH,value="//{}[contains(text(),'{}')]".format(self.element.tag_name,str(value)))
         elif type == "href":
-            value = attribute[1].split('//')[-1]
+            value = attribute[1].split('.')[-1]
+            value = value.split('//')[-1]
             value = value.split('?')[0]
             value = value.split('&')[0]
             locator = Locator(by=By.CSS_SELECTOR,value="{}[{}*=\"{}\"]".format(self.element.tag_name, attribute[0], value))

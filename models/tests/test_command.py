@@ -24,11 +24,13 @@ class TestCommand(TestBase):
         element = ElementState(locators = [Locator(by=By.NAME,value="q")])
         element.save()
         command = Command(command="INVALID",element=element,params="Something")
-        response = command.execute(self.driver)
+        response = command.execute(self.driver,config={})
         assert not response.passed, response.exception
 
-    def test_execute(self):
-        command = Command(command=Command.NAVIGATE,params="http://www.google.com/")
-        command.execute(self.driver)
+    def test_execute_navigate(self):
+        command = Command(command=Command.NAVIGATE,config_key="url")
+        command.execute(self.driver,config={"url":"http://www.google.com/"})
+        assert self.driver.current_url == "https://www.google.com/?gws_rd=ssl", self.driver.current_url
+
 
 
