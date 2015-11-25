@@ -34,6 +34,7 @@ class TestExecutor(unittest.TestCase):
         config1 = RunConfig(browser="Firefox", params = params)
         config2 = RunConfig(browser="Chrome", params = params)
         configs = SuiteConfig(configs=[config1, config2], suite=suite)
+        configs.save()
         suite.suite_config = configs
         suite.save()
         executor = SuiteExecutor(suite)
