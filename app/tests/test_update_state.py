@@ -36,8 +36,7 @@ class TestUpdateState(TestBase):
         search_action = Action(name = "Google Search",steps=commands2,start_state=state2, end_state=state3)
         nav_action.save()
         search_action.save()
-        test = Test(n
-        ame="Google Search Failure",actions=[nav_action,search_action])
+        test = Test(name="Google Search Failure",actions=[nav_action,search_action])
         test.save()
         suite = Suite(name="Failure Example",tests=[test])
         suite.execute(self.driver,self.config)
