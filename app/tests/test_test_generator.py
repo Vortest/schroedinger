@@ -34,7 +34,7 @@ class TestTestGenerator(TestBase):
 
     def test_arrow_cart_nav_test(self):
         params={
-            "url":"https://qacart.arrow.com:8443"
+            "url":"http://cart.arrow.com"
         }
 
         generator = TestGenerator(self.driver)
