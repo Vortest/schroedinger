@@ -21,13 +21,13 @@ class Suite(db.Document, Executable):
         'ordering': ['-created_at']
     }
 
-    def execute(self, driver, run_config):
+    def execute(self, driver, config):
         logging.debug("Executing Suite %s" % self.id)
         self.driver = driver
         suite_result = Result(passed=True,message="Passed",exception="Passed")
 
         for test in self.tests:
-            test_result = test.execute(driver, run_config)
+            test_result = test.execute(driver, config)
             suite_result.step_results.append(test_result)
             if not test_result.passed:
                 suite_result.passed = False
