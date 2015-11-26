@@ -32,3 +32,10 @@ class TestBrowserSession(unittest.TestCase):
         session.start_sauce_session()
         session.driver.get("http://www.google.com")
         session.driver.quit()
+
+    def test_emulated_iphone(self):
+        config = RunConfig(browser = "Chrome", device_name="Apple iPhone 5")
+        session = BrowserSession(config)
+        session.start_session()
+        session.driver.get("http://www.facebook.com")
+        session.end()

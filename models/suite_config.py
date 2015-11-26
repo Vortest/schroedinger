@@ -4,18 +4,18 @@ from api import db
 
 class RunConfig(db.EmbeddedDocument):
     browser = db.StringField(max_length=255, required=True)
-    device_name = db.StringField(max_length=255, required=False)
-    version = db.StringField(max_length=255, required=False)
-    platform = db.StringField(max_length=255, required=False)
-    resolution = db.StringField(max_length=255, required=False)
-    orientation = db.StringField(max_length=255, required=False)
-    domain = db.StringField(max_length=255, required=False)
-    host = db.StringField(max_length=255, required=True, default="localhost")
-    sauce_user = db.StringField(max_length=255, required=False)
-    sauce_key = db.StringField(max_length=255, required=False)
-    username = db.StringField(max_length=255, required=False)
-    password = db.StringField(max_length=255, required=False)
-    params = db.DictField(default={}, required=False)
+    device_name = db.StringField(max_length=255, default='')
+    version = db.StringField(max_length=255, default='')
+    platform = db.StringField(max_length=255, default='')
+    resolution = db.StringField(max_length=255, default='')
+    orientation = db.StringField(max_length=255, default='')
+    domain = db.StringField(max_length=255, default='')
+    host = db.StringField(max_length=255, default="localhost")
+    sauce_user = db.StringField(max_length=255, default='')
+    sauce_key = db.StringField(max_length=255, default='')
+    username = db.StringField(max_length=255, default='')
+    password = db.StringField(max_length=255, default='')
+    params = db.DictField(default={})
 
     @staticmethod
     def default():
