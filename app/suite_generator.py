@@ -20,6 +20,7 @@ class SuiteGenerator(object):
             config1 = RunConfig(browser=browser, params = params)
             configs.append(config1)
         config = SuiteConfig(configs=configs, suite=suite)
-        suite.config = config
+        config.save()
+        suite.suite_config = config
         suite.save()
         return suite

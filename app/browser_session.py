@@ -18,6 +18,13 @@ class BrowserSession(object):
             "deviceOrientation": self.config.orientation
         }
 
+    def start_session(self):
+        if self.config.host !="localhost":
+            self.start_sauce_session()
+        else:
+            self.start_local_session()
+
+
     def start_sauce_session(self):
         driver = webdriver.Remote(
             command_executor=BrowserSession.SAUCE_HOST % (self.config.sauce_user, self.config.sauce_key),

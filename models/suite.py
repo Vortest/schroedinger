@@ -13,7 +13,7 @@ class Suite(db.Document, Executable):
     url = db.StringField(max_length=255, required=False)
     tests = db.ListField(db.ReferenceField(Test))
     suite_results = db.ListField(db.EmbeddedDocumentField(Result), required=False)
-    suite_config = db.ReferenceField(SuiteConfig, default = SuiteConfig.default(), required=False)
+    suite_config = db.ReferenceField(SuiteConfig, required=False)
 
     meta = {
         'allow_inheritance': True,

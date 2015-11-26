@@ -33,7 +33,10 @@ class Command(db.EmbeddedDocument, Executable):
             if self.config_key == None:
                 self.param = ""
             else:
-                self.param = config.params[self.config_key]
+                if self.config_key in config.params:
+                    self.param = config.params[self.config_key]
+                else:
+                    raise Exception("Cannot execute command %s as there was no key named %s in the config params" % (self.command, self.config_key))
             self.driver = driver
             result = Result(passed=True, message="Execute %s %s" % (self.__repr__(),self.param))
             logging.debug("Execute : %s %s" % (self.__repr__(), self.param))

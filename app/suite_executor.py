@@ -10,7 +10,7 @@ class SuiteExecutor:
     def execute(self):
         for config in self.suite.suite_config.configs:
             browser = BrowserSession(config)
-            browser.start_local_session()
+            browser.start_session()
             self.driver = browser.driver
             self.suite.execute(self.driver, config)
             self.driver.quit()

@@ -10,7 +10,7 @@ class RunConfig(db.EmbeddedDocument):
     resolution = db.StringField(max_length=255, required=False)
     orientation = db.StringField(max_length=255, required=False)
     domain = db.StringField(max_length=255, required=False)
-    host = db.StringField(max_length=255, required=False)
+    host = db.StringField(max_length=255, required=True, default="localhost")
     sauce_user = db.StringField(max_length=255, required=False)
     sauce_key = db.StringField(max_length=255, required=False)
     username = db.StringField(max_length=255, required=False)
