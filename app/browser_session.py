@@ -16,7 +16,8 @@ class BrowserSession(object):
             "browserName": self.config.browser,
             "platform": self.config.platform,
             "version": self.config.version,
-            "deviceOrientation": self.config.orientation
+            "deviceOrientation": self.config.orientation,
+            "acceptSslCerts": True
         }
 
     def start_session(self):

@@ -15,6 +15,8 @@ def get_nav_action(url, end_state):
 
 def get_verify_state_action(state):
     all_commands = []
+    for element in state.elements:
+        all_commands.append(Command(element=element, command=Command.VERIFY))
     action = Action(name="Verify %s" % state, steps=all_commands, start_state=state, end_state=state)
     action.save()
     return action

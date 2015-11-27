@@ -87,7 +87,7 @@ class TestExecutor(unittest.TestCase):
 
         config1 = RunConfig(browser="iphone", sauce_user = "bkitchener1", host="sauce", sauce_key = "c479e821-57e7-4b3f-8548-48e520585187", params = params)
         config2 = RunConfig(browser="ipad", sauce_user = "bkitchener1", shost="sauce", auce_key = "c479e821-57e7-4b3f-8548-48e520585187", params = params)
-        configs = SuiteConfig(configs=[config1, config2], suite=suite)
+        configs = SuiteConfig(configs=[config1], suite=suite)
         configs.save()
         suite.suite_config = configs
         suite.save()

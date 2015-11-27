@@ -26,7 +26,7 @@ class TestStateComparer(TestBase):
         comparer = StateComparer(self.driver)
         comparison = comparer.compare_to_live_state(state2)
 
-        assert comparison == (1,21), comparison
+        assert comparison == (1,20), comparison
 
     def test_compare_state(self):
         self.driver.get("http://www.google.com/")

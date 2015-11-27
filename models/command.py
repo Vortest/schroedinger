@@ -47,7 +47,7 @@ class Command(db.EmbeddedDocument, Executable):
             elif self.command == self.SENDKEYS:
                 WebElement(self.driver, self.element.locators).send_keys(self.param)
             elif self.command == self.VERIFY:
-                WebElement(self.driver, self.element.locators).highlight(self.param)
+                WebElement(self.driver, self.element.locators).highlight()
             else:
                 raise ValueError("Command not supported: %s" % self.command)
         except Exception as e:

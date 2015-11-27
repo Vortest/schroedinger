@@ -16,14 +16,14 @@ from app.suite_generator import SuiteGenerator
 class TestSuiteGenerator(unittest.TestCase):
     def test_generate_facebook_nav_test(self):
         generator = SuiteGenerator(["chrome"])
-        suite = generator.generate_suite("http://www.facebook.com/")
+        suite = generator.generate_suite("http://www.percolate.com/")
         SuiteExecutor(suite).execute()
         result = suite.suite_results[-1]
         assert result.passed, result.message
 
     def test_generate_iphone_test(self):
         generator = SuiteGenerator(["iphone"])
-        suite = generator.generate_suite("http://www.facebook.com/")
+        suite = generator.generate_suite("http://www.percolate.com/")
         SuiteExecutor(suite).execute()
         result = suite.suite_results[-1]
         assert result.passed, result.message
@@ -34,3 +34,12 @@ class TestSuiteGenerator(unittest.TestCase):
         SuiteExecutor(suite).execute()
         result = suite.suite_results[-1]
         assert result.passed, result.message
+
+    def test_fail_for_wrong_device_type(self):
+        generator = SuiteGenerator(["ipad"])
+        suite = generator.generate_suite("http://www.percolate.com/")
+        suite.suite_config.configs[0].device_name = "Apple iPhone 4"
+        SuiteExecutor(suite).execute()
+        result = suite.suite_results[-1]
+        assert not result.passed, result.message
+        print "Test was successful : %s" % result.message
