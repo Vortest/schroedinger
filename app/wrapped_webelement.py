@@ -69,7 +69,6 @@ class WrappedWebElement(webdriverElement):
             logging.exception("Could not capture element screenshot : " + str(e))
             return ""
 
-
     def is_enabled(self):
         return self.element.is_enabled()
 

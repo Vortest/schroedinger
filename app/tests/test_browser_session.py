@@ -33,9 +33,16 @@ class TestBrowserSession(unittest.TestCase):
         session.driver.get("http://www.google.com")
         session.driver.quit()
 
-    def test_emulated_iphone(self):
-        config = RunConfig(browser = "Chrome", device_name="Apple iPhone 5")
+    def tesgt_emulated_ipad(self):
+        config = RunConfig(browser = "Chrome", device_name="Apple iPhone 5", host="localhost")
         session = BrowserSession(config)
         session.start_session()
         session.driver.get("http://www.facebook.com")
+        session.end()
+
+    def test_emulated_kindle(self):
+        config = RunConfig(browser = "Chrome", device_name="Amazon Kindle Fire HDX", host="localhost")
+        session = BrowserSession(config)
+        session.start_session()
+        session.driver.get("http://www.percolate.com")
         session.end()

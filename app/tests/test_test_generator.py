@@ -42,3 +42,4 @@ class TestTestGenerator(TestBase):
         result = test.execute(self.driver,config=RunConfig(params=params))
         assert result.passed, result.message
 
+

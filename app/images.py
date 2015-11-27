@@ -12,13 +12,12 @@ def get_element_image(driver, element):
     size = element.size
     width = size['width']
     height = size['height']
-    left = location['x']
-    top = location['y']
-    right = location['x'] + width
-    bottom = location['y'] + height
+    left = int(location['x'])
+    top = int(location['y'])
+    right = left + width
+    bottom = top + height
 
     new_image = full_image.crop((left,top,right,bottom))
-
     return new_image
 
 def get_image_from_base64(value):

@@ -1,3 +1,4 @@
+import logging
 from selenium import webdriver
 
 from webdriver_wrapper import WebDriver
@@ -19,13 +20,13 @@ class BrowserSession(object):
         }
 
     def start_session(self):
+        logging.debug("Starting %s session for %s %s" % (self.config.host, self.config.browser, self.config.device_name))
         if self.config.host == "localhost" and self.config.device_name !="":
             self.start_emulated_session()
-        elif self.config.host !="localhost" or self.config.browser.lower() == "iphone" or self.config.browser.lower() == "ipad" or self.config.device_name != "":
+        elif self.config.host == "sauce":
             self.start_sauce_session()
         else:
             self.start_local_session()
-
 
     def start_sauce_session(self):
         driver = webdriver.Remote(
@@ -51,11 +52,11 @@ class BrowserSession(object):
             self.use_defaults(webdriver.DesiredCapabilities.ANDROID)
 
     def start_emulated_session(self):
-        mobile_emulation = { "deviceName": "Apple iPhone 5" }
+        mobile_emulation = { "deviceName": self.config.device_name}
         chrome_options = webdriver.ChromeOptions()
         chrome_options.add_experimental_option("mobileEmulation", mobile_emulation)
-        self.driver = webdriver.Chrome(chrome_options = chrome_options)
-
+        driver = webdriver.Chrome(chrome_options = chrome_options)
+        self.driver = WebDriver(driver)
 
 
     def start_remote_session(self):
