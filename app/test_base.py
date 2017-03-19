@@ -3,6 +3,8 @@ import logging
 from browser_manager import BrowserManager
 import thread
 import threading
+import sys
+import os
 
 class TestBase(unittest.TestCase):
     test_names = []
@@ -10,7 +12,7 @@ class TestBase(unittest.TestCase):
 
     @property
     def driver(self):
-        return BrowserManager.get_driver(TestBase.test_name)
+        return BrowserManager.get_driver("")
 
     def setUp(self):
         TestBase.test_name = self.id()

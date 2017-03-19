@@ -23,7 +23,7 @@ def get_current_state(driver):
 def get_state(driver):
     parser = PageParser(driver)
     locator_elements = []
-    elements = parser.get_all_elements()
+    elements = parser.get_usual_elements()[:50]
     print "Found %s elements " % len(elements)
     for element in elements:
         new_element = element_builder.build_element(driver, element)
@@ -57,7 +57,7 @@ def get_new_state(driver, old_state):
 
     #look for any changed elements
     for element in live_elements:
-        element.highlight(color="blue")
+        element.highligbht(color="blue")
         new_element_state = element_builder.build_element(driver, element)
         if new_element_state is None:
             logging.error("No locators found for element %s" % element)

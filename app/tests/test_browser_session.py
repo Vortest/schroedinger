@@ -1,7 +1,7 @@
 import unittest
 from selenium import webdriver
 from app.browser_session import BrowserSession
-from models.suite_config import SuiteConfig, RunConfig
+from models.suite_config import RunConfig
 
 
 class TestBrowserSession(unittest.TestCase):

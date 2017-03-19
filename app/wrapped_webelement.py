@@ -182,7 +182,7 @@ class WrappedWebElement(webdriverElement):
     def find_elements_by_css_selector(self, css_selector):
         return self.element.find_elements_by_css_selector(css_selector)
 
-    def highlight(self,length=-1,color="yellow"):
+    def highlight(self,length=.1,color="yellow"):
         background = self.driver.execute_script("return arguments[0].style.background", self.element)
         self.driver.execute_script("arguments[0].style.background='%s'; return;" % color,self.element)
         if length == -1:

@@ -47,7 +47,7 @@ class WebElement(WrappedWebElement):
             time.sleep(1)
         raise exceptions.NoSuchElementException("Could not find an element matching any of the following locators: {}".format(self.locators))
 
-    def highlight(self, length=-1, color="yellow"):
+    def highlight(self, length=.1, color="yellow"):
         self.element.highlight(length,color)
 
     def is_present(self, timeout=1):

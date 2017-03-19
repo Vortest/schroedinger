@@ -182,7 +182,6 @@ class WebDriver():
 
     def get(self, url):
         self.driver.get(url)
-        print "url"
 
     def execute(self, driver_command, params=None):
         return self.driver.execute(driver_command, params)

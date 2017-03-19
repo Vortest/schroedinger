@@ -19,3 +19,10 @@ class DriverTest(TestBase):
         self.driver.get("https://www.google.com/")
         elements = self.driver.find_elements(By.CLASS_NAME,"gb_R")
         assert len(elements) != 1
+
+    def test_by(self):
+        import app.by
+        self.driver.get("http://www.google.com/")
+        locator = By.VORTEST
+        element = self.driver.find_elements(locator)
+        element.click()

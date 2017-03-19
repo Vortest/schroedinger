@@ -1,6 +1,7 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 import time
+from app.login_test_generator import LoginTestGenerator
 from app.test_builder import TestGenerator
 from app.webelement import WebElement
 from app import state_builder
@@ -43,3 +44,13 @@ class TestTestGenerator(TestBase):
         assert result.passed, result.message
 
 
+    def test_generate_login_test(self):
+        config=RunConfig(params={
+            "url":"https://www.gmail.com/",
+            "username":"kitchener.brian@gmail.com",
+            "password":"Qubit123!"
+        })
+        test = LoginTestGenerator(self.driver, "http://www.gmail.com/",config).generate()
+
+        result = test.execute(self.driver, config)
+        assert result.passed, result.message

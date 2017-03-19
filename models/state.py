@@ -17,6 +17,7 @@ class State(db.Document):
     actions = db.ListField(db.ReferenceField(Action))
     init_actions = db.ListField(db.ReferenceField(Action), required=False)
     url = db.StringField(max_length=255, required=True)
+    name = db.StringField(max_length=255, required=False)
 
     meta = {
         'allow_inheritance': True,
