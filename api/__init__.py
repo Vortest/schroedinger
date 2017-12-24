@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_restful import Api
 
-from flask_mongoengine import MongoEngine
+from flask.ext.mongoengine import MongoEngine
 
 app = Flask(__name__)
 api = Api(app)

@@ -5,7 +5,7 @@ import app.images as images
 class TestImages(TestBase):
     def test_get_element_image(self):
         self.driver.get("http://stackoverflow.com/")
-        element = self.driver.find_element_by_id('hlogo')
+        element = self.driver.find_element_by_id('nav-questions')
         image = images.get_element_image(self.driver, element)
         assert image.size != (0,0) and image.size is not None
 
@@ -17,7 +17,7 @@ class TestImages(TestBase):
 
     def test_get_base64_from_image(self):
         self.driver.get("http://stackoverflow.com/")
-        element = self.driver.find_element_by_id('hlogo')
+        element = self.driver.find_element_by_id('nav-questions')
         image = images.get_element_image(self.driver, element)
         value = images.get_base64_from_image(image)
         new_image = images.get_image_from_base64(value)
