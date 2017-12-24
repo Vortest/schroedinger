@@ -12,7 +12,7 @@ class TestBase(unittest.TestCase):
 
     @property
     def driver(self):
-        return BrowserManager.get_driver("")
+        return BrowserManager.get_driver(self.test_name);
 
     def setUp(self):
         TestBase.test_name = self.id()

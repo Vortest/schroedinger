@@ -10,7 +10,7 @@ def launch_browser(config=None):
             if config:
                 browser = config.browser
             else:
-                browser = "Firefox"
+                browser = "Chrome"
             if browser == "Firefox":
                 driver = webdriver.Firefox(executable_path='/usr/local/bin/geckodriver');
             elif browser == "Chrome":
